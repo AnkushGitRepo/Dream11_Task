@@ -1,0 +1,64 @@
+.clock {
+  margin: 0 0 var(--s-4);
+  font-family: var(--font-display);
+  font-size: var(--t-score-sm-size);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.track {
+  position: relative;
+  margin-block-end: var(--s-6);
+}
+
+.ticks {
+  position: absolute;
+  inset-inline: var(--s-2);
+  top: 50%;
+  height: 0;
+  pointer-events: none;
+}
+
+.tick {
+  position: absolute;
+  inset-inline-start: calc(var(--at) * 100%);
+  width: var(--s-1);
+  height: var(--s-4);
+  border-radius: var(--r-sm);
+  background: var(--c-ev-minor);
+  transform: translate(-50%, -50%);
+}
+
+.major {
+  height: var(--s-6);
+  background: var(--c-accent);
+}
+
+.big {
+  background: var(--c-ev-big);
+}
+
+.good {
+  background: var(--c-ev-good);
+}
+
+.minor,
+.none {
+  background: var(--c-ev-minor);
+}
+
+.range {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--hit);
+  margin: 0;
+  background: transparent;
+  accent-color: var(--c-accent);
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 2px;
+  }
+}

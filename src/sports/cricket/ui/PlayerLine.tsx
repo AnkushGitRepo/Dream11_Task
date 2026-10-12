@@ -1,3 +1,4 @@
+import { useCricketText } from './useLabels';
 import styles from './PlayerLine.module.scss';
 
 export interface PlayerLineProps {
@@ -10,6 +11,7 @@ export interface PlayerLineProps {
 }
 
 export function PlayerLine({ name, stat, onStrike = false, role }: PlayerLineProps) {
+  const { text } = useCricketText();
   return (
     <li className={styles.line}>
       {role ? (
@@ -18,7 +20,7 @@ export function PlayerLine({ name, stat, onStrike = false, role }: PlayerLinePro
         </span>
       ) : null}{' '}
       <span className={styles.name}>{name}</span> <span className={styles.stat}>{stat}</span>
-      {onStrike ? <span className={styles.dot} role="img" aria-label="On strike" /> : null}
+      {onStrike ? <span className={styles.dot} role="img" aria-label={text('onStrike')} /> : null}
     </li>
   );
 }

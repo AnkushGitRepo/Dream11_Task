@@ -1,4 +1,4 @@
-import type { EventTone, Fact, MatchTimeline, TimelineEvent } from '../types';
+import type { EventTone, MatchTimeline, TimelineEvent } from '../types';
 
 // Pure scoreboard maths for a cricket chase. Every number the UI shows comes from here.
 // `position` = number of events played (0..n), see src/features/replay/replayStore.ts.
@@ -40,6 +40,7 @@ export interface CricketBaseline {
 
 export interface BallView {
   readonly seq: number;
+  readonly clock: string; // '16.3', for localised screen-reader text
   readonly over: number; // 0-based over index, used for the strip separator
   readonly label: string; // '•' '1' '2' '3' '4' '6' 'W' 'wd' 'nb' 'b' 'lb'
   readonly tone: EventTone;
@@ -120,6 +121,7 @@ export function ballView(event: TimelineEvent): BallView {
   else label = b.runsBat === 0 ? '•' : String(b.runsBat);
   return {
     seq: event.seq,
+    clock: event.clock,
     over: b.over,
     label,
     tone: event.tone,
@@ -249,55 +251,4 @@ export function bowlerFigures(b: BowlerLine): string {
 export function shortName(name: string): string {
   const parts = name.trim().split(/\s+/);
   return parts[parts.length - 1] ?? name;
-}
-
-/** Computed facts for a replay window [fromPosition, toPosition). Drives the FactStrip. */
-export function windowFacts(
-  timeline: MatchTimeline,
-  fromPosition: number,
-  toPosition: number,
-  baseline: CricketBaseline,
-): Fact[] {
-  const from = getCricketState(timeline, fromPosition, baseline);
-  const to = getCricketState(timeline, toPosition, baseline);
-  const events = timeline.events.slice(Math.max(0, fromPosition), Math.max(0, toPosition));
-  const balls = to.legalBalls - from.legalBalls;
-  const sixes = events.filter((e) => e.kind === 'six').length;
-  const fours = events.filter((e) => e.kind === 'four').length;
-  const runs = to.score - from.score;
-  const wkts = to.wkts - from.wkts;
-  const items: Fact[] = [
-    {
-      key: 'balls',
-      value: balls,
-      label: { en: `${balls} balls`, hinglish: `${balls} balls`, hi: `${balls} गेंद`, gu: `${balls} બોલ` },
-    },
-    {
-      key: 'runs',
-      value: runs,
-      label: { en: `+${runs} runs`, hinglish: `+${runs} runs`, hi: `+${runs} रन`, gu: `+${runs} રન` },
-    },
-    {
-      key: 'wkts',
-      value: wkts,
-      label: { en: `${wkts} wkt`, hinglish: `${wkts} wkt`, hi: `${wkts} विकेट`, gu: `${wkts} વિકેટ` },
-    },
-  ];
-  if (sixes > 0)
-    items.push({
-      key: 'sixes',
-      value: sixes,
-      label: { en: `${sixes}×6`, hinglish: `${sixes}×6`, hi: `${sixes}×6`, gu: `${sixes}×6` },
-    });
-  if (fours > 0)
-    items.push({
-      key: 'fours',
-      value: fours,
-      label: { en: `${fours}×4`, hinglish: `${fours}×4`, hi: `${fours}×4`, gu: `${fours}×4` },
-    });
-  if (from.need !== null && to.need !== null) {
-    const text = `Need ${from.need} off ${from.ballsLeft} → ${to.need} off ${to.ballsLeft}`;
-    items.push({ key: 'need', value: text, label: { en: text, hinglish: text, hi: text, gu: text } });
-  }
-  return items;
 }

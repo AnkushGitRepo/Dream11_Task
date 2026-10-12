@@ -1,10 +1,12 @@
-import type { MatchTimeline } from '@shared/sports/types';
+import type { Lang, MatchTimeline } from '@shared/sports/types';
 import type { SportUi } from '@/sports/types';
 
 export interface MissedWindow {
   readonly fromPosition: number;
   readonly toPosition: number;
   readonly label: string;
+  /** Same text per language when the sport provides it (pick `labels?.[lang] ?? label`). */
+  readonly labels?: Readonly<Record<Lang, string>>;
   readonly count: number;
 }
 
@@ -16,7 +18,7 @@ export function computeMissed(
   toPosition: number,
 ): MissedWindow | null {
   if (toPosition <= fromPosition) return null;
-  const { count, label } = sportUi.gap(timeline, fromPosition, toPosition);
+  const { count, label, labels } = sportUi.gap(timeline, fromPosition, toPosition);
   if (count < sportUi.minGap) return null;
-  return { fromPosition, toPosition, label, count };
+  return { fromPosition, toPosition, label, labels, count };
 }

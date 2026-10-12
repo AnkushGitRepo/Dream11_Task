@@ -1,0 +1,12 @@
+@use '@/styles/mixins' as *;
+
+.hint {
+  display: none;
+  margin: 0;
+  color: var(--c-text-3);
+  font-size: var(--t-label-size);
+
+  @include up(md) {
+    display: block;
+  }
+}

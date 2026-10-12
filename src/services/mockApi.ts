@@ -1,4 +1,5 @@
 import type { Fact, Lang } from '@shared/sports/types';
+import { answerFromFacts } from './mockAnswer';
 
 export interface MockRecapRequest {
   matchId: string;
@@ -13,6 +14,8 @@ export interface MockAskRequest {
   seq: number;
   question: string;
   lang: Lang;
+  /** Engine-computed snapshot facts; every number in an answer comes from here. */
+  facts: Fact[];
 }
 export interface MockRecapResponse {
   lead: string;
@@ -23,7 +26,18 @@ export interface MockRecapResponse {
 }
 export interface MockAskResponse {
   answer: string;
-  source: 'template';
+  /** 'unknown' = honest "I don't know" (no matching facts). */
+  source: 'template' | 'unknown';
+}
+
+/** Thrown by mockAsk; `code` mirrors the future /api error codes. */
+export class AskError extends Error {
+  readonly code: 'RATE_LIMITED' | 'FAILED';
+  constructor(code: 'RATE_LIMITED' | 'FAILED') {
+    super(code === 'RATE_LIMITED' ? 'Rate limited' : 'Ask failed');
+    this.name = 'AskError';
+    this.code = code;
+  }
 }
 
 const MIN_DELAY_MS = 700;
@@ -51,16 +65,11 @@ function buildText(facts: Fact[], lang: Lang): { lead: string; body: string } {
   return { lead, body };
 }
 
-function wantsFallback(): boolean {
-  return typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('fallback') === '1';
+function queryParam(name: string): string | null {
+  return typeof window === 'undefined' ? null : new URLSearchParams(window.location.search).get(name);
 }
 
-const ASK: Record<Lang, string> = {
-  en: 'India need 16 runs from 6 balls. Kohli is on 74 and Pandya is out.',
-  hinglish: 'India ko 6 gend mein 16 runs chahiye. Kohli 74 par khel rahe hain.',
-  hi: 'भारत को 6 गेंदों में 16 रन चाहिए। कोहली 74 पर खेल रहे हैं।',
-  gu: 'ભારતને 6 બોલમાં 16 રન જોઈએ. કોહલી 74 પર રમી રહ્યા છે.',
-};
+const wantsFallback = (): boolean => queryParam('fallback') === '1';
 
 function delay(): Promise<void> {
   const ms = MIN_DELAY_MS + Math.random() * (MAX_DELAY_MS - MIN_DELAY_MS);
@@ -81,5 +90,8 @@ export async function mockRecap(req: MockRecapRequest): Promise<MockRecapRespons
 
 export async function mockAsk(req: MockAskRequest): Promise<MockAskResponse> {
   await delay();
-  return { answer: ASK[req.lang], source: 'template' };
+  const mode = queryParam('ask');
+  if (mode === 'error') throw new AskError('FAILED');
+  if (mode === 'ratelimit') throw new AskError('RATE_LIMITED');
+  return answerFromFacts(req.question, req.facts, req.lang);
 }

@@ -1,5 +1,11 @@
 import { useMemo } from 'react';
-import { getCricketState, type CricketBaseline, type CricketState } from '@shared/sports/cricket/state';
+import type { CricketLabelKey } from '@shared/sports/cricket/labels';
+import {
+  getCricketState,
+  WICKETS_IN_INNINGS,
+  type CricketBaseline,
+  type CricketState,
+} from '@shared/sports/cricket/state';
 import type { MatchTimeline } from '@shared/sports/types';
 
 const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null;
@@ -33,11 +39,16 @@ export function useCricketState(
   return useMemo(() => getCricketState(timeline, position, baseline), [timeline, position, baseline]);
 }
 
+type LabelFn = (key: CricketLabelKey, values?: Readonly<Record<string, string | number>>) => string;
+
 /** The one-line chase status shown in hero and bar. Numbers come from the engine state. */
-export function statusLine(s: CricketState): string {
-  if (s.finished) return s.result ?? 'Innings complete';
-  if (s.need === null) return `${s.ballsLeft} balls left`;
-  return `Need ${s.need} off ${s.ballsLeft}`;
+export function statusLine(s: CricketState, text: LabelFn): string {
+  if (s.finished) {
+    if (s.result === null) return text('inningsComplete');
+    return text('resultWon', { team: s.battingTeam, n: WICKETS_IN_INNINGS - s.wkts });
+  }
+  if (s.need === null) return text('ballsLeft', { n: s.ballsLeft });
+  return text('needOff', { n: s.need, m: s.ballsLeft });
 }
 
 export const scoreText = (s: CricketState): string => `${s.score}/${s.wkts}`;

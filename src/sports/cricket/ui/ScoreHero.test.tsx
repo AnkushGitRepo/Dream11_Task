@@ -1,10 +1,12 @@
 import { cleanup, render, screen, within } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
+import { updateSettings } from '@/features/settings/settingsStore';
+import { afterEach, describe, expect, it, beforeEach } from 'vitest';
 import { MOCK_BASELINE, mockTimeline } from '@/mocks/match.mock';
 import { ScoreBar } from './ScoreBar';
 import { ScoreHero } from './ScoreHero';
 
 afterEach(cleanup);
+beforeEach(() => updateSettings({ lang: 'en' }));
 
 const props = { timeline: mockTimeline, position: 13, baseline: MOCK_BASELINE };
 

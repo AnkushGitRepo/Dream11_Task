@@ -1,5 +1,5 @@
 import type { ComponentType, ReactNode } from 'react';
-import type { Fact, MatchTimeline } from '@shared/sports/types';
+import type { EventTone, Fact, Lang, MatchTimeline } from '@shared/sports/types';
 
 /** Props every sport's score slots receive. Sport-agnostic: the sport module derives its own state. */
 export interface SportScoreProps {
@@ -15,8 +15,17 @@ export interface SportScoreProps {
 export interface SportGap {
   /** Countable units missed (cricket: legal balls). */
   readonly count: number;
-  /** Human text for the banner, e.g. "12 balls · 2 overs". */
+  /** Human text for the banner, e.g. "12 balls · 2 overs" (English; fallback). */
   readonly label: string;
+  /** The same text per language. Optional: pick `labels?.[lang] ?? label`. */
+  readonly labels?: Readonly<Record<Lang, string>>;
+}
+
+/** A Moments-tab filter chip: label per language + the event tones it keeps. */
+export interface SportMomentFilter {
+  readonly id: string;
+  readonly label: Readonly<Record<Lang, string>>;
+  readonly tones: readonly EventTone[];
 }
 
 /** Sport-specific UI + helpers plugged into the generic Match Room. */
@@ -26,6 +35,10 @@ export interface SportUi {
   readonly ScoreBar: ComponentType<SportScoreProps>;
   /** Units missed between two replay positions (drives AwayBanner). */
   readonly gap: (timeline: MatchTimeline, fromPosition: number, toPosition: number) => SportGap;
+  /** Moments-tab filter chips (first = default, normally "All"). */
+  readonly momentFilters: readonly SportMomentFilter[];
+  /** Localised labels for `TimelineEvent.kind` shown on moment rows; unknown kinds fall back to the raw kind. */
+  readonly momentKindLabels: Readonly<Record<string, Readonly<Record<Lang, string>>>>;
   /** Minimum count that counts as a meaningful gap (cricket: 6 legal balls). */
   readonly minGap: number;
   /** Clock label of the state before event 0 (cricket: '17.0'). */
@@ -39,4 +52,6 @@ export interface SportUi {
     toPosition: number,
     baseline: unknown,
   ) => Fact[];
+  /** Facts describing the state right now (Ask context). The only numbers an answer may use. */
+  readonly snapshot: (timeline: MatchTimeline, position: number, baseline: unknown) => Fact[];
 }

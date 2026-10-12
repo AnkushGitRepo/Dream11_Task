@@ -23,12 +23,12 @@
 - [x] Cricket UI: ScoreHero (incl. collapsed bar), BallChip, OverStrip, PlayerLine, ChaseBar
 - [x] Match Room shell: AppBar, layout mobile/desktop, tabs, bottom action area
 - [x] Catch up tab: empty tip + Simulate stepping away, skeleton, RecapCard, FactStrip, VerifiedBadge, history
-- [ ] Ask tab: suggested chips, AskThread, Composer (200 cap), states
-- [ ] Moments tab: timeline + filters + "Recap from here"
+- [x] Ask tab: suggested chips, AskThread, Composer (200 cap), states
+- [x] Moments tab: timeline + filters + "Recap from here"
 - [x] AwayBanner + `useAwayDetector`
-- [ ] Sheets: Language, Settings, Verified info, Replay scrubber
-- [ ] i18n strings (en, hinglish, hi, gu) + lazy Indic fonts
-- [ ] Voice out (`useSpeak` + SpeakButton waveform); mic button hidden when unsupported
+- [x] Sheets: Language, Settings, Verified info, Replay scrubber
+- [x] i18n strings (en, hinglish, hi, gu) + lazy Indic fonts
+- [x] Voice out (`useSpeak` + SpeakButton waveform); mic button hidden when unsupported
 - [ ] Matches page
 - [ ] Landing page (paper theme, phone-frame live demo)
 - [ ] Not Found page

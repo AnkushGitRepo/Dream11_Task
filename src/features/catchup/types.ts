@@ -1,4 +1,4 @@
-import type { Fact } from '@shared/sports/types';
+import type { Fact, Lang } from '@shared/sports/types';
 
 export interface RecapText {
   readonly lead: string;
@@ -8,6 +8,8 @@ export interface RecapText {
 
 export interface RecapEntry {
   readonly id: number;
+  /** Language the recap was written in; it keeps it when the UI language changes. */
+  readonly lang: Lang;
   /** Replay positions (events played) bounding the window [fromPosition, toPosition). */
   readonly fromPosition: number;
   readonly toPosition: number;
@@ -16,6 +18,8 @@ export interface RecapEntry {
   /** Sport-provided gap label, e.g. '12 balls · 2 overs'. */
   readonly label: string;
   readonly facts: readonly Fact[];
+  /** autoRead was on when this recap arrived: the newest card reads itself aloud once on mount. */
+  readonly speakOnArrival: boolean;
   readonly status: 'loading' | 'ready' | 'error';
   readonly recap?: RecapText;
 }

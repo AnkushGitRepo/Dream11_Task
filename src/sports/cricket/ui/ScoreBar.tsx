@@ -1,7 +1,9 @@
+import { useStrings } from '@/i18n/useStrings';
 import { LiveDot } from '@/components/LiveDot';
 import type { SportScoreProps } from '../../types';
 import { isCricketBaseline, scoreText, statusLine, useCricketState } from './baseline';
 import type { CricketBaseline } from '@shared/sports/cricket/state';
+import { useCricketText } from './useLabels';
 import styles from './ScoreBar.module.scss';
 
 function BarInner({
@@ -10,6 +12,8 @@ function BarInner({
   baseline,
 }: Omit<SportScoreProps, 'baseline'> & { readonly baseline: CricketBaseline }) {
   const s = useCricketState(timeline, position, baseline);
+  const { text } = useCricketText();
+  const { t } = useStrings();
   return (
     <div className={styles.bar}>
       <p className={styles.text}>
@@ -19,10 +23,10 @@ function BarInner({
           {' · '}
           {s.overs}
           {' · '}
-          {statusLine(s)}
+          {statusLine(s, text)}
         </span>
       </p>
-      <LiveDot label="REPLAY" />
+      <LiveDot label={t.replayLabel} />
     </div>
   );
 }

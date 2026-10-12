@@ -1,9 +1,11 @@
 import '@testing-library/jest-dom/vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { updateSettings } from '@/features/settings/settingsStore';
+import { afterEach, describe, expect, it, vi, beforeEach } from 'vitest';
 import { AwayBanner } from './AwayBanner';
 
 afterEach(cleanup);
+beforeEach(() => updateSettings({ lang: 'en' }));
 
 describe('AwayBanner', () => {
   it('announces what was missed and wires both actions', () => {

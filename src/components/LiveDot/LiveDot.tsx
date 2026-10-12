@@ -1,7 +1,8 @@
 import styles from './LiveDot.module.scss';
 
 export interface LiveDotProps {
-  readonly label: 'REPLAY' | 'LIVE';
+  /** Localised word, e.g. REPLAY / LIVE. */
+  readonly label: string;
   /** Stops the pulse (e.g. replay paused). */
   readonly paused?: boolean;
 }

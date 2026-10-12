@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button';
 import { EmptyState } from '@/components/EmptyState';
+import { useStrings } from '@/i18n/useStrings';
 import styles from './CatchUpEmpty.module.scss';
 
 export interface CatchUpEmptyProps {
@@ -7,18 +8,14 @@ export interface CatchUpEmptyProps {
 }
 
 export function CatchUpEmpty({ onSimulate }: CatchUpEmptyProps) {
+  const { t } = useStrings();
   return (
     <div>
-      <EmptyState
-        title="Stepped away?"
-        text="Tap Catch me up when you're back. We'll tell you only what you missed."
-      />
-      <aside className={styles.tip} aria-label="Tip">
-        <p className={styles.tipText}>
-          Tip: switch apps or lock your phone — when you return we&apos;ll know what you missed.
-        </p>
+      <EmptyState title={t.catchupEmptyTitle} text={t.catchupEmptyText} />
+      <aside className={styles.tip} aria-label={t.catchupTipLabel}>
+        <p className={styles.tipText}>{t.catchupTip}</p>
         <Button variant="ghost" size="sm" onClick={onSimulate}>
-          Simulate stepping away
+          {t.catchupSimulate}
         </Button>
       </aside>
     </div>

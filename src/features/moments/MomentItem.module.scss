@@ -1,0 +1,56 @@
+@use '@/styles/mixins' as *;
+
+.row {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  grid-template-areas:
+    'clock chip chip'
+    'clock text text'
+    '. recap recap';
+  gap: var(--s-1) var(--s-3);
+  align-items: center;
+  padding-block: var(--s-3);
+  border-block-end: 1px solid var(--c-line);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 104px;
+
+  @include up(md) {
+    grid-template-columns: 64px auto 1fr auto;
+    grid-template-areas: 'clock chip text recap';
+    gap: var(--s-3);
+    contain-intrinsic-size: auto 64px;
+  }
+}
+
+.clock {
+  grid-area: clock;
+  font-family: var(--font-display);
+  font-size: var(--t-body-size);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.row > :nth-child(2) {
+  grid-area: chip;
+  justify-self: start;
+}
+
+.text {
+  grid-area: text;
+  margin: 0;
+  color: var(--c-text);
+  font-size: var(--t-body-size);
+  line-height: var(--lh-body);
+}
+
+.recap {
+  grid-area: recap;
+  justify-self: start;
+  min-height: 44px;
+  margin-inline-start: calc(-1 * var(--s-3));
+  color: var(--c-accent-text);
+
+  @include up(md) {
+    margin-inline-start: 0;
+  }
+}

@@ -1,0 +1,38 @@
+.dots {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  height: var(--s-6);
+}
+
+.dot {
+  width: var(--s-2);
+  height: var(--s-2);
+  border-radius: var(--r-pill);
+  background: var(--c-text-2);
+  animation: bounce var(--d-slow) var(--e-out) infinite alternate;
+
+  &:nth-child(2) {
+    animation-delay: var(--d-fast);
+  }
+
+  &:nth-child(3) {
+    animation-delay: calc(var(--d-fast) * 2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes bounce {
+  from {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(calc(var(--s-1) * -1));
+  }
+}

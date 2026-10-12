@@ -1,4 +1,5 @@
 import type { BallView } from '@shared/sports/cricket/state';
+import { useCricketText } from './useLabels';
 import styles from './BallChip.module.scss';
 
 export interface BallChipProps {
@@ -10,18 +11,19 @@ export interface BallChipProps {
 const WICKET_LABEL = 'W';
 
 export function BallChip({ ball, isNew = false }: BallChipProps) {
+  const { text, ball: describe } = useCricketText();
   const isWicket = ball.label === WICKET_LABEL;
   const cls = [styles.chip, isWicket ? styles.wicket : styles[ball.tone], isNew ? styles.pop : '']
     .filter(Boolean)
     .join(' ');
   return (
     <span className={styles.wrap}>
-      <span className={cls} role="img" aria-label={ball.a11y}>
+      <span className={cls} role="img" aria-label={describe(ball)}>
         {ball.label}
       </span>
       {ball.freeHit ? (
         <span className={styles.fh} aria-hidden="true">
-          FH
+          {text('freeHitTag')}
         </span>
       ) : null}
     </span>

@@ -1,0 +1,23 @@
+@use '../../styles/mixins' as *;
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+
+  // Clears the fixed composer on mobile.
+  padding-block-end: calc(var(--s-20) + env(safe-area-inset-bottom));
+
+  @include up(md) {
+    padding-block-end: 0;
+  }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

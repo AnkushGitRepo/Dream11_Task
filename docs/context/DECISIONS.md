@@ -21,3 +21,8 @@
 2026-10-12 — `getCricketState(timeline, position, baseline)` in shared/sports/cricket/state.ts is the single source of every on-screen number — enforces "numbers from code".
 2026-10-12 — Mid-innings replay start is a `CricketBaseline` passed alongside the timeline — MatchTimeline contract stays unchanged.
 2026-10-12 — Mock recap text is assembled from computed fact labels only — canned prose would disagree with the FactStrip for arbitrary windows.
+2026-10-12 — UI strings split per area (shared/i18n/{chrome,sheets,catchup,ask,moments}.ts) with `satisfies` — features add keys without editing each other's files; missing translation = type error.
+2026-10-12 — Default theme = dark (not "system") — DESIGN.md says dark is the app default; light maps to `data-theme="paper"`.
+2026-10-12 — No voice fallback across languages: Hinglish needs an en-IN voice, hi hi-IN, gu gu-IN, else the Listen button is hidden — a wrong-accent voice reads numbers/names badly.
+2026-10-12 — Mic transcript fills the composer for review, never auto-sends — speech recognition errors would otherwise become questions.
+2026-10-12 — mockAsk answers only from engine facts (`SportUi.snapshot`) and says "I don't know" otherwise — same numbers-from-code rule as recaps.

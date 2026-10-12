@@ -1,0 +1,45 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-5);
+  padding-block-end: var(--s-2);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.heading {
+  margin: 0;
+  color: var(--c-text-2);
+  font-family: var(--font-display);
+  font-size: var(--t-label-size);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  // Indic scripts have no case and break conjuncts under letter-spacing.
+  :lang(hi) &,
+  :lang(gu) & {
+    letter-spacing: normal;
+    text-transform: none;
+  }
+}
+
+.about {
+  padding-block-start: var(--s-4);
+  border-top: 1px solid var(--c-line);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  margin: var(--s-2) 0 0;
+  padding: 0;
+  color: var(--c-text-2);
+  font-size: var(--t-small-size);
+  list-style: none;
+}

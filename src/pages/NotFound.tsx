@@ -1,5 +1,7 @@
 import PlaceholderPage from '@/components/PlaceholderPage';
+import { useStrings } from '@/i18n/useStrings';
 
 export default function NotFound() {
-  return <PlaceholderPage title="Not found" note="This route does not exist." />;
+  const { t } = useStrings();
+  return <PlaceholderPage title={t.notFoundTitle} note={t.notFoundText} />;
 }

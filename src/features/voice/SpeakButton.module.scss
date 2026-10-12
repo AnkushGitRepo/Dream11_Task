@@ -1,0 +1,68 @@
+.speak {
+  gap: var(--s-2);
+}
+
+.text {
+  display: inline-block;
+}
+
+.speak.compact {
+  width: var(--hit);
+  padding: 0;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.wave {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 18px;
+}
+
+.bar {
+  width: 3px;
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: var(--c-accent-text);
+  transform-origin: center;
+  animation: wave var(--d-slow) var(--e-out) infinite alternate;
+
+  &:nth-child(2) {
+    animation-delay: calc(var(--d-fast) * -1);
+  }
+
+  &:nth-child(3) {
+    animation-delay: calc(var(--d-fast) * -2);
+  }
+
+  &:nth-child(4) {
+    animation-delay: calc(var(--d-fast) * -3);
+  }
+
+  &:nth-child(5) {
+    animation-delay: calc(var(--d-fast) * -4);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transform: scaleY(0.6);
+  }
+}
+
+@keyframes wave {
+  from {
+    transform: scaleY(0.25);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}

@@ -7,3 +7,11 @@
   border-radius: var(--r-pill);
   background: var(--c-surface-2);
 }
+
+.speed {
+  display: inline-flex;
+
+  // Keeps the browser from selecting the label or showing a callout on long-press.
+  user-select: none;
+  -webkit-touch-callout: none;
+}

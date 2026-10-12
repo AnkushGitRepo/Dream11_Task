@@ -1,12 +1,14 @@
 import { Skeleton } from '@/components/Skeleton';
+import { useStrings } from '@/i18n/useStrings';
 import styles from './RecapCard.module.scss';
 
 const PILL_WIDTHS = ['var(--s-20)', 'var(--s-14)', 'var(--s-20)', 'var(--s-14)'] as const;
 
 /** Mirrors the RecapCard shape: overline, 2 thick + 2 thin lines, 4 pills. */
 export function RecapSkeleton() {
+  const { t } = useStrings();
   return (
-    <div className={styles.card} role="status" aria-label="Writing your recap">
+    <div className={styles.card} role="status" aria-label={t.recapWriting}>
       <Skeleton width="55%" height="var(--s-3)" />
       <div className={styles.skLines}>
         <Skeleton width="100%" height="var(--s-5)" />

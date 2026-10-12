@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Lang, MatchTimeline } from '@shared/sports/types';
+import { getSettings } from '@/features/settings/settingsStore';
 import { mockRecap } from '@/services/mockApi';
 import type { SportUi } from '@/sports/types';
 import type { RecapEntry } from './types';
@@ -39,18 +40,19 @@ export function useCatchUp(
         matchId: timeline.meta.id,
         fromSeq: entry.fromPosition,
         toSeq: Math.max(entry.fromPosition, entry.toPosition - 1),
-        lang,
+        lang: entry.lang,
         facts: [...entry.facts],
       }).then(
         (res) =>
           patch(entry.id, {
             status: 'ready',
+            speakOnArrival: getSettings().autoRead,
             recap: { lead: res.lead, body: res.body, source: res.source },
           }),
         () => patch(entry.id, { status: 'error' }),
       );
     },
-    [timeline, lang, patch],
+    [timeline, patch],
   );
 
   const request = useCallback(
@@ -58,6 +60,7 @@ export function useCatchUp(
       if (toPosition <= fromPosition) return;
       const entry: RecapEntry = {
         id: nextId.current++,
+        lang,
         fromPosition,
         toPosition,
         clock:
@@ -66,12 +69,13 @@ export function useCatchUp(
             : (timeline.events[fromPosition - 1]?.clock ?? ''),
         label: sportUi.gap(timeline, fromPosition, toPosition).label,
         facts: sportUi.facts(timeline, fromPosition, toPosition, baseline),
+        speakOnArrival: false,
         status: 'loading',
       };
       setEntries((prev) => [entry, ...prev]);
       load(entry);
     },
-    [timeline, baseline, sportUi, load],
+    [timeline, baseline, sportUi, load, lang],
   );
 
   const retry = useCallback(

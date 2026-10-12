@@ -3,6 +3,8 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Fact, MatchTimeline } from '@shared/sports/types';
 import { ToastProvider } from '@/components/Toast';
+import { updateSettings } from '@/features/settings/settingsStore';
+import { useStrings } from '@/i18n/useStrings';
 import type { SportUi } from '@/sports/types';
 import { CatchUpTab } from './CatchUpTab';
 import { useCatchUp } from './useCatchUp';
@@ -34,7 +36,8 @@ const sportUi = {
 } as unknown as SportUi;
 
 function Harness() {
-  const api = useCatchUp(timeline, null, sportUi, 'en');
+  const { lang } = useStrings();
+  const api = useCatchUp(timeline, null, sportUi, lang);
   return (
     <ToastProvider>
       <button type="button" onClick={() => api.request(0, 6)}>
@@ -42,7 +45,7 @@ function Harness() {
       </button>
       <CatchUpTab
         entries={api.entries}
-        lang="en"
+        lang={lang}
         caughtUp={false}
         onRetry={api.retry}
         onSimulate={() => undefined}
@@ -52,7 +55,10 @@ function Harness() {
   );
 }
 
-beforeEach(() => vi.useFakeTimers());
+beforeEach(() => {
+  updateSettings({ lang: 'en', autoRead: false });
+  vi.useFakeTimers();
+});
 afterEach(() => {
   cleanup();
   vi.useRealTimers();
@@ -76,5 +82,17 @@ describe('CatchUpTab', () => {
     expect(screen.getByText(/Since 0\.0 · 6 balls/)).toBeInTheDocument();
     expect(screen.getByText('+12 runs')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Verified stats/ })).toBeInTheDocument();
+  });
+
+  it('localises chrome and marks the recap text with its language', async () => {
+    updateSettings({ lang: 'hi' });
+    render(<Harness />);
+    expect(screen.getByText('बाहर गए थे?')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('go'));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(900);
+    });
+    expect(screen.getByText('Lead line')).toHaveAttribute('lang', 'hi');
+    expect(screen.getByRole('button', { name: 'शेयर करें' })).toBeInTheDocument();
   });
 });
