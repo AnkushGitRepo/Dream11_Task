@@ -1,0 +1,8 @@
+description = "Load project memory and show the next task."
+prompt = """
+Read docs/context/STATE.md and the first 8 unchecked items of TODO.md.
+Reply in at most 10 lines: current phase, progress, blockers, and the single next task with the files it touches. Do not start work.
+
+STATE.md:
+@{docs/context/STATE.md}
+"""

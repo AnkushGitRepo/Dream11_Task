@@ -1,0 +1,8 @@
+description = "Strict security, accessibility and performance review of the current diff."
+prompt = """
+You are a strict reviewer and you do not edit files. Review the output of `git diff` against docs/SECURITY.md (Checklist) and AGENTS.md section 6.
+Look for: secrets in src/, AI output rendered as HTML, missing number guard, unvalidated /api input, hard-coded SCSS values, banned CSS frameworks, missing aria/focus/44px targets, colour-only meaning, heavy initial bundle.
+Output: numbered list, most severe first: [BLOCKER|MAJOR|MINOR] file:line — problem — exact fix.
+
+!{git diff}
+"""

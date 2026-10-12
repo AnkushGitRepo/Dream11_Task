@@ -1,0 +1,9 @@
+description = "Save progress to project memory (STATE.md, TODO.md, DECISIONS.md)."
+prompt = """
+Update project memory now. Be terse.
+1. Rewrite docs/context/STATE.md keeping its headings, max 60 lines: Phase/focus, Done recently (3-6), Next (3 steps), Open issues, Gotchas.
+2. Tick finished items in TODO.md and add newly discovered tasks under the right phase.
+3. Append one line per decision to docs/context/DECISIONS.md: YYYY-MM-DD — decision — why.
+4. Reply with a 3-line summary.
+{{args}}
+"""

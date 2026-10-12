@@ -1,0 +1,8 @@
+description = "Plan, build, test and checkpoint the next open TODO item."
+prompt = """
+1. Take the first unchecked item in the current phase of TODO.md (or: {{args}}).
+2. Read only the docs that the AGENTS.md section 4 routing table says this item needs.
+3. Post a 3-6 bullet plan. If it changes shared/sports/types.ts, an /api contract, or adds a dependency, stop and ask.
+4. Implement, then run lint and tests for the touched area and fix failures.
+5. Run /checkpoint.
+"""
