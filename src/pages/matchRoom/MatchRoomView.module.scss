@@ -1,0 +1,67 @@
+@use '../../styles/mixins' as *;
+
+.page {
+  min-height: 100dvh;
+}
+
+.layout {
+  display: grid;
+  gap: var(--s-4);
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: var(--s-2) var(--gutter) var(--s-4);
+
+  @include up(md) {
+    grid-template-columns: 5fr 7fr;
+    gap: var(--s-8);
+    align-items: start;
+  }
+}
+
+.hero {
+  min-width: 0;
+  max-width: 640px;
+  margin-inline: auto;
+  width: 100%;
+
+  @include up(md) {
+    position: sticky;
+    top: calc(var(--s-14) + var(--s-4));
+    max-width: none;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  min-width: 0;
+  max-width: 640px;
+  width: 100%;
+  margin-inline: auto;
+
+  // Room for the fixed catch-up dock on mobile (chips + button + gradient).
+  padding-block-end: calc(var(--s-20) + var(--s-20));
+
+  @include up(md) {
+    max-width: none;
+    padding-block-end: 0;
+  }
+}
+
+// Sticky below the AppBar (56px) and the collapsed score bar (56px) on mobile.
+.tabs {
+  position: sticky;
+  top: calc(var(--s-14) * 2);
+  z-index: var(--z-sticky);
+  padding-block: var(--s-2);
+  background: var(--c-bg);
+
+  @include up(md) {
+    top: var(--s-14);
+  }
+}
+
+.panel {
+  min-width: 0;
+}

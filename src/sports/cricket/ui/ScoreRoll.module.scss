@@ -1,0 +1,99 @@
+.root {
+  position: relative;
+  display: inline-block;
+}
+
+.score {
+  display: inline-flex;
+  font-family: var(--font-display);
+  font-size: var(--t-score-size);
+  font-variation-settings: 'wdth' 112;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  line-height: var(--lh-score);
+}
+
+.roll {
+  animation: roll var(--d-slow) var(--e-out) both;
+}
+
+.bar {
+  position: absolute;
+  right: 0;
+  bottom: calc(var(--s-2) * -1);
+  left: 0;
+  height: 4px;
+  border-radius: var(--r-pill);
+  background: var(--c-accent);
+  transform-origin: left center;
+  animation: sweep 600ms var(--e-out) both;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes roll {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sweep {
+  0% {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0%,
+  60% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roll {
+    animation: fade-in var(--d-fast) linear both;
+  }
+
+  .bar {
+    animation: fade-out 600ms linear both;
+  }
+}

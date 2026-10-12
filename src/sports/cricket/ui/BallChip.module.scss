@@ -1,0 +1,102 @@
+.wrap {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-pill);
+  font-family: var(--font-display);
+  font-size: var(--t-small-size);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  user-select: none;
+}
+
+// DESIGN.md §1.3: event colour at 16% as background + full-colour text.
+@mixin tone($token, $text: $token) {
+  background: color-mix(in srgb, var($token) 16%, transparent);
+  color: var($text);
+}
+
+.major {
+  @include tone(--c-ev-major);
+}
+
+.big {
+  @include tone(--c-ev-big);
+}
+
+.good {
+  @include tone(--c-ev-good);
+}
+
+.minor {
+  @include tone(--c-ev-minor);
+}
+
+// Dot balls: the 'none' token is too dark for AA text, so the glyph uses text-2.
+.none {
+  @include tone(--c-ev-none, --c-text-2);
+}
+
+.wicket {
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}
+
+.fh {
+  position: absolute;
+  top: calc(var(--s-1) * -1);
+  right: calc(var(--s-1) * -1);
+  padding: 0 var(--s-1);
+  border-radius: var(--r-pill);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+  font-family: var(--font-display);
+  font-size: calc(var(--t-label-size) * 0.75);
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.wrap:has(.fh) .chip {
+  outline: 2px solid var(--c-accent);
+}
+
+.pop {
+  animation: pop var(--d-base) var(--e-spring) both;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pop {
+    animation: fade var(--d-fast) linear both;
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+}

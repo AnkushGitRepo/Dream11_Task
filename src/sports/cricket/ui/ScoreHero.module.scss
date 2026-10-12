@@ -1,0 +1,120 @@
+@use '../../../styles/mixins' as *;
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-4);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-xl);
+  background: var(--c-surface-1);
+
+  @include up(md) {
+    gap: var(--s-4);
+    padding: var(--s-6);
+  }
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  min-height: var(--hit);
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.teamName {
+  margin: 0;
+  font-weight: 700;
+}
+
+.chasing {
+  margin: 0;
+  color: var(--c-text-2);
+  font-size: var(--t-small-size);
+}
+
+.scoreRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-3);
+  padding-bottom: var(--s-2);
+}
+
+.overs {
+  color: var(--c-text-2);
+  font-family: var(--font-display);
+  font-size: var(--t-lead-size);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.statusRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+.status {
+  margin: 0;
+  font-size: 18px; // DESIGN_PROMPT §1.1b: status line is 18px semibold
+  font-weight: 600;
+}
+
+.freeHit {
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--r-pill);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+  font-family: var(--font-display);
+  font-size: var(--t-label-size);
+  font-variation-settings: 'wdth' 87;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pill {
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--r-pill);
+  background: var(--c-surface-2);
+  color: var(--c-text-2);
+  font-family: var(--font-display);
+  font-size: var(--t-label-size);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.players {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-3);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--c-line);
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

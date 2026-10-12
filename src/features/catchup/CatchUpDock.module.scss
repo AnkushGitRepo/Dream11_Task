@@ -1,0 +1,40 @@
+@use '../../styles/mixins' as *;
+
+.dock {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--z-dock);
+  padding: var(--s-8) var(--gutter) calc(var(--s-4) + env(safe-area-inset-bottom));
+  background: linear-gradient(to bottom, transparent, var(--c-bg) 45%);
+  pointer-events: none;
+
+  @include up(md) {
+    position: static;
+    padding: var(--s-4) 0 0;
+    background: none;
+    pointer-events: auto;
+  }
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  max-width: 640px;
+  margin-inline: auto;
+  pointer-events: auto;
+
+  @include up(md) {
+    max-width: none;
+  }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

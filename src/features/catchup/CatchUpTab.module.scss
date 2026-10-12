@@ -1,0 +1,12 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-6);
+}
+
+.caughtUp {
+  margin: 0;
+  color: var(--c-text-2);
+  font-size: var(--t-small-size);
+  font-weight: 600;
+}

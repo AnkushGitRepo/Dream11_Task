@@ -1,0 +1,49 @@
+@use '../../styles/mixins' as *;
+
+// Zero-height sticky anchor so the hidden bar takes no layout space.
+.anchor {
+  position: sticky;
+  top: var(--s-14);
+  z-index: var(--z-sticky);
+  height: 0;
+
+  @include up(md) {
+    display: none;
+  }
+}
+
+.bar {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: var(--s-14);
+  border-bottom: 1px solid var(--c-line);
+  background: color-mix(in srgb, var(--c-bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  transform: translateY(calc(var(--s-2) * -1));
+  visibility: hidden;
+  transition:
+    opacity var(--d-base) var(--e-out),
+    transform var(--d-base) var(--e-out),
+    visibility var(--d-base);
+
+  @media (prefers-reduced-motion: reduce) {
+    transform: none;
+  }
+}
+
+.visible {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}

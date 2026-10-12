@@ -1,0 +1,96 @@
+@use '../../styles/mixins' as *;
+
+$stagger: 60ms; // DESIGN.md §1.6 "recap reveal" stagger; no token exists.
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  padding: var(--s-4);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  background: var(--c-surface-1);
+
+  @include up(md) {
+    padding: var(--s-6);
+  }
+}
+
+.line {
+  animation: fade-up var(--d-slow) var(--e-out) both;
+  animation-delay: calc(var(--i, 0) * #{$stagger});
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-4);
+}
+
+.overline {
+  margin: 0;
+  color: var(--c-text-2);
+  font-family: var(--font-display);
+  font-size: var(--t-label-size);
+  font-variation-settings: 'wdth' 87;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+}
+
+.lead {
+  margin: 0;
+  font-size: var(--t-lead-size);
+  font-weight: 600;
+  line-height: var(--lh-lead);
+}
+
+.body {
+  margin: 0;
+  color: var(--c-text-2);
+  font-size: var(--t-body-size);
+  line-height: var(--lh-body);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-inline: calc(var(--s-3) * -1);
+  margin-block-end: calc(var(--s-2) * -1);
+
+  > button {
+    min-height: var(--hit);
+  }
+}
+
+.skLines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.skPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(var(--s-2));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

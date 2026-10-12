@@ -1,10 +1,12 @@
-import type { Lang } from '@shared/sports/types';
+import type { Fact, Lang } from '@shared/sports/types';
 
 export interface MockRecapRequest {
   matchId: string;
   fromSeq: number;
   toSeq: number;
   lang: Lang;
+  /** Engine-computed facts for the window; all recap numbers come from here. */
+  facts: Fact[];
 }
 export interface MockAskRequest {
   matchId: string;
@@ -15,8 +17,8 @@ export interface MockAskRequest {
 export interface MockRecapResponse {
   lead: string;
   body: string;
-  facts: { label: string; value: string }[];
-  source: 'template';
+  facts: Fact[];
+  source: 'ai' | 'template';
   window: { fromSeq: number; toSeq: number };
 }
 export interface MockAskResponse {
@@ -27,25 +29,31 @@ export interface MockAskResponse {
 const MIN_DELAY_MS = 700;
 const MAX_DELAY_MS = 1200;
 
-// Canned copy only for the UI phase. Real numbers come from the engine in Phase 2.
-const RECAP: Record<Lang, { lead: string; body: string }> = {
-  en: {
-    lead: 'Kohli took charge: two sixes in the 19th over.',
-    body: 'India added 32 runs and lost 1 wicket. Pandya was caught off Nawaz, and 16 are needed from 6.',
-  },
-  hinglish: {
-    lead: 'Kohli ne game palat diya: 19th over mein 2 chhakke.',
-    body: 'India ne 32 runs jode aur 1 wicket gira. Pandya Nawaz ki gend par catch out hue, ab 6 gend mein 16 chahiye.',
-  },
-  hi: {
-    lead: 'कोहली ने मैच पलट दिया: 19वें ओवर में दो छक्के।',
-    body: 'भारत ने 32 रन जोड़े और 1 विकेट गिरा। पंड्या नवाज़ की गेंद पर कैच आउट हुए।',
-  },
-  gu: {
-    lead: 'કોહલીએ મેચ પલટી નાખી: 19મી ઓવરમાં બે છગ્ગા.',
-    body: 'ભારતે 32 રન ઉમેર્યા અને 1 વિકેટ પડી. પંડ્યા નવાઝની બોલ પર કેચ આઉટ થયા.',
-  },
+// Template copy per language. Text is assembled from fact labels only, so no number can
+// disagree with the FactStrip. Real LLM phrasing arrives in Phase 2.
+const COPY: Record<Lang, { intro: string; quiet: string; also: string }> = {
+  en: { intro: 'Since you left', quiet: 'A quiet stretch, nothing big happened.', also: 'Also' },
+  hinglish: { intro: 'Is dauraan', quiet: 'Shaant stretch raha, kuch bada nahi hua.', also: 'Aur' },
+  hi: { intro: 'इस दौरान', quiet: 'शांत दौर रहा, कुछ बड़ा नहीं हुआ।', also: 'और' },
+  gu: { intro: 'આ દરમિયાન', quiet: 'શાંત તબક્કો રહ્યો, કંઈ મોટું બન્યું નહીં.', also: 'અને' },
 };
+
+const LEAD_FACTS = 3;
+
+function buildText(facts: Fact[], lang: Lang): { lead: string; body: string } {
+  const copy = COPY[lang];
+  const counts = facts.filter((f) => typeof f.value === 'number' && f.value !== 0);
+  const notes = facts.filter((f) => typeof f.value === 'string');
+  const head = counts.slice(0, LEAD_FACTS).map((f) => f.label[lang]);
+  const tail = [...counts.slice(LEAD_FACTS), ...notes].map((f) => f.label[lang]);
+  const lead = head.length > 0 ? `${copy.intro}: ${head.join(', ')}.` : copy.quiet;
+  const body = tail.length > 0 ? `${copy.also}: ${tail.join(' · ')}.` : '';
+  return { lead, body };
+}
+
+function wantsFallback(): boolean {
+  return typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('fallback') === '1';
+}
 
 const ASK: Record<Lang, string> = {
   en: 'India need 16 runs from 6 balls. Kohli is on 74 and Pandya is out.',
@@ -61,16 +69,12 @@ function delay(): Promise<void> {
 
 export async function mockRecap(req: MockRecapRequest): Promise<MockRecapResponse> {
   await delay();
-  const { lead, body } = RECAP[req.lang];
+  const { lead, body } = buildText(req.facts, req.lang);
   return {
     lead,
     body,
-    facts: [
-      { label: 'runs', value: '+32' },
-      { label: 'wkt', value: '1' },
-      { label: 'sixes', value: '2' },
-    ],
-    source: 'template',
+    facts: req.facts,
+    source: wantsFallback() ? 'template' : 'ai',
     window: { fromSeq: req.fromSeq, toSeq: req.toSeq },
   };
 }

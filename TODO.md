@@ -18,14 +18,14 @@
 ## Phase 1 — Frontend (mock data)
 - [x] `shared/sports/types.ts` (contract from ARCHITECTURE §4) + `src/mocks/match.mock.ts` + `src/services/mockApi.ts`
 - [x] Primitives: Button, IconButton, Chip, SegmentedControl, BottomSheet, Skeleton, Toast, LiveDot
-- [ ] Primitives: EmptyState, ErrorState
+- [x] Primitives: EmptyState, ErrorState
 - [x] Replay store + `useReplayClock` (time-based) + ReplayControl
-- [ ] Cricket UI: ScoreHero (incl. collapsed bar), BallChip, OverStrip, PlayerLine, ChaseBar
-- [ ] Match Room shell: AppBar, layout mobile/desktop, tabs, bottom action area
-- [ ] Catch up tab: empty tip + Simulate stepping away, skeleton, RecapCard, FactStrip, VerifiedBadge, history
+- [x] Cricket UI: ScoreHero (incl. collapsed bar), BallChip, OverStrip, PlayerLine, ChaseBar
+- [x] Match Room shell: AppBar, layout mobile/desktop, tabs, bottom action area
+- [x] Catch up tab: empty tip + Simulate stepping away, skeleton, RecapCard, FactStrip, VerifiedBadge, history
 - [ ] Ask tab: suggested chips, AskThread, Composer (200 cap), states
 - [ ] Moments tab: timeline + filters + "Recap from here"
-- [ ] AwayBanner + `useAwayDetector`
+- [x] AwayBanner + `useAwayDetector`
 - [ ] Sheets: Language, Settings, Verified info, Replay scrubber
 - [ ] i18n strings (en, hinglish, hi, gu) + lazy Indic fonts
 - [ ] Voice out (`useSpeak` + SpeakButton waveform); mic button hidden when unsupported

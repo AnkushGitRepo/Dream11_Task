@@ -17,3 +17,7 @@
 2026-10-12 — Replay `position` = events played (0..n); latest seq = position-1 — needs a "before first ball" state (17.0) that seq 0..n-1 cannot express.
 2026-10-12 — Cricket clock label = over.legalBallsDone; no-ball/wide reuse the previous label — matches STATE golden checkpoints (19.3 no-ball).
 2026-10-12 — Mock timeline generated from data/raw by script, then committed — hand-typing 22 balls risks wrong numbers; verified 17.0=112/4, 18.6=144/4, final 160/6.
+2026-10-12 — Match Room core is sport-agnostic via `SportUi` slots (`src/sports/types.ts`, `uiRegistry.ts`) — keeps cricket words out of pages; football plugs in later.
+2026-10-12 — `getCricketState(timeline, position, baseline)` in shared/sports/cricket/state.ts is the single source of every on-screen number — enforces "numbers from code".
+2026-10-12 — Mid-innings replay start is a `CricketBaseline` passed alongside the timeline — MatchTimeline contract stays unchanged.
+2026-10-12 — Mock recap text is assembled from computed fact labels only — canned prose would disagree with the FactStrip for arbitrary windows.

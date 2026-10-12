@@ -1,3 +1,4 @@
+import type { CricketBaseline } from '@shared/sports/cricket/state';
 import type { MatchTimeline, TimelineEvent } from '@shared/sports/types';
 
 // Last 3 overs of India's chase (Cricsheet 1298150, PAK v IND, T20 WC 2022, MCG).
@@ -6,15 +7,34 @@ import type { MatchTimeline, TimelineEvent } from '@shared/sports/types';
 
 export const MOCK_MATCH_ID = 'pak-ind-2022-t20wc-mcg';
 
-/** State before seq 0 (the replay starts here). */
-export const MOCK_START = {
+/**
+ * Innings state before seq 0 (the replay starts at 17.0). Totals computed from
+ * data/raw/1298150.json overs 0-16; 19.0 golden check: Kohli 74 (50), Pandya 40 (36), Nawaz 3-0-29-0.
+ */
+export const MOCK_BASELINE: CricketBaseline = {
+  battingTeam: 'IND',
   clock: '17.0',
   score: 112,
   wkts: 4,
+  legalBalls: 102,
   target: 160,
+  maxBalls: 120,
+  batters: {
+    'V Kohli': { runs: 46, balls: 42, fours: 3, sixes: 1 },
+    'HH Pandya': { runs: 37, balls: 32, fours: 1, sixes: 2 },
+  },
+  bowlers: {
+    'Shaheen Shah Afridi': { legalBalls: 18, maidens: 0, runs: 17, wkts: 0 },
+    'Naseem Shah': { legalBalls: 24, maidens: 0, runs: 23, wkts: 1 },
+    'Haris Rauf': { legalBalls: 18, maidens: 0, runs: 21, wkts: 2 },
+    'Shadab Khan': { legalBalls: 24, maidens: 0, runs: 21, wkts: 0 },
+    'Mohammad Nawaz': { legalBalls: 18, maidens: 0, runs: 29, wkts: 0 },
+  },
+  partnership: { runs: 81, balls: 65 },
   striker: 'V Kohli',
   nonStriker: 'HH Pandya',
-} as const;
+  bowler: 'Shaheen Shah Afridi',
+};
 
 const events: TimelineEvent[] = [
   {
