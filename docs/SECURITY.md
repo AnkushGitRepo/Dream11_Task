@@ -68,5 +68,5 @@ There are no accounts and no personal data — keep it that way.
 - [ ] AI text rendered as text; no `dangerouslySetInnerHTML` anywhere
 - [ ] CSP and security headers present on the deployed URL (check with securityheaders.com)
 - [ ] Mic requested only on tap; our code never sends or stores audio; About sheet discloses browser speech processing
-- [ ] `npm audit --omit=dev` has no high/critical
+- [ ] `npm audit --omit=dev` has no high/critical (dev-only stylelint→braces advisory is accepted: build-time tool, never shipped)
 - [ ] No betting/prediction language in prompts, templates or UI copy

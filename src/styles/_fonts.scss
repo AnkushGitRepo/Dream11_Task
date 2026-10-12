@@ -1,0 +1,17 @@
+// Archivo + Hanken Grotesk load via <link> in index.html.
+// Indic fonts (Noto Sans Devanagari / Gujarati) are injected dynamically only when
+// that language is selected; this file just sets the families and Indic type rules.
+
+:lang(hi) {
+  font-family: 'Noto Sans Devanagari', var(--font-ui);
+  line-height: 1.65;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+:lang(gu) {
+  font-family: 'Noto Sans Gujarati', var(--font-ui);
+  line-height: 1.65;
+  letter-spacing: normal;
+  text-transform: none;
+}

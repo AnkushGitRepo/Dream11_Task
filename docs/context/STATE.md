@@ -20,6 +20,8 @@ Next big step: Phase 1 frontend with mock data, following docs/DESIGN_PROMPT.md.
 - LLM: Gemini (GEMINI_API_KEY, LLM_PROVIDER=gemini).
 
 ## Gotchas
+- Dart Sass 1.105: use module functions only (`@use 'sass:map'` → map.get, `sass:math` → math.div, `sass:color`). Never global built-ins (map-get, darken…) or `@import` — they print deprecation warnings.
+- Latest majors installed: React 19, Vite 8, TS 6, ESLint 10 (flat config), Vitest 5, React Router 7. Check installed versions before using old APIs.
 - Deadline Tue 13 Oct 2026 night IST. Frontend first, mock API behind `VITE_USE_MOCK_API`.
 - No Tailwind/Bootstrap/CSS-in-JS (guard hook blocks installs). SCSS modules + tokens only.
 - No video, no logos, no Dream11 branding, no predictions/betting language.

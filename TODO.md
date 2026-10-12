@@ -5,8 +5,8 @@
 
 ## Phase 0 — Setup
 - [x] Docs + agent configuration (AGENTS/CLAUDE/GEMINI, hooks, subagents, commands)
-- [ ] Run `bash scripts/install-claude-config.sh` (moves `_claude/` → `.claude/`)
-- [ ] `git init` + first commit of docs
+- [x] Run `bash scripts/install-claude-config.sh` (moves `_claude/` → `.claude/`)
+- [x] `git init` + first commit of docs
 - [ ] Scaffold Vite React TS at repo root (`npm create vite@latest . -- --template react-ts`), Node 20 (`.nvmrc`)
 - [ ] Add deps: `react-router-dom`, `lucide-react`; dev: `sass`, `vitest`, `@testing-library/react`, `jsdom`, `@playwright/test`, `eslint`, `stylelint`, `stylelint-config-standard-scss`, `prettier`
 - [ ] Path alias `@/` → `src/`, `@shared/` → `shared/` (vite + tsconfig)
