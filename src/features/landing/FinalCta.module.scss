@@ -1,0 +1,17 @@
+.band {
+  border-top: 1px solid var(--c-line);
+}
+
+.title {
+  max-width: 14ch;
+  margin: 0 0 var(--s-8);
+  font-family: var(--font-display);
+  font-size: var(--t-mega-size);
+  font-variation-settings: 'wdth' 100;
+  font-weight: 900;
+  line-height: var(--lh-mega);
+}
+
+.accent {
+  color: var(--c-accent-text);
+}

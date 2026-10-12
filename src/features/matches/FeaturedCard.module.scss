@@ -1,0 +1,119 @@
+@use '../../styles/mixins' as *;
+
+// Literal 280x168 per docs/DESIGN.md §2 MatchCard. Height is a minimum so Indic text never clips.
+.card {
+  --mono-bg: var(--c-surface-2);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  justify-content: space-between;
+  width: 280px;
+  min-height: 168px;
+  padding: var(--s-4);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-xl);
+  background: var(--c-surface-1);
+  color: var(--c-text);
+  text-decoration: none;
+  transition: transform var(--d-fast) var(--e-out);
+
+  @include up(md) {
+    width: auto;
+  }
+
+  &:is(a):active {
+    transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 2px;
+  }
+}
+
+.accent {
+  --mono-bg: color-mix(in srgb, var(--c-on-accent) 20%, transparent);
+
+  border-color: transparent;
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}
+
+.soon {
+  color: var(--c-text-2);
+}
+
+.overline {
+  font-family: var(--font-display);
+  font-size: var(--t-label-size);
+  font-variation-settings: 'wdth' 87;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+}
+
+.teams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-3);
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  align-items: flex-start;
+}
+
+.score {
+  font-family: var(--font-display);
+  font-size: var(--t-score-sm-size);
+  font-variant-numeric: tabular-nums;
+  font-variation-settings: 'wdth' 112;
+  font-weight: 800;
+  line-height: var(--lh-score-sm);
+}
+
+.foot {
+  display: flex;
+  gap: var(--s-2);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hook {
+  min-width: 0;
+  font-size: var(--t-small-size);
+  font-weight: 600;
+  line-height: var(--lh-small);
+}
+
+.pill {
+  display: inline-flex;
+  flex: none;
+  gap: var(--s-1);
+  align-items: center;
+  min-height: var(--s-8);
+  padding: 0 var(--s-3);
+  border-radius: var(--r-pill);
+  background: var(--c-surface-2);
+  color: var(--c-text);
+  font-size: var(--t-small-size);
+  font-weight: 700;
+
+  .accent & {
+    background: var(--c-on-accent);
+    color: var(--c-accent-press);
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

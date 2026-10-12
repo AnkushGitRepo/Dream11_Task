@@ -65,6 +65,11 @@ function buildText(facts: Fact[], lang: Lang): { lead: string; body: string } {
   return { lead, body };
 }
 
+/** Template recap text for a fact window (no delay). Same text mockRecap resolves with. */
+export function buildRecapText(facts: readonly Fact[], lang: Lang): { lead: string; body: string } {
+  return buildText([...facts], lang);
+}
+
 function queryParam(name: string): string | null {
   return typeof window === 'undefined' ? null : new URLSearchParams(window.location.search).get(name);
 }

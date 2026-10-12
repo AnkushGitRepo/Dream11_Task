@@ -33,6 +33,13 @@
   cursor: pointer;
   transition: color var(--d-base) var(--e-out);
 
+  // Extends the hit area to the full 44px track height.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: calc(var(--s-1) * -1) 0;
+  }
+
   &:focus-visible {
     outline: 2px solid var(--c-focus);
     outline-offset: -2px;

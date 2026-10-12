@@ -1,0 +1,17 @@
+// Colours come from custom properties so cards on the accent background can restyle it.
+.mono {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--s-10);
+  height: var(--s-10);
+  border-radius: var(--r-pill);
+  background: var(--mono-bg, var(--c-surface-2));
+  color: inherit;
+  font-family: var(--font-display);
+  font-size: var(--t-label-size);
+  font-variation-settings: 'wdth' 100;
+  font-weight: 800;
+  line-height: 1;
+}

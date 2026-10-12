@@ -2,13 +2,21 @@ import type { Lang } from '../sports/types';
 import { askStrings } from './ask';
 import { catchupStrings } from './catchup';
 import { chromeStrings } from './chrome';
+import { matchesStrings } from './matches';
 import { momentsStrings } from './moments';
 import { sheetsStrings } from './sheets';
 
 // UI strings for en, hinglish (Hindi in Latin script), hi, gu. One module per area so
 // features can add keys without editing each other's files. Cricket labels live in
 // shared/sports/cricket/ (core strings stay sport-neutral).
-const AREAS = [chromeStrings, sheetsStrings, catchupStrings, askStrings, momentsStrings] as const;
+const AREAS = [
+  chromeStrings,
+  sheetsStrings,
+  catchupStrings,
+  askStrings,
+  momentsStrings,
+  matchesStrings,
+] as const;
 
 function merge(lang: Lang) {
   return Object.assign({}, ...AREAS.map((area) => area[lang])) as UnionToIntersection<

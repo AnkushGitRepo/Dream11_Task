@@ -1,0 +1,65 @@
+@use '../../styles/mixins' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  border-bottom: 1px solid var(--c-line);
+  background: color-mix(in srgb, var(--c-bg) 92%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  height: calc(var(--s-14) + var(--s-2)); // 64px
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--hit);
+  color: var(--c-text);
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 2px;
+  }
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+
+  @include up(sm) {
+    gap: var(--s-6);
+  }
+}
+
+// Hidden on the narrowest screens so the wordmark and CTA never collide at 360px.
+.anchor {
+  display: none;
+  align-items: center;
+  min-height: var(--hit);
+  color: var(--c-text);
+  font-size: var(--t-small-size);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: var(--s-1);
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 2px;
+  }
+
+  @include up(sm) {
+    display: inline-flex;
+  }
+}

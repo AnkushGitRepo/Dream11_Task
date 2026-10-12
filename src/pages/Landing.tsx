@@ -1,10 +1,5 @@
-import PlaceholderPage from '@/components/PlaceholderPage';
+import { LandingPage } from '@/features/landing';
 
 export default function Landing() {
-  return (
-    <PlaceholderPage
-      title="Landing"
-      note="The paper-theme landing page with the live phone-frame demo lands in Phase 1."
-    />
-  );
+  return <LandingPage />;
 }

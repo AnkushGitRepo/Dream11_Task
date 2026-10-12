@@ -1,0 +1,52 @@
+@use '../../styles/mixins' as *;
+
+.band {
+  border-block: 1px solid var(--c-line);
+}
+
+.list {
+  display: grid;
+  gap: var(--s-10);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include up(md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--s-8);
+  }
+}
+
+.big {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 72px; // spec: Archivo 900, 72px literal
+  font-variation-settings: 'wdth' 100;
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.caption {
+  margin: var(--s-3) 0 0;
+  font-size: var(--t-small-size);
+  line-height: var(--lh-small);
+}
+
+// text-2 rather than text-3: text-3 on paper is below AA for small text.
+.source {
+  margin: var(--s-2) 0 0;
+  color: var(--c-text-2);
+  font-size: var(--t-small-size);
+  line-height: var(--lh-small);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

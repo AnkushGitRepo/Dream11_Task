@@ -1,0 +1,65 @@
+@use '../styles/mixins' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+  align-items: flex-start;
+  justify-content: center;
+  max-width: var(--content-max);
+  min-height: 100dvh;
+  margin-inline: auto;
+  padding: var(--s-8) var(--gutter);
+}
+
+.out {
+  margin: 0;
+  color: var(--c-accent);
+  font-family: var(--font-display);
+  font-size: var(--t-mega-size);
+  font-variation-settings: 'wdth' 100;
+  font-weight: 900;
+  line-height: var(--lh-mega);
+}
+
+.text {
+  margin: 0;
+  font-size: var(--t-lead-size);
+  font-weight: 600;
+  line-height: var(--lh-lead);
+}
+
+// Mirrors the primary Button (a link, since it navigates).
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--hit-primary);
+  margin-block-start: var(--s-4);
+  padding: 0 var(--s-5);
+  border-radius: var(--r-md);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+  font-family: var(--font-ui);
+  font-size: var(--t-body-size);
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform var(--d-fast) var(--e-out),
+    background-color var(--d-fast) var(--e-out);
+
+  @include up(sm) {
+    width: auto;
+  }
+
+  &:active {
+    background: var(--c-accent-press);
+    transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 2px;
+  }
+}

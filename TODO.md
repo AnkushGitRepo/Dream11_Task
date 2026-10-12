@@ -29,10 +29,10 @@
 - [x] Sheets: Language, Settings, Verified info, Replay scrubber
 - [x] i18n strings (en, hinglish, hi, gu) + lazy Indic fonts
 - [x] Voice out (`useSpeak` + SpeakButton waveform); mic button hidden when unsupported
-- [ ] Matches page
-- [ ] Landing page (paper theme, phone-frame live demo)
-- [ ] Not Found page
-- [ ] Responsive + a11y pass (360 / 390 / 768 / 1280)
+- [x] Matches page
+- [x] Landing page (paper theme, phone-frame live demo)
+- [x] Not Found page
+- [x] Responsive + a11y pass (360 / 390 / 768 / 1280)
 
 ## Phase 2 — Engine + real data
 - [x] Choose demo match → 1298150 PAK v IND T20 WC 2022 (+ 1415755 IND v SA 2024 final)

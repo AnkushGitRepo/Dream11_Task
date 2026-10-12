@@ -1,0 +1,74 @@
+@use '../../styles/mixins' as *;
+
+$phone-radius: 36px; // spec: 36px literal
+$bezel: var(--s-2);
+
+.wrap {
+  width: 86%;
+  max-width: 320px;
+  margin-inline: auto;
+}
+
+.bezel {
+  padding: $bezel;
+  border-radius: calc(#{$phone-radius} + #{$bezel});
+  background: var(--c-text);
+  box-shadow: var(--shadow-1);
+}
+
+.phone {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 9 / 19.5;
+  border-radius: $phone-radius;
+  background: var(--c-bg);
+  color: var(--c-text);
+  pointer-events: none;
+  user-select: none;
+
+  // The score is sized for a full viewport; inside the frame keep it phone-scale.
+  --t-score-size: 64px;
+}
+
+.screen {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 390px; // design width; scaled to the frame by useFitScale
+  transform-origin: top left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-3);
+}
+
+.slide {
+  animation: slide-in var(--d-slow) var(--e-out) both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(calc(-1 * var(--s-4)));
+    opacity: 0;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}

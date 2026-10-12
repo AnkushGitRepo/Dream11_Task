@@ -1,0 +1,22 @@
+@use '../../styles/mixins' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-8);
+}
+
+.cards {
+  display: flex;
+  gap: var(--s-3);
+  overflow: hidden;
+}
+
+.rows {
+  display: grid;
+  gap: var(--s-3);
+
+  @include up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,86 @@
+@use '../../styles/mixins' as *;
+
+$arrow: var(--s-3);
+
+.band {
+  background: var(--c-bg);
+  color: var(--c-text);
+}
+
+.pipeline {
+  display: grid;
+  gap: var(--s-8);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include up(md) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--s-8);
+  }
+}
+
+.node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  min-height: var(--s-20);
+  padding: var(--s-4);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  background: var(--c-surface-1);
+
+  // CSS-drawn chevron: points down on mobile, right from md.
+  &:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    bottom: calc(-1 * var(--s-6));
+    left: 50%;
+    width: $arrow;
+    height: $arrow;
+    border-right: 2px solid var(--c-text-2);
+    border-bottom: 2px solid var(--c-text-2);
+    transform: translateX(-50%) rotate(45deg);
+
+    @include up(md) {
+      inset: 50% calc(-1 * var(--s-5)) auto auto;
+      transform: translateY(-50%) rotate(-45deg);
+    }
+  }
+}
+
+.ai {
+  border-color: var(--c-accent);
+  background: var(--c-accent-soft);
+}
+
+.tag {
+  color: var(--c-text-2);
+  font-family: var(--font-display);
+  font-size: var(--t-label-size);
+  font-variation-settings: 'wdth' 87;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+}
+
+.ai .tag {
+  color: var(--c-accent-text);
+}
+
+.name {
+  font-family: var(--font-display);
+  font-size: var(--t-h2-size);
+  font-weight: 700;
+  line-height: var(--lh-h2);
+}
+
+.guard {
+  max-width: 52ch;
+  margin: var(--s-10) 0 0;
+  color: var(--c-text-2);
+  font-size: var(--t-lead-size);
+  line-height: var(--lh-lead);
+}

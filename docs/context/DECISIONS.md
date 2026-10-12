@@ -26,3 +26,7 @@
 2026-10-12 — No voice fallback across languages: Hinglish needs an en-IN voice, hi hi-IN, gu gu-IN, else the Listen button is hidden — a wrong-accent voice reads numbers/names badly.
 2026-10-12 — Mic transcript fills the composer for review, never auto-sends — speech recognition errors would otherwise become questions.
 2026-10-12 — mockAsk answers only from engine facts (`SportUi.snapshot`) and says "I don't know" otherwise — same numbers-from-code rule as recaps.
+2026-10-12 — Landing middle stat is "Lag" + qualitative caption, not "2 balls" — PRD has no numeric source for it; only sourced figures (80%, +42%) are printed as numbers.
+2026-10-12 — Footer sources are plain domain names, not links — the exact article URLs were never recorded; add them before submission.
+2026-10-12 — Landing phone demo lays out at 390px then scales to the frame (useFitScale) — real components never wrap or clip at 360px.
+2026-10-12 — IND v SA 2024 final is a visible "Coming soon" card/row, not a link — the timeline is not preprocessed until Phase 2.
