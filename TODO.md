@@ -7,18 +7,19 @@
 - [x] Docs + agent configuration (AGENTS/CLAUDE/GEMINI, hooks, subagents, commands)
 - [x] Run `bash scripts/install-claude-config.sh` (moves `_claude/` → `.claude/`)
 - [x] `git init` + first commit of docs
-- [ ] Scaffold Vite React TS at repo root (`npm create vite@latest . -- --template react-ts`), Node 20 (`.nvmrc`)
-- [ ] Add deps: `react-router-dom`, `lucide-react`; dev: `sass`, `vitest`, `@testing-library/react`, `jsdom`, `@playwright/test`, `eslint`, `stylelint`, `stylelint-config-standard-scss`, `prettier`
-- [ ] Path alias `@/` → `src/`, `@shared/` → `shared/` (vite + tsconfig)
-- [ ] `src/styles/`: `_tokens.scss`, `_themes.scss`, `_mixins.scss` (`up()`), `_reset.scss`, `_fonts.scss`, `global.scss` per DESIGN.md
+- [x] Scaffold Vite React TS at repo root (`npm create vite@latest . -- --template react-ts`), Node 20 (`.nvmrc`)
+- [x] Add deps: `react-router-dom`, `lucide-react`; dev: `sass`, `vitest`, `@testing-library/react`, `jsdom`, `@playwright/test`, `eslint`, `stylelint`, `stylelint-config-standard-scss`, `prettier` (Playwright deferred to Phase 4, zod to Phase 3)
+- [x] Path alias `@/` → `src/`, `@shared/` → `shared/` (vite + tsconfig)
+- [x] `src/styles/`: `_tokens.scss`, `_themes.scss`, `_mixins.scss` (`up()`), `_reset.scss`, `_fonts.scss`, `global.scss` per DESIGN.md
 - [ ] ESLint `no-restricted-imports` for `shared/ai/provider` in `src/`; Stylelint bans hex colours outside `_tokens.scss`/`_themes.scss`
-- [ ] npm scripts: dev, dev:full, build, lint, test, test:e2e, data:build
+- [x] npm scripts: dev, dev:full, build, lint, test, test:e2e, data:build
 - [ ] `vercel.json` with headers from SECURITY.md §4 (production only)
 
 ## Phase 1 — Frontend (mock data)
-- [ ] `shared/sports/types.ts` (contract from ARCHITECTURE §4) + `src/mocks/match.mock.ts` + `src/services/mockApi.ts`
-- [ ] Primitives: Button, IconButton, Chip, SegmentedControl, BottomSheet, Skeleton, Toast, EmptyState, ErrorState, LiveDot
-- [ ] Replay store + `useReplayClock` (time-based) + ReplayControl
+- [x] `shared/sports/types.ts` (contract from ARCHITECTURE §4) + `src/mocks/match.mock.ts` + `src/services/mockApi.ts`
+- [x] Primitives: Button, IconButton, Chip, SegmentedControl, BottomSheet, Skeleton, Toast, LiveDot
+- [ ] Primitives: EmptyState, ErrorState
+- [x] Replay store + `useReplayClock` (time-based) + ReplayControl
 - [ ] Cricket UI: ScoreHero (incl. collapsed bar), BallChip, OverStrip, PlayerLine, ChaseBar
 - [ ] Match Room shell: AppBar, layout mobile/desktop, tabs, bottom action area
 - [ ] Catch up tab: empty tip + Simulate stepping away, skeleton, RecapCard, FactStrip, VerifiedBadge, history

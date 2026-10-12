@@ -13,3 +13,7 @@
 2026-10-12 — LLM provider = Gemini — Ankush has a Gemini key.
 2026-10-12 — Demo match = PAK v IND, T20 WC 2022, MCG (Cricsheet 1298150) — iconic last-ball India chase; dramatic recaps; exercises no-ball/free-hit/wide/byes/stumping edge cases. Backup/featured #2 = IND v SA T20 WC 2024 final (1415755).
 2026-10-12 — Commit raw Cricsheet JSON (data/raw) — small (~90 KB each), ODC-BY allows it, makes preprocessing reproducible.
+2026-10-12 — TypeScript pinned ~6.0 — typescript-eslint supports <6.1 only; revisit when it supports TS 7.
+2026-10-12 — Replay `position` = events played (0..n); latest seq = position-1 — needs a "before first ball" state (17.0) that seq 0..n-1 cannot express.
+2026-10-12 — Cricket clock label = over.legalBallsDone; no-ball/wide reuse the previous label — matches STATE golden checkpoints (19.3 no-ball).
+2026-10-12 — Mock timeline generated from data/raw by script, then committed — hand-typing 22 balls risks wrong numbers; verified 17.0=112/4, 18.6=144/4, final 160/6.

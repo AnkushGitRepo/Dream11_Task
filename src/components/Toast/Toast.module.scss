@@ -1,0 +1,39 @@
+@use '../../styles/mixins' as *;
+
+.region {
+  position: fixed;
+  inset-inline: var(--gutter);
+  bottom: calc(var(--s-20) + env(safe-area-inset-bottom));
+  z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  align-items: center;
+  pointer-events: none;
+
+  @include up(md) {
+    bottom: var(--s-8);
+  }
+}
+
+.toast {
+  max-width: 100%;
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-md);
+  background: var(--c-surface-3);
+  color: var(--c-text);
+  font-family: var(--font-ui);
+  font-size: var(--t-small-size);
+  font-weight: 600;
+  line-height: var(--lh-small);
+  animation: toast-in var(--d-base) var(--e-out);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--s-2));
+  }
+}

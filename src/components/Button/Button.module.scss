@@ -1,0 +1,111 @@
+@use '../../styles/mixins' as *;
+
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--hit);
+  padding: 0 var(--s-5);
+  border: 1px solid transparent;
+  border-radius: var(--r-md);
+  font-family: var(--font-ui);
+  font-size: var(--t-body-size);
+  font-weight: 700;
+  line-height: var(--lh-label);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform var(--d-fast) var(--e-out),
+    background-color var(--d-fast) var(--e-out);
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &[aria-busy='true']:disabled {
+    cursor: progress;
+    opacity: 1;
+  }
+}
+
+.primary {
+  min-height: var(--hit-primary);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+
+  &:active:not(:disabled) {
+    background: var(--c-accent-press);
+  }
+}
+
+.secondary {
+  border-color: var(--c-line);
+  background: var(--c-surface-2);
+  color: var(--c-text);
+
+  &:active:not(:disabled) {
+    background: var(--c-surface-3);
+  }
+}
+
+.ghost {
+  background: transparent;
+  color: var(--c-text);
+
+  &:active:not(:disabled) {
+    background: var(--c-surface-3);
+  }
+}
+
+.sm {
+  padding: 0 var(--s-4);
+  font-size: var(--t-small-size);
+}
+
+.full {
+  width: 100%;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+// Keeps the label in layout so the width stays locked while loading.
+.hidden {
+  visibility: hidden;
+}
+
+.spinner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: var(--s-5);
+  height: var(--s-5);
+  border: 2px solid currentcolor;
+  border-block-start-color: transparent;
+  border-radius: var(--r-pill);
+  animation: spin 800ms linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 2s;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

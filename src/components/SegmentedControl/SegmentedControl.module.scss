@@ -1,0 +1,44 @@
+.track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--count), 1fr);
+  padding: var(--s-1);
+  border-radius: var(--r-pill);
+  background: var(--c-surface-2);
+}
+
+.thumb {
+  position: absolute;
+  inset-block: var(--s-1);
+  inset-inline-start: var(--s-1);
+  width: calc((100% - 2 * var(--s-1)) / var(--count));
+  border-radius: var(--r-pill);
+  background: var(--c-surface-1);
+  box-shadow: var(--shadow-1);
+  transform: translateX(calc(var(--index) * 100%));
+  transition: transform var(--d-base) var(--e-out);
+}
+
+.tab {
+  position: relative;
+  min-height: calc(var(--hit) - 2 * var(--s-1));
+  padding: 0 var(--s-3);
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--c-text-2);
+  font-family: var(--font-ui);
+  font-size: var(--t-small-size);
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--d-base) var(--e-out);
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: -2px;
+  }
+}
+
+.selected {
+  color: var(--c-text);
+}

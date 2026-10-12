@@ -1,0 +1,97 @@
+@use '../../styles/mixins' as *;
+
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-sheet);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  @include up(md) {
+    justify-content: flex-end;
+    align-items: stretch;
+  }
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 60%);
+  animation: fade var(--d-base) var(--e-out);
+}
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 88dvh;
+  padding: var(--s-2) var(--s-4) calc(var(--s-4) + env(safe-area-inset-bottom));
+  border: 1px solid var(--c-line);
+  border-bottom: 0;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  background: var(--c-surface-2);
+  color: var(--c-text);
+  animation: slide-up var(--d-slow) var(--e-out);
+
+  &:focus {
+    outline: none;
+  }
+
+  @include up(md) {
+    width: 420px;
+    max-height: none;
+    padding: var(--s-6);
+    border-block: 0;
+    border-inline-end: 0;
+    border-radius: 0;
+    animation-name: slide-in;
+  }
+}
+
+.handle {
+  align-self: center;
+  width: var(--s-10);
+  height: var(--s-1);
+  margin-bottom: var(--s-3);
+  border-radius: var(--r-pill);
+  background: var(--c-line);
+
+  @include up(md) {
+    display: none;
+  }
+}
+
+.title {
+  margin: 0 0 var(--s-3);
+  font-family: var(--font-display);
+  font-size: var(--t-h2-size);
+  font-weight: 700;
+  line-height: var(--lh-h2);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+}

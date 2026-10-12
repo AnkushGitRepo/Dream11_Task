@@ -1,16 +1,16 @@
-import { Link } from 'react-router-dom'
-import styles from './PlaceholderPage.module.scss'
+import { Link } from 'react-router-dom';
+import styles from './PlaceholderPage.module.scss';
 
 const LINKS = [
   { to: '/', label: 'Landing' },
   { to: '/matches', label: 'Matches' },
   { to: '/match/demo', label: 'Match room' },
   { to: '/nope', label: 'Not found' },
-] as const
+] as const;
 
 interface PlaceholderPageProps {
-  readonly title: string
-  readonly note: string
+  readonly title: string;
+  readonly note: string;
 }
 
 export default function PlaceholderPage({ title, note }: PlaceholderPageProps) {
@@ -27,5 +27,5 @@ export default function PlaceholderPage({ title, note }: PlaceholderPageProps) {
         ))}
       </nav>
     </main>
-  )
+  );
 }

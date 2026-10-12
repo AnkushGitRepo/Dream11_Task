@@ -16,17 +16,15 @@
   --c-accent: #e8192c;
   --c-accent-press: #c21424;
   --c-accent-text: #ff5a67;
-  --c-accent-soft: rgb(232 25 44 / 0.14);
+  --c-accent-soft: rgb(232 25 44 / 14%);
   --c-on-accent: #fff;
   --c-live: #22c55e;
   --c-focus: #fff;
-
   --c-ev-major: #ff5a67;
   --c-ev-big: #ffb020;
   --c-ev-good: #34d399;
   --c-ev-minor: #a1a1aa;
   --c-ev-none: #3a3a42;
-
   --shadow-1: none;
 }
 
@@ -44,12 +42,10 @@
   --c-accent: #e8192c;
   --c-accent-text: #c8101f;
   --c-focus: #0b0b0d;
-
   --c-ev-major: #c8101f;
   --c-ev-big: #a86b00;
   --c-ev-good: #0f7a55;
   --c-ev-minor: #4a4a52;
   --c-ev-none: #c9c4ba;
-
-  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px rgb(0 0 0 / 0.06);
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 6%), 0 8px 24px rgb(0 0 0 / 6%);
 }

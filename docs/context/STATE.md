@@ -1,30 +1,36 @@
 # STATE — project memory (keep < 60 lines; rewrite via /checkpoint)
 
 ## Phase / focus
-Phase 0 — Setup. Docs and agent config done; app not scaffolded yet.
-Next big step: Phase 1 frontend with mock data, following docs/DESIGN_PROMPT.md.
+Phase 1 — Frontend (mock data). Chunk 1 of 3 done (types, mock, primitives, replay).
+Chunk 2 next: Cricket UI (ScoreHero, BallChip, OverStrip, PlayerLine, ChaseBar) + Match Room shell.
 
 ## Done recently
-- Product chosen: "Kya Hua?" — AI catch-up + Ask the match, 4 languages, voice (A + G from research).
-- Docs written: PRD, ARCHITECTURE, DESIGN, DESIGN_PROMPT, SECURITY, TESTING, PHASES, ROADMAP.
-- Agent setup: AGENTS.md (canonical), CLAUDE.md, GEMINI.md, hooks, subagents, commands.
+- Phase 0 scaffold: Vite 8 + React 19 + TS 6, SCSS tokens/themes/mixins, eslint/stylelint, vitest. Build, lint, 16 tests green.
+- `shared/sports/types.ts` per ARCHITECTURE §4 (unchanged contract).
+- `src/mocks/match.mock.ts`: last 3 overs of IND chase (22 events, seq 0 = 17.1), `MOCK_START` = 17.0, 112/4, target 160.
+- `src/services/mockApi.ts`: mockRecap / mockAsk, canned 4-language text, 700–1200 ms delay.
+- Primitives in `src/components/*`: Button, IconButton, Chip, SegmentedControl, BottomSheet, Skeleton, Toast, LiveDot.
+- Replay: `src/features/replay/` replayStore (pure, tested), useReplayClock (rAF + visibilitychange), ReplayControl.
+- `/match/pak-ind-2022-t20wc-mcg` raw debug view verified in browser: 112/4 (17.0) → 160/6 (19.6, "India won by 4 wickets") at 20×.
 
 ## Next
-1. git init + commit docs.
-2. Scaffold Vite React TS + SCSS tokens (TODO Phase 0).
-3. Start Phase 1: types + mock data + primitives.
+1. Cricket UI components (`src/sports/cricket/ui/`) reading `event.data` (score, wkts, over, ball, batter…).
+2. Match Room shell: AppBar, ScoreHero layout mobile/desktop, tabs, bottom action area (replace debug view).
+3. EmptyState + ErrorState primitives, then Catch up tab with mockApi.
 
 ## Open issues / blockers
-- Demo match CHOSEN: Cricsheet 1298150, PAK v IND, T20 WC 2022, MCG — India chase 160, won by 4 wkts off the last ball (data/raw/1298150.json).
-  Featured #2: 1415755, IND v SA, T20 WC 2024 final — India won by 7 runs (data/raw/1415755.json).
-- LLM: Gemini (GEMINI_API_KEY, LLM_PROVIDER=gemini).
+- Mock `event.data` has no per-batter/bowler tallies (Kohli 74 etc.); derive in Phase 2 engine or add to mock for PlayerLine.
+- Mock file is 556 lines (data, generated); exceeds the 250-line rule on purpose.
+- BottomSheet has no drag-to-close yet (Esc + scrim only). lucide per-icon import path unverified (named imports used).
+- `shared/ai/provider` import restriction + hex-colour stylelint ban still TODO. favicon missing (404 in dev).
+- Demo match: Cricsheet 1298150 (PAK v IND, 2022, MCG). Featured #2: 1415755. LLM: Gemini.
 
 ## Gotchas
-- Dart Sass 1.105: use module functions only (`@use 'sass:map'` → map.get, `sass:math` → math.div, `sass:color`). Never global built-ins (map-get, darken…) or `@import` — they print deprecation warnings.
-- Latest majors installed: React 19, Vite 8, TS 6, ESLint 10 (flat config), Vitest 5, React Router 7. Check installed versions before using old APIs.
 - Deadline Tue 13 Oct 2026 night IST. Frontend first, mock API behind `VITE_USE_MOCK_API`.
 - No Tailwind/Bootstrap/CSS-in-JS (guard hook blocks installs). SCSS modules + tokens only.
 - No video, no logos, no Dream11 branding, no predictions/betting language.
 - Never cat data/matches/*.json or data/raw/*.json — large.
-- Demo-match edge cases: 19.3 no-ball (6 off it) → next ball is a FREE HIT (Cricsheet does not flag it; infer: ball after a no-ball, persisting through wides); 19.4 wide; free-hit ball "bowled" for 3 byes is NOT a wicket; 19.5 Karthik stumped; last ball Ashwin wide then single.
-- Golden checkpoint 19.0 (IND inn): 144/4, need 16 off 6, Kohli 74 (50), Pandya 40 (36), Nawaz 3-0-29-0, Rauf 4-0-36-2. Final: 160/6, Kohli 82* (53).
+- Replay `position` = events played (0..n); latest seq = position - 1. 1× = 3 s/ball.
+- Free hit is inferred (Cricsheet doesn't flag it): `data.freeHit`; 3 byes on the free hit is NOT a wicket.
+- Chip `selected` undefined = plain action chip (no aria-pressed); pass `label` for aria-label.
+- Testing-library cleanup is manual (`afterEach(cleanup)`; vitest globals off).
