@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { Chip } from '@/components/Chip';
 import { Button } from '@/components/Button';
+import { useTeachable } from '@/features/learn';
 import type { TimelineEvent } from '@shared/sports/types';
 import styles from './MomentItem.module.scss';
 
@@ -15,10 +16,23 @@ export interface MomentItemProps {
 }
 
 function MomentItemBase({ event, kindLabel, recapLabel, recapAria, onRecapFrom }: MomentItemProps) {
+  const teach = useTeachable(event.seq);
   return (
     <li className={styles.row} data-tone={event.tone}>
       <span className={styles.clock}>{event.clock}</span>
-      <Chip tone={event.tone}>{kindLabel}</Chip>
+      {teach ? (
+        <Chip
+          tone={event.tone}
+          className={styles.teachable}
+          onClick={teach.onLearn}
+          label={`${kindLabel} — ${teach.ariaHint}`}
+        >
+          {kindLabel}
+          <span className={styles.dot} aria-hidden="true" />
+        </Chip>
+      ) : (
+        <Chip tone={event.tone}>{kindLabel}</Chip>
+      )}
       <p className={styles.text}>{event.text}</p>
       <Button
         variant="ghost"

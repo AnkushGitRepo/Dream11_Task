@@ -36,3 +36,12 @@
 2026-10-13 — The voice sample script takes its secrets from the shell's exported variables and never loads secret files itself — respects the guard hook.
 2026-10-13 — shared/ai/** uses erasable TS syntax + `.ts` import extensions so Node can run it directly (scripts/voice-samples.mjs); excluded from the app tsconfig, included in the node one.
 2026-10-13 — TTS voice = Gemini 'Puck' for all languages — chosen by ear from samples.
+2026-10-13 — Add Learn mode (rules coach) — new-fan acquisition for non-cricket sports; definitions from curated rulebooks, AI only links rule to the moment (same grounding principle as numbers).
+2026-10-13 — free-hit-bowled-not-out is detected from a curated, source-labelled annotation emitted by the preprocess script — Cricsheet records only the 3 byes, so inferring "bowled" from data would state a fact the data does not contain.
+2026-10-13 — Learn moment may only repeat numbers shown to the model in its prompt (+ clock parts), not the whole scorecard — a one-sentence moment has no reason to cite other figures and a loose allow-list let "7 byes" pass.
+2026-10-13 — Rule text (`title`, `short`) is always copied from the rulebook and /api/learn registers speak kind `learn` — the model only writes one moment sentence; Hinglish is voiced from Devanagari.
+2026-10-13 — Minimal `shared/ai/{guard,provider}.ts` built early for /api/learn (no new dependency); Phase 3 extends them rather than replacing.
+2026-10-13 — Learn trigger lookback is the newest 2 events — a scrub should explain what is on screen, not something several balls old.
+2026-10-13 — Football/Kabaddi "Learn the rules" lives on a "More sports" section of /matches (those sports only exist as disabled tabs today, there are no cards).
+
+2026-10-13 — Fixed kabaddi baulk-line rule: not crossing it = raider OUT; empty raid = crossed but no points (PKL rules). Reviewed EN rulebook entries for lbw, drs, maiden, powerplay, no-ball, free-hit(+bowled-not-out), bye, kabaddi, football: OK.

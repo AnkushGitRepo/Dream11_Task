@@ -1,7 +1,8 @@
-import { cleanup, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it, beforeEach } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, beforeEach, vi } from 'vitest';
 import type { BallView } from '@shared/sports/cricket/state';
 import { updateSettings } from '@/features/settings/settingsStore';
+import { LearnContext } from '@/features/learn/LearnContext';
 import { BallChip } from './BallChip';
 
 afterEach(cleanup);
@@ -49,5 +50,43 @@ describe('BallChip', () => {
   it('has no free-hit tag by default', () => {
     render(<BallChip ball={ball({})} />);
     expect(screen.queryByText('FH')).toBeNull();
+  });
+
+  describe('Learn mode', () => {
+    const ctx = (on: boolean, ids: Record<number, string[]>, explain = vi.fn()) => ({
+      on,
+      sport: 'cricket' as const,
+      teachablesAt: (seq: number) => ids[seq] ?? [],
+      explain,
+    });
+
+    it('turns a teachable ball into a button with a tap-to-learn name', () => {
+      const explain = vi.fn();
+      render(
+        <LearnContext.Provider value={ctx(true, { 1: ['free-hit'] }, explain)}>
+          <BallChip ball={ball({ seq: 1, label: 'nb', tone: 'minor', clock: '18.3' })} />
+        </LearnContext.Provider>,
+      );
+      const btn = screen.getByRole('button', { name: /tap to learn: Free hit/ });
+      expect(btn).toHaveTextContent('nb');
+      fireEvent.click(btn);
+      expect(explain).toHaveBeenCalledWith(1);
+    });
+
+    it('stays a plain image when Learn is off or the ball teaches nothing', () => {
+      const { rerender } = render(
+        <LearnContext.Provider value={ctx(false, { 1: ['free-hit'] })}>
+          <BallChip ball={ball({ seq: 1 })} />
+        </LearnContext.Provider>,
+      );
+      expect(screen.queryByRole('button')).toBeNull();
+      rerender(
+        <LearnContext.Provider value={ctx(true, {})}>
+          <BallChip ball={ball({ seq: 1 })} />
+        </LearnContext.Provider>,
+      );
+      expect(screen.queryByRole('button')).toBeNull();
+      expect(screen.getByRole('img')).toBeInTheDocument();
+    });
   });
 });

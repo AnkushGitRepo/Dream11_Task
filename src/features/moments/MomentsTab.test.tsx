@@ -2,6 +2,7 @@ import { cleanup, fireEvent, render, screen, within } from '@testing-library/rea
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { STRINGS } from '@shared/i18n/strings';
 import { mockTimeline } from '@/mocks/match.mock';
+import { LearnContext } from '@/features/learn/LearnContext';
 import { MomentsTab } from './MomentsTab';
 import type { MomentFilter } from './types';
 
@@ -57,5 +58,24 @@ describe('MomentsTab', () => {
     if (!first) throw new Error('no rows');
     fireEvent.click(within(first).getByRole('button'));
     expect(onRecap).toHaveBeenCalledWith(2);
+  });
+
+  it('marks a teachable moment and explains it on tap (Learn mode)', () => {
+    const explain = vi.fn();
+    const value = {
+      on: true,
+      sport: 'cricket' as const,
+      teachablesAt: (seq: number) => (seq === 2 ? ['wide'] : []),
+      explain,
+    };
+    render(
+      <LearnContext.Provider value={value}>
+        <MomentsTab timeline={mockTimeline} position={5} filters={filters} onRecapFrom={vi.fn()} />
+      </LearnContext.Provider>,
+    );
+    const hint = screen.getAllByRole('button', { name: /learn:|seekhne ke liye tap karo/ });
+    expect(hint).toHaveLength(1);
+    fireEvent.click(hint[0] as HTMLElement);
+    expect(explain).toHaveBeenCalledWith(2);
   });
 });

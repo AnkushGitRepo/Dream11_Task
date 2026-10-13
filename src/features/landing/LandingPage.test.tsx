@@ -61,4 +61,13 @@ describe('LandingPage', () => {
     expect(panel).toHaveAttribute('lang', 'en-IN');
     act(() => undefined);
   });
+
+  it('has the Learn feature row with a mock card read from the rulebook', () => {
+    renderPage();
+    expect(screen.getByRole('heading', { name: 'New to a sport? Turn on Learn.' })).toBeInTheDocument();
+    const card = screen.getByRole('img', { name: /Example Learn card: Free hit/ });
+    expect(card).toHaveTextContent('LEARN · Free hit');
+    expect(card).toHaveTextContent('The ball after a no-ball');
+    expect(card).toHaveTextContent('bowled on the free hit');
+  });
 });

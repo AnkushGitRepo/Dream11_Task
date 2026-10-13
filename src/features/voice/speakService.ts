@@ -1,4 +1,4 @@
-export type SpeechKind = 'recap' | 'answer';
+export type SpeechKind = 'recap' | 'answer' | 'learn';
 
 /** Identifies server-generated text. The client never sends text to /api/speak. */
 export interface SpeechSource {

@@ -28,6 +28,16 @@ const UNKNOWN: Record<Lang, string> = {
   gu: 'આ માહિતી હજી મારી પાસે નથી — હું ફક્ત આ મેચનો ડેટા જોઈ શકું છું.',
 };
 
+/** A rule question was matched upstream: answer with the rulebook text, verbatim. */
+function ruleAnswer(facts: readonly Fact[], lang: Lang): string | null {
+  const get = (key: string) => facts.find((f) => f.key === key)?.label[lang];
+  const term = get('ruleTerm');
+  const short = get('ruleShort');
+  if (!term || !short) return null;
+  const detail = get('ruleDetail');
+  return detail ? `${term}: ${short} ${detail}` : `${term}: ${short}`;
+}
+
 export function detectIntent(question: string): Intent | null {
   const q = question.toLowerCase();
   for (const [intent, words] of KEYWORDS) {
@@ -41,6 +51,8 @@ export function answerFromFacts(
   facts: readonly Fact[],
   lang: Lang,
 ): Omit<MockAskResponse, 'id'> {
+  const rule = ruleAnswer(facts, lang);
+  if (rule) return { answer: rule, source: 'template' };
   const intent = detectIntent(question);
   const labels =
     intent === null

@@ -31,6 +31,27 @@ describe('AskTab', () => {
     expect(screen.getByText('Need 16 off 6 balls')).toBeInTheDocument();
   });
 
+  it('answers "what is X" from the rulebook, in the chosen language', async () => {
+    render(<AskTab matchId="m" getContext={ctx} sport="cricket" />);
+    const input = screen.getByRole('textbox');
+    fireEvent.change(input, { target: { value: 'what is a free hit?' } });
+    fireEvent.submit(input.closest('form') as HTMLFormElement);
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1300);
+    });
+    expect(screen.getByText(/The ball after a no-ball/)).toBeInTheDocument();
+    expect(screen.getByText(/Free hit:/)).toBeInTheDocument();
+  });
+
+  it('leaves match questions alone', async () => {
+    render(<AskTab matchId="m" getContext={ctx} sport="cricket" />);
+    fireEvent.click(screen.getByRole('button', { name: 'How many runs are needed?' }));
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1300);
+    });
+    expect(screen.queryByText(/The ball after a no-ball/)).toBeNull();
+  });
+
   it('recovers from an error via Retry', async () => {
     window.history.replaceState(null, '', '/?ask=error');
     render(<AskTab matchId="m" getContext={ctx} />);

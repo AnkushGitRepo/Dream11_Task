@@ -4,6 +4,7 @@ import { AppBar } from '@/components/AppBar';
 import { ErrorState } from '@/components/ErrorState';
 import { LangChip } from '@/components/LangChip';
 import { SportTabs, type SportTab } from '@/components/SportTabs';
+import { LearnSports } from '@/features/learn';
 import { AllReplays, Featured, LiveNow, MatchesSkeleton, useMatchesIndex } from '@/features/matches';
 import { updateSettings, useSettings } from '@/features/settings/settingsStore';
 import { useLangEffects } from '@/i18n/useLangEffects';
@@ -66,6 +67,7 @@ export default function Matches() {
               <AllReplays matches={state.matches} />
             </>
           ) : null}
+          <LearnSports />
         </div>
       </main>
     </>

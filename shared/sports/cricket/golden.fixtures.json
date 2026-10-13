@@ -1,0 +1,2170 @@
+{
+  "pak-ind-2022-t20wc-mcg": {
+    "cricsheetId": "1298150",
+    "innings": [
+      {
+        "period": 1,
+        "checkpoints": [
+          {
+            "label": "wicket 1 (1.1)",
+            "afterDelivery": 8,
+            "score": 1,
+            "wkts": 1,
+            "overs": "1.1",
+            "legalBalls": 7,
+            "batters": {
+              "Mohammad Rizwan": [
+                0,
+                6
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "1-0-1-0",
+              "Arshdeep Singh": "0.1-0-0-1"
+            },
+            "extras": 1,
+            "crr": 0.86,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 2 (4.0)",
+            "afterDelivery": 26,
+            "score": 15,
+            "wkts": 2,
+            "overs": "4.0",
+            "legalBalls": 24,
+            "batters": {
+              "Mohammad Rizwan": [
+                4,
+                12
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ],
+              "Shan Masood": [
+                9,
+                11
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "2-0-5-0",
+              "Arshdeep Singh": "2-0-10-2"
+            },
+            "extras": 2,
+            "crr": 3.75,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "6.0",
+            "afterDelivery": 38,
+            "score": 32,
+            "wkts": 2,
+            "overs": "6.0",
+            "legalBalls": 36,
+            "batters": {
+              "Mohammad Rizwan": [
+                4,
+                12
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ],
+              "Shan Masood": [
+                19,
+                17
+              ],
+              "Iftikhar Ahmed": [
+                7,
+                6
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "3-0-14-0",
+              "Arshdeep Singh": "2-0-10-2",
+              "Mohammed Shami": "1-0-8-0"
+            },
+            "extras": 2,
+            "crr": 5.33,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 17,
+              "balls": 12
+            }
+          },
+          {
+            "label": "10.0",
+            "afterDelivery": 63,
+            "score": 60,
+            "wkts": 2,
+            "overs": "10.0",
+            "legalBalls": 60,
+            "batters": {
+              "Mohammad Rizwan": [
+                4,
+                12
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ],
+              "Shan Masood": [
+                29,
+                26
+              ],
+              "Iftikhar Ahmed": [
+                21,
+                21
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "3-0-14-0",
+              "Arshdeep Singh": "2-0-10-2",
+              "Mohammed Shami": "2-0-10-0",
+              "HH Pandya": "2-0-18-0",
+              "R Ashwin": "1-0-5-0"
+            },
+            "extras": 6,
+            "crr": 6,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 45,
+              "balls": 36
+            }
+          },
+          {
+            "label": "wicket 3 (12.2)",
+            "afterDelivery": 77,
+            "score": 91,
+            "wkts": 3,
+            "overs": "12.2",
+            "legalBalls": 74,
+            "batters": {
+              "Mohammad Rizwan": [
+                4,
+                12
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ],
+              "Shan Masood": [
+                30,
+                27
+              ],
+              "Iftikhar Ahmed": [
+                51,
+                34
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "3-0-14-0",
+              "Arshdeep Singh": "2-0-10-2",
+              "Mohammed Shami": "2.2-0-10-1",
+              "HH Pandya": "2-0-18-0",
+              "R Ashwin": "2-0-15-0",
+              "AR Patel": "1-0-21-0"
+            },
+            "extras": 6,
+            "crr": 7.38,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 4 (13.2)",
+            "afterDelivery": 83,
+            "score": 96,
+            "wkts": 4,
+            "overs": "13.2",
+            "legalBalls": 80,
+            "batters": {
+              "Mohammad Rizwan": [
+                4,
+                12
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ],
+              "Shan Masood": [
+                30,
+                27
+              ],
+              "Iftikhar Ahmed": [
+                51,
+                34
+              ],
+              "Shadab Khan": [
+                5,
+                6
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "3-0-14-0",
+              "Arshdeep Singh": "2-0-10-2",
+              "Mohammed Shami": "3-0-15-1",
+              "HH Pandya": "2.2-0-18-1",
+              "R Ashwin": "2-0-15-0",
+              "AR Patel": "1-0-21-0"
+            },
+            "extras": 6,
+            "crr": 7.2,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 5 (14.0)",
+            "afterDelivery": 87,
+            "score": 98,
+            "wkts": 5,
+            "overs": "14.0",
+            "legalBalls": 84,
+            "batters": {
+              "Mohammad Rizwan": [
+                4,
+                12
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ],
+              "Shan Masood": [
+                30,
+                27
+              ],
+              "Iftikhar Ahmed": [
+                51,
+                34
+              ],
+              "Shadab Khan": [
+                5,
+                6
+              ],
+              "Haider Ali": [
+                2,
+                4
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "3-0-14-0",
+              "Arshdeep Singh": "2-0-10-2",
+              "Mohammed Shami": "3-0-15-1",
+              "HH Pandya": "3-0-20-2",
+              "R Ashwin": "2-0-15-0",
+              "AR Patel": "1-0-21-0"
+            },
+            "extras": 6,
+            "crr": 7,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "15.0",
+            "afterDelivery": 94,
+            "score": 106,
+            "wkts": 5,
+            "overs": "15.0",
+            "legalBalls": 90,
+            "batters": {
+              "Mohammad Rizwan": [
+                4,
+                12
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ],
+              "Shan Masood": [
+                36,
+                31
+              ],
+              "Iftikhar Ahmed": [
+                51,
+                34
+              ],
+              "Shadab Khan": [
+                5,
+                6
+              ],
+              "Haider Ali": [
+                2,
+                4
+              ],
+              "Mohammad Nawaz": [
+                1,
+                2
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "3-0-14-0",
+              "Arshdeep Singh": "2-0-10-2",
+              "Mohammed Shami": "3-0-15-1",
+              "HH Pandya": "3-0-20-2",
+              "R Ashwin": "3-0-23-0",
+              "AR Patel": "1-0-21-0"
+            },
+            "extras": 7,
+            "crr": 7.07,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 8,
+              "balls": 6
+            }
+          },
+          {
+            "label": "wicket 6 (15.5)",
+            "afterDelivery": 99,
+            "score": 115,
+            "wkts": 6,
+            "overs": "15.5",
+            "legalBalls": 95,
+            "batters": {
+              "Mohammad Rizwan": [
+                4,
+                12
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ],
+              "Shan Masood": [
+                37,
+                32
+              ],
+              "Iftikhar Ahmed": [
+                51,
+                34
+              ],
+              "Shadab Khan": [
+                5,
+                6
+              ],
+              "Haider Ali": [
+                2,
+                4
+              ],
+              "Mohammad Nawaz": [
+                9,
+                6
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "3-0-14-0",
+              "Arshdeep Singh": "2-0-10-2",
+              "Mohammed Shami": "3-0-15-1",
+              "HH Pandya": "3.5-0-29-3",
+              "R Ashwin": "3-0-23-0",
+              "AR Patel": "1-0-21-0"
+            },
+            "extras": 7,
+            "crr": 7.26,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 7 (16.4)",
+            "afterDelivery": 104,
+            "score": 120,
+            "wkts": 7,
+            "overs": "16.4",
+            "legalBalls": 100,
+            "batters": {
+              "Mohammad Rizwan": [
+                4,
+                12
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ],
+              "Shan Masood": [
+                40,
+                34
+              ],
+              "Iftikhar Ahmed": [
+                51,
+                34
+              ],
+              "Shadab Khan": [
+                5,
+                6
+              ],
+              "Haider Ali": [
+                2,
+                4
+              ],
+              "Mohammad Nawaz": [
+                9,
+                6
+              ],
+              "Asif Ali": [
+                2,
+                3
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "3-0-14-0",
+              "Arshdeep Singh": "2.4-0-14-3",
+              "Mohammed Shami": "3-0-15-1",
+              "HH Pandya": "4-0-30-3",
+              "R Ashwin": "3-0-23-0",
+              "AR Patel": "1-0-21-0"
+            },
+            "extras": 7,
+            "crr": 7.2,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 8 (19.2)",
+            "afterDelivery": 122,
+            "score": 151,
+            "wkts": 8,
+            "overs": "19.2",
+            "legalBalls": 116,
+            "batters": {
+              "Mohammad Rizwan": [
+                4,
+                12
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ],
+              "Shan Masood": [
+                52,
+                42
+              ],
+              "Iftikhar Ahmed": [
+                51,
+                34
+              ],
+              "Shadab Khan": [
+                5,
+                6
+              ],
+              "Haider Ali": [
+                2,
+                4
+              ],
+              "Mohammad Nawaz": [
+                9,
+                6
+              ],
+              "Asif Ali": [
+                2,
+                3
+              ],
+              "Shaheen Shah Afridi": [
+                16,
+                8
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "3.2-0-16-1",
+              "Arshdeep Singh": "4-0-32-3",
+              "Mohammed Shami": "4-0-25-1",
+              "HH Pandya": "4-0-30-3",
+              "R Ashwin": "3-0-23-0",
+              "AR Patel": "1-0-21-0"
+            },
+            "extras": 10,
+            "crr": 7.81,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "final ball",
+            "afterDelivery": 126,
+            "score": 159,
+            "wkts": 8,
+            "overs": "20.0",
+            "legalBalls": 120,
+            "batters": {
+              "Mohammad Rizwan": [
+                4,
+                12
+              ],
+              "Babar Azam": [
+                0,
+                1
+              ],
+              "Shan Masood": [
+                52,
+                42
+              ],
+              "Iftikhar Ahmed": [
+                51,
+                34
+              ],
+              "Shadab Khan": [
+                5,
+                6
+              ],
+              "Haider Ali": [
+                2,
+                4
+              ],
+              "Mohammad Nawaz": [
+                9,
+                6
+              ],
+              "Asif Ali": [
+                2,
+                3
+              ],
+              "Shaheen Shah Afridi": [
+                16,
+                8
+              ],
+              "Haris Rauf": [
+                6,
+                4
+              ]
+            },
+            "bowlers": {
+              "B Kumar": "4-0-22-1",
+              "Arshdeep Singh": "4-0-32-3",
+              "Mohammed Shami": "4-0-25-1",
+              "HH Pandya": "4-0-30-3",
+              "R Ashwin": "3-0-23-0",
+              "AR Patel": "1-0-21-0"
+            },
+            "extras": 12,
+            "crr": 7.95,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 8,
+              "balls": 4
+            }
+          }
+        ]
+      },
+      {
+        "period": 2,
+        "checkpoints": [
+          {
+            "label": "wicket 1 (1.5)",
+            "afterDelivery": 11,
+            "score": 7,
+            "wkts": 1,
+            "overs": "1.5",
+            "legalBalls": 11,
+            "batters": {
+              "KL Rahul": [
+                4,
+                8
+              ],
+              "RG Sharma": [
+                3,
+                3
+              ]
+            },
+            "bowlers": {
+              "Shaheen Shah Afridi": "1-0-5-0",
+              "Naseem Shah": "0.5-0-2-1"
+            },
+            "extras": 0,
+            "crr": 3.82,
+            "target": 160,
+            "need": 153,
+            "ballsLeft": 109,
+            "rrr": 8.42,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 2 (3.2)",
+            "afterDelivery": 20,
+            "score": 10,
+            "wkts": 2,
+            "overs": "3.2",
+            "legalBalls": 20,
+            "batters": {
+              "KL Rahul": [
+                4,
+                8
+              ],
+              "RG Sharma": [
+                4,
+                7
+              ],
+              "V Kohli": [
+                2,
+                5
+              ]
+            },
+            "bowlers": {
+              "Shaheen Shah Afridi": "2-0-8-0",
+              "Naseem Shah": "1-0-2-1",
+              "Haris Rauf": "0.2-0-0-1"
+            },
+            "extras": 0,
+            "crr": 3,
+            "target": 160,
+            "need": 150,
+            "ballsLeft": 100,
+            "rrr": 9,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 3 (5.3)",
+            "afterDelivery": 33,
+            "score": 26,
+            "wkts": 3,
+            "overs": "5.3",
+            "legalBalls": 33,
+            "batters": {
+              "KL Rahul": [
+                4,
+                8
+              ],
+              "RG Sharma": [
+                4,
+                7
+              ],
+              "V Kohli": [
+                3,
+                8
+              ],
+              "SA Yadav": [
+                15,
+                10
+              ]
+            },
+            "bowlers": {
+              "Shaheen Shah Afridi": "2-0-8-0",
+              "Naseem Shah": "2-0-7-1",
+              "Haris Rauf": "1.3-0-11-2"
+            },
+            "extras": 0,
+            "crr": 4.73,
+            "target": 160,
+            "need": 134,
+            "ballsLeft": 87,
+            "rrr": 9.24,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "6.0",
+            "afterDelivery": 36,
+            "score": 31,
+            "wkts": 3,
+            "overs": "6.0",
+            "legalBalls": 36,
+            "batters": {
+              "KL Rahul": [
+                4,
+                8
+              ],
+              "RG Sharma": [
+                4,
+                7
+              ],
+              "V Kohli": [
+                5,
+                9
+              ],
+              "SA Yadav": [
+                15,
+                10
+              ],
+              "AR Patel": [
+                2,
+                2
+              ]
+            },
+            "bowlers": {
+              "Shaheen Shah Afridi": "2-0-8-0",
+              "Naseem Shah": "2-0-7-1",
+              "Haris Rauf": "2-0-15-2"
+            },
+            "extras": 1,
+            "crr": 5.17,
+            "target": 160,
+            "need": 129,
+            "ballsLeft": 84,
+            "rrr": 9.21,
+            "partnership": {
+              "runs": 5,
+              "balls": 3
+            }
+          },
+          {
+            "label": "wicket 4 (6.1)",
+            "afterDelivery": 37,
+            "score": 31,
+            "wkts": 4,
+            "overs": "6.1",
+            "legalBalls": 37,
+            "batters": {
+              "KL Rahul": [
+                4,
+                8
+              ],
+              "RG Sharma": [
+                4,
+                7
+              ],
+              "V Kohli": [
+                5,
+                9
+              ],
+              "SA Yadav": [
+                15,
+                10
+              ],
+              "AR Patel": [
+                2,
+                3
+              ]
+            },
+            "bowlers": {
+              "Shaheen Shah Afridi": "2-0-8-0",
+              "Naseem Shah": "2-0-7-1",
+              "Haris Rauf": "2-0-15-2",
+              "Shadab Khan": "0.1-0-0-0"
+            },
+            "extras": 1,
+            "crr": 5.03,
+            "target": 160,
+            "need": 129,
+            "ballsLeft": 83,
+            "rrr": 9.33,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "10.0",
+            "afterDelivery": 60,
+            "score": 45,
+            "wkts": 4,
+            "overs": "10.0",
+            "legalBalls": 60,
+            "batters": {
+              "KL Rahul": [
+                4,
+                8
+              ],
+              "RG Sharma": [
+                4,
+                7
+              ],
+              "V Kohli": [
+                12,
+                21
+              ],
+              "SA Yadav": [
+                15,
+                10
+              ],
+              "AR Patel": [
+                2,
+                3
+              ],
+              "HH Pandya": [
+                7,
+                11
+              ]
+            },
+            "bowlers": {
+              "Shaheen Shah Afridi": "2-0-8-0",
+              "Naseem Shah": "2-0-7-1",
+              "Haris Rauf": "2-0-15-2",
+              "Shadab Khan": "2-0-5-0",
+              "Mohammad Nawaz": "2-0-9-0"
+            },
+            "extras": 1,
+            "crr": 4.5,
+            "target": 160,
+            "need": 115,
+            "ballsLeft": 60,
+            "rrr": 11.5,
+            "partnership": {
+              "runs": 14,
+              "balls": 23
+            }
+          },
+          {
+            "label": "15.0",
+            "afterDelivery": 90,
+            "score": 100,
+            "wkts": 4,
+            "overs": "15.0",
+            "legalBalls": 90,
+            "batters": {
+              "KL Rahul": [
+                4,
+                8
+              ],
+              "RG Sharma": [
+                4,
+                7
+              ],
+              "V Kohli": [
+                42,
+                37
+              ],
+              "SA Yadav": [
+                15,
+                10
+              ],
+              "AR Patel": [
+                2,
+                3
+              ],
+              "HH Pandya": [
+                32,
+                25
+              ]
+            },
+            "bowlers": {
+              "Shaheen Shah Afridi": "3-0-17-0",
+              "Naseem Shah": "3-0-17-1",
+              "Haris Rauf": "2-0-15-2",
+              "Shadab Khan": "4-0-21-0",
+              "Mohammad Nawaz": "3-0-29-0"
+            },
+            "extras": 1,
+            "crr": 6.67,
+            "target": 160,
+            "need": 60,
+            "ballsLeft": 30,
+            "rrr": 12,
+            "partnership": {
+              "runs": 69,
+              "balls": 53
+            }
+          },
+          {
+            "label": "wicket 5 (19.1)",
+            "afterDelivery": 117,
+            "score": 144,
+            "wkts": 5,
+            "overs": "19.1",
+            "legalBalls": 115,
+            "batters": {
+              "KL Rahul": [
+                4,
+                8
+              ],
+              "RG Sharma": [
+                4,
+                7
+              ],
+              "V Kohli": [
+                74,
+                50
+              ],
+              "SA Yadav": [
+                15,
+                10
+              ],
+              "AR Patel": [
+                2,
+                3
+              ],
+              "HH Pandya": [
+                40,
+                37
+              ]
+            },
+            "bowlers": {
+              "Shaheen Shah Afridi": "4-0-34-0",
+              "Naseem Shah": "4-0-23-1",
+              "Haris Rauf": "4-0-36-2",
+              "Shadab Khan": "4-0-21-0",
+              "Mohammad Nawaz": "3.1-0-29-1"
+            },
+            "extras": 5,
+            "crr": 7.51,
+            "target": 160,
+            "need": 16,
+            "ballsLeft": 5,
+            "rrr": 19.2,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 6 (19.5)",
+            "afterDelivery": 123,
+            "score": 158,
+            "wkts": 6,
+            "overs": "19.5",
+            "legalBalls": 119,
+            "batters": {
+              "KL Rahul": [
+                4,
+                8
+              ],
+              "RG Sharma": [
+                4,
+                7
+              ],
+              "V Kohli": [
+                82,
+                53
+              ],
+              "SA Yadav": [
+                15,
+                10
+              ],
+              "AR Patel": [
+                2,
+                3
+              ],
+              "HH Pandya": [
+                40,
+                37
+              ],
+              "KD Karthik": [
+                1,
+                2
+              ]
+            },
+            "bowlers": {
+              "Shaheen Shah Afridi": "4-0-34-0",
+              "Naseem Shah": "4-0-23-1",
+              "Haris Rauf": "4-0-36-2",
+              "Shadab Khan": "4-0-21-0",
+              "Mohammad Nawaz": "3.5-0-40-2"
+            },
+            "extras": 10,
+            "crr": 7.97,
+            "target": 160,
+            "need": 2,
+            "ballsLeft": 1,
+            "rrr": 12,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "final ball",
+            "afterDelivery": 125,
+            "score": 160,
+            "wkts": 6,
+            "overs": "20.0",
+            "legalBalls": 120,
+            "batters": {
+              "KL Rahul": [
+                4,
+                8
+              ],
+              "RG Sharma": [
+                4,
+                7
+              ],
+              "V Kohli": [
+                82,
+                53
+              ],
+              "SA Yadav": [
+                15,
+                10
+              ],
+              "AR Patel": [
+                2,
+                3
+              ],
+              "HH Pandya": [
+                40,
+                37
+              ],
+              "KD Karthik": [
+                1,
+                2
+              ],
+              "R Ashwin": [
+                1,
+                1
+              ]
+            },
+            "bowlers": {
+              "Shaheen Shah Afridi": "4-0-34-0",
+              "Naseem Shah": "4-0-23-1",
+              "Haris Rauf": "4-0-36-2",
+              "Shadab Khan": "4-0-21-0",
+              "Mohammad Nawaz": "4-0-42-2"
+            },
+            "extras": 11,
+            "crr": 8,
+            "target": 160,
+            "need": 0,
+            "ballsLeft": 0,
+            "rrr": null,
+            "partnership": {
+              "runs": 2,
+              "balls": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "ind-sa-2024-t20wc-final": {
+    "cricsheetId": "1415755",
+    "innings": [
+      {
+        "period": 1,
+        "checkpoints": [
+          {
+            "label": "wicket 1 (1.4)",
+            "afterDelivery": 10,
+            "score": 23,
+            "wkts": 1,
+            "overs": "1.4",
+            "legalBalls": 10,
+            "batters": {
+              "RG Sharma": [
+                9,
+                5
+              ],
+              "V Kohli": [
+                14,
+                5
+              ]
+            },
+            "bowlers": {
+              "M Jansen": "1-0-15-0",
+              "KA Maharaj": "0.4-0-8-1"
+            },
+            "extras": 0,
+            "crr": 13.8,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 2 (2.0)",
+            "afterDelivery": 12,
+            "score": 23,
+            "wkts": 2,
+            "overs": "2.0",
+            "legalBalls": 12,
+            "batters": {
+              "RG Sharma": [
+                9,
+                5
+              ],
+              "V Kohli": [
+                14,
+                5
+              ],
+              "RR Pant": [
+                0,
+                2
+              ]
+            },
+            "bowlers": {
+              "M Jansen": "1-0-15-0",
+              "KA Maharaj": "1-0-8-2"
+            },
+            "extras": 0,
+            "crr": 11.5,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 3 (4.3)",
+            "afterDelivery": 27,
+            "score": 34,
+            "wkts": 3,
+            "overs": "4.3",
+            "legalBalls": 27,
+            "batters": {
+              "RG Sharma": [
+                9,
+                5
+              ],
+              "V Kohli": [
+                22,
+                16
+              ],
+              "RR Pant": [
+                0,
+                2
+              ],
+              "SA Yadav": [
+                3,
+                4
+              ]
+            },
+            "bowlers": {
+              "M Jansen": "1-0-15-0",
+              "KA Maharaj": "2-0-14-2",
+              "K Rabada": "1.3-0-5-1"
+            },
+            "extras": 0,
+            "crr": 7.56,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "6.0",
+            "afterDelivery": 36,
+            "score": 45,
+            "wkts": 3,
+            "overs": "6.0",
+            "legalBalls": 36,
+            "batters": {
+              "RG Sharma": [
+                9,
+                5
+              ],
+              "V Kohli": [
+                25,
+                19
+              ],
+              "RR Pant": [
+                0,
+                2
+              ],
+              "SA Yadav": [
+                3,
+                4
+              ],
+              "AR Patel": [
+                8,
+                6
+              ]
+            },
+            "bowlers": {
+              "M Jansen": "1-0-15-0",
+              "KA Maharaj": "2-0-14-2",
+              "K Rabada": "2-0-10-1",
+              "AK Markram": "1-0-6-0"
+            },
+            "extras": 0,
+            "crr": 7.5,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 11,
+              "balls": 9
+            }
+          },
+          {
+            "label": "10.0",
+            "afterDelivery": 61,
+            "score": 75,
+            "wkts": 3,
+            "overs": "10.0",
+            "legalBalls": 60,
+            "batters": {
+              "RG Sharma": [
+                9,
+                5
+              ],
+              "V Kohli": [
+                36,
+                29
+              ],
+              "RR Pant": [
+                0,
+                2
+              ],
+              "SA Yadav": [
+                3,
+                4
+              ],
+              "AR Patel": [
+                26,
+                20
+              ]
+            },
+            "bowlers": {
+              "M Jansen": "1-0-15-0",
+              "KA Maharaj": "3-0-23-2",
+              "K Rabada": "2-0-10-1",
+              "AK Markram": "2-0-16-0",
+              "A Nortje": "1-0-4-0",
+              "T Shamsi": "1-0-7-0"
+            },
+            "extras": 1,
+            "crr": 7.5,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 41,
+              "balls": 33
+            }
+          },
+          {
+            "label": "wicket 4 (13.3)",
+            "afterDelivery": 85,
+            "score": 106,
+            "wkts": 4,
+            "overs": "13.3",
+            "legalBalls": 81,
+            "batters": {
+              "RG Sharma": [
+                9,
+                5
+              ],
+              "V Kohli": [
+                43,
+                39
+              ],
+              "RR Pant": [
+                0,
+                2
+              ],
+              "SA Yadav": [
+                3,
+                4
+              ],
+              "AR Patel": [
+                47,
+                31
+              ]
+            },
+            "bowlers": {
+              "M Jansen": "2-0-22-0",
+              "KA Maharaj": "3-0-23-2",
+              "K Rabada": "2.3-0-18-1",
+              "AK Markram": "2-0-16-0",
+              "A Nortje": "2-0-9-0",
+              "T Shamsi": "2-0-18-0"
+            },
+            "extras": 4,
+            "crr": 7.85,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "15.0",
+            "afterDelivery": 94,
+            "score": 118,
+            "wkts": 4,
+            "overs": "15.0",
+            "legalBalls": 90,
+            "batters": {
+              "RG Sharma": [
+                9,
+                5
+              ],
+              "V Kohli": [
+                46,
+                43
+              ],
+              "RR Pant": [
+                0,
+                2
+              ],
+              "SA Yadav": [
+                3,
+                4
+              ],
+              "AR Patel": [
+                47,
+                31
+              ],
+              "S Dube": [
+                9,
+                5
+              ]
+            },
+            "bowlers": {
+              "M Jansen": "3-0-32-0",
+              "KA Maharaj": "3-0-23-2",
+              "K Rabada": "3-0-20-1",
+              "AK Markram": "2-0-16-0",
+              "A Nortje": "2-0-9-0",
+              "T Shamsi": "2-0-18-0"
+            },
+            "extras": 4,
+            "crr": 7.87,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 12,
+              "balls": 9
+            }
+          },
+          {
+            "label": "wicket 5 (18.5)",
+            "afterDelivery": 119,
+            "score": 163,
+            "wkts": 5,
+            "overs": "18.5",
+            "legalBalls": 113,
+            "batters": {
+              "RG Sharma": [
+                9,
+                5
+              ],
+              "V Kohli": [
+                76,
+                59
+              ],
+              "RR Pant": [
+                0,
+                2
+              ],
+              "SA Yadav": [
+                3,
+                4
+              ],
+              "AR Patel": [
+                47,
+                31
+              ],
+              "S Dube": [
+                22,
+                13
+              ]
+            },
+            "bowlers": {
+              "M Jansen": "3.5-0-45-1",
+              "KA Maharaj": "3-0-23-2",
+              "K Rabada": "4-0-36-1",
+              "AK Markram": "2-0-16-0",
+              "A Nortje": "3-0-17-0",
+              "T Shamsi": "3-0-26-0"
+            },
+            "extras": 6,
+            "crr": 8.65,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 6 (19.4)",
+            "afterDelivery": 125,
+            "score": 174,
+            "wkts": 6,
+            "overs": "19.4",
+            "legalBalls": 118,
+            "batters": {
+              "RG Sharma": [
+                9,
+                5
+              ],
+              "V Kohli": [
+                76,
+                59
+              ],
+              "RR Pant": [
+                0,
+                2
+              ],
+              "SA Yadav": [
+                3,
+                4
+              ],
+              "AR Patel": [
+                47,
+                31
+              ],
+              "S Dube": [
+                27,
+                16
+              ],
+              "HH Pandya": [
+                5,
+                2
+              ]
+            },
+            "bowlers": {
+              "M Jansen": "4-0-49-1",
+              "KA Maharaj": "3-0-23-2",
+              "K Rabada": "4-0-36-1",
+              "AK Markram": "2-0-16-0",
+              "A Nortje": "3.4-0-24-1",
+              "T Shamsi": "3-0-26-0"
+            },
+            "extras": 7,
+            "crr": 8.85,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "final ball",
+            "afterDelivery": 127,
+            "score": 176,
+            "wkts": 7,
+            "overs": "20.0",
+            "legalBalls": 120,
+            "batters": {
+              "RG Sharma": [
+                9,
+                5
+              ],
+              "V Kohli": [
+                76,
+                59
+              ],
+              "RR Pant": [
+                0,
+                2
+              ],
+              "SA Yadav": [
+                3,
+                4
+              ],
+              "AR Patel": [
+                47,
+                31
+              ],
+              "S Dube": [
+                27,
+                16
+              ],
+              "HH Pandya": [
+                5,
+                2
+              ],
+              "RA Jadeja": [
+                2,
+                2
+              ]
+            },
+            "bowlers": {
+              "M Jansen": "4-0-49-1",
+              "KA Maharaj": "3-0-23-2",
+              "K Rabada": "4-0-36-1",
+              "AK Markram": "2-0-16-0",
+              "A Nortje": "4-0-26-2",
+              "T Shamsi": "3-0-26-0"
+            },
+            "extras": 7,
+            "crr": 8.8,
+            "target": null,
+            "need": null,
+            "ballsLeft": null,
+            "rrr": null,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          }
+        ]
+      },
+      {
+        "period": 2,
+        "checkpoints": [
+          {
+            "label": "wicket 1 (1.3)",
+            "afterDelivery": 9,
+            "score": 7,
+            "wkts": 1,
+            "overs": "1.3",
+            "legalBalls": 9,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                1,
+                4
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "1-0-5-0",
+              "JJ Bumrah": "0.3-0-0-1"
+            },
+            "extras": 2,
+            "crr": 4.67,
+            "target": 177,
+            "need": 170,
+            "ballsLeft": 111,
+            "rrr": 9.19,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 2 (2.3)",
+            "afterDelivery": 15,
+            "score": 12,
+            "wkts": 2,
+            "overs": "2.3",
+            "legalBalls": 15,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                2,
+                5
+              ],
+              "AK Markram": [
+                4,
+                5
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "1.3-0-6-1",
+              "JJ Bumrah": "1-0-4-1"
+            },
+            "extras": 2,
+            "crr": 4.8,
+            "target": 177,
+            "need": 165,
+            "ballsLeft": 105,
+            "rrr": 9.43,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "6.0",
+            "afterDelivery": 36,
+            "score": 42,
+            "wkts": 2,
+            "overs": "6.0",
+            "legalBalls": 36,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                20,
+                15
+              ],
+              "AK Markram": [
+                4,
+                5
+              ],
+              "T Stubbs": [
+                12,
+                11
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "2-0-8-1",
+              "JJ Bumrah": "2-0-12-1",
+              "AR Patel": "1-0-10-0",
+              "Kuldeep Yadav": "1-0-10-0"
+            },
+            "extras": 2,
+            "crr": 7,
+            "target": 177,
+            "need": 135,
+            "ballsLeft": 84,
+            "rrr": 9.64,
+            "partnership": {
+              "runs": 30,
+              "balls": 21
+            }
+          },
+          {
+            "label": "wicket 3 (8.5)",
+            "afterDelivery": 53,
+            "score": 70,
+            "wkts": 3,
+            "overs": "8.5",
+            "legalBalls": 53,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                29,
+                22
+              ],
+              "AK Markram": [
+                4,
+                5
+              ],
+              "T Stubbs": [
+                31,
+                21
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "2-0-8-1",
+              "JJ Bumrah": "2-0-12-1",
+              "AR Patel": "2.5-0-25-1",
+              "Kuldeep Yadav": "2-0-23-0"
+            },
+            "extras": 2,
+            "crr": 7.92,
+            "target": 177,
+            "need": 107,
+            "ballsLeft": 67,
+            "rrr": 9.58,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "10.0",
+            "afterDelivery": 61,
+            "score": 81,
+            "wkts": 3,
+            "overs": "10.0",
+            "legalBalls": 60,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                30,
+                23
+              ],
+              "AK Markram": [
+                4,
+                5
+              ],
+              "T Stubbs": [
+                31,
+                21
+              ],
+              "H Klaasen": [
+                8,
+                7
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "2-0-8-1",
+              "JJ Bumrah": "2-0-12-1",
+              "AR Patel": "3-0-25-1",
+              "Kuldeep Yadav": "2-0-23-0",
+              "HH Pandya": "1-0-10-0"
+            },
+            "extras": 4,
+            "crr": 8.1,
+            "target": 177,
+            "need": 96,
+            "ballsLeft": 60,
+            "rrr": 9.6,
+            "partnership": {
+              "runs": 11,
+              "balls": 7
+            }
+          },
+          {
+            "label": "wicket 4 (12.3)",
+            "afterDelivery": 76,
+            "score": 106,
+            "wkts": 4,
+            "overs": "12.3",
+            "legalBalls": 75,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                39,
+                31
+              ],
+              "AK Markram": [
+                4,
+                5
+              ],
+              "T Stubbs": [
+                31,
+                21
+              ],
+              "H Klaasen": [
+                24,
+                14
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "2.3-0-13-2",
+              "JJ Bumrah": "2-0-12-1",
+              "AR Patel": "3-0-25-1",
+              "Kuldeep Yadav": "3-0-31-0",
+              "HH Pandya": "1-0-10-0",
+              "RA Jadeja": "1-0-12-0"
+            },
+            "extras": 4,
+            "crr": 8.48,
+            "target": 177,
+            "need": 71,
+            "ballsLeft": 45,
+            "rrr": 9.47,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "15.0",
+            "afterDelivery": 93,
+            "score": 147,
+            "wkts": 4,
+            "overs": "15.0",
+            "legalBalls": 90,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                39,
+                31
+              ],
+              "AK Markram": [
+                4,
+                5
+              ],
+              "T Stubbs": [
+                31,
+                21
+              ],
+              "H Klaasen": [
+                49,
+                22
+              ],
+              "DA Miller": [
+                14,
+                7
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "3-0-16-2",
+              "JJ Bumrah": "2-0-12-1",
+              "AR Patel": "4-0-49-1",
+              "Kuldeep Yadav": "4-0-45-0",
+              "HH Pandya": "1-0-10-0",
+              "RA Jadeja": "1-0-12-0"
+            },
+            "extras": 6,
+            "crr": 9.8,
+            "target": 177,
+            "need": 30,
+            "ballsLeft": 30,
+            "rrr": 6,
+            "partnership": {
+              "runs": 41,
+              "balls": 15
+            }
+          },
+          {
+            "label": "wicket 5 (16.1)",
+            "afterDelivery": 100,
+            "score": 151,
+            "wkts": 5,
+            "overs": "16.1",
+            "legalBalls": 97,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                39,
+                31
+              ],
+              "AK Markram": [
+                4,
+                5
+              ],
+              "T Stubbs": [
+                31,
+                21
+              ],
+              "H Klaasen": [
+                52,
+                27
+              ],
+              "DA Miller": [
+                15,
+                9
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "3-0-16-2",
+              "JJ Bumrah": "3-0-16-1",
+              "AR Patel": "4-0-49-1",
+              "Kuldeep Yadav": "4-0-45-0",
+              "HH Pandya": "1.1-0-10-1",
+              "RA Jadeja": "1-0-12-0"
+            },
+            "extras": 6,
+            "crr": 9.34,
+            "target": 177,
+            "need": 26,
+            "ballsLeft": 23,
+            "rrr": 6.78,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 6 (17.4)",
+            "afterDelivery": 109,
+            "score": 156,
+            "wkts": 6,
+            "overs": "17.4",
+            "legalBalls": 106,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                39,
+                31
+              ],
+              "AK Markram": [
+                4,
+                5
+              ],
+              "T Stubbs": [
+                31,
+                21
+              ],
+              "H Klaasen": [
+                52,
+                27
+              ],
+              "DA Miller": [
+                18,
+                14
+              ],
+              "M Jansen": [
+                2,
+                4
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "3-0-16-2",
+              "JJ Bumrah": "3.4-0-17-2",
+              "AR Patel": "4-0-49-1",
+              "Kuldeep Yadav": "4-0-45-0",
+              "HH Pandya": "2-0-14-1",
+              "RA Jadeja": "1-0-12-0"
+            },
+            "extras": 6,
+            "crr": 8.83,
+            "target": 177,
+            "need": 21,
+            "ballsLeft": 14,
+            "rrr": 9,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 7 (19.1)",
+            "afterDelivery": 118,
+            "score": 161,
+            "wkts": 7,
+            "overs": "19.1",
+            "legalBalls": 115,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                39,
+                31
+              ],
+              "AK Markram": [
+                4,
+                5
+              ],
+              "T Stubbs": [
+                31,
+                21
+              ],
+              "H Klaasen": [
+                52,
+                27
+              ],
+              "DA Miller": [
+                21,
+                17
+              ],
+              "M Jansen": [
+                2,
+                4
+              ],
+              "KA Maharaj": [
+                2,
+                6
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "4-0-20-2",
+              "JJ Bumrah": "4-0-18-2",
+              "AR Patel": "4-0-49-1",
+              "Kuldeep Yadav": "4-0-45-0",
+              "HH Pandya": "2.1-0-14-2",
+              "RA Jadeja": "1-0-12-0"
+            },
+            "extras": 6,
+            "crr": 8.4,
+            "target": 177,
+            "need": 16,
+            "ballsLeft": 5,
+            "rrr": 19.2,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "wicket 8 (19.5)",
+            "afterDelivery": 123,
+            "score": 168,
+            "wkts": 8,
+            "overs": "19.5",
+            "legalBalls": 119,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                39,
+                31
+              ],
+              "AK Markram": [
+                4,
+                5
+              ],
+              "T Stubbs": [
+                31,
+                21
+              ],
+              "H Klaasen": [
+                52,
+                27
+              ],
+              "DA Miller": [
+                21,
+                17
+              ],
+              "M Jansen": [
+                2,
+                4
+              ],
+              "KA Maharaj": [
+                2,
+                7
+              ],
+              "K Rabada": [
+                4,
+                3
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "4-0-20-2",
+              "JJ Bumrah": "4-0-18-2",
+              "AR Patel": "4-0-49-1",
+              "Kuldeep Yadav": "4-0-45-0",
+              "HH Pandya": "2.5-0-19-3",
+              "RA Jadeja": "1-0-12-0"
+            },
+            "extras": 9,
+            "crr": 8.47,
+            "target": 177,
+            "need": 9,
+            "ballsLeft": 1,
+            "rrr": 54,
+            "partnership": {
+              "runs": 0,
+              "balls": 0
+            }
+          },
+          {
+            "label": "final ball",
+            "afterDelivery": 124,
+            "score": 169,
+            "wkts": 8,
+            "overs": "20.0",
+            "legalBalls": 120,
+            "batters": {
+              "RR Hendricks": [
+                4,
+                5
+              ],
+              "Q de Kock": [
+                39,
+                31
+              ],
+              "AK Markram": [
+                4,
+                5
+              ],
+              "T Stubbs": [
+                31,
+                21
+              ],
+              "H Klaasen": [
+                52,
+                27
+              ],
+              "DA Miller": [
+                21,
+                17
+              ],
+              "M Jansen": [
+                2,
+                4
+              ],
+              "KA Maharaj": [
+                2,
+                7
+              ],
+              "K Rabada": [
+                4,
+                3
+              ],
+              "A Nortje": [
+                1,
+                1
+              ]
+            },
+            "bowlers": {
+              "Arshdeep Singh": "4-0-20-2",
+              "JJ Bumrah": "4-0-18-2",
+              "AR Patel": "4-0-49-1",
+              "Kuldeep Yadav": "4-0-45-0",
+              "HH Pandya": "3-0-20-3",
+              "RA Jadeja": "1-0-12-0"
+            },
+            "extras": 9,
+            "crr": 8.45,
+            "target": 177,
+            "need": 8,
+            "ballsLeft": 0,
+            "rrr": null,
+            "partnership": {
+              "runs": 1,
+              "balls": 1
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

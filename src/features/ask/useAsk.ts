@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { Lang } from '@shared/sports/types';
+import { lookupRule, ruleFacts } from '@shared/sports/rules';
+import type { Lang, SportId } from '@shared/sports/types';
 import { mockAsk } from '@/services/mockApi';
 import type { AskContext, AskTurn } from './types';
 
@@ -17,7 +18,12 @@ const isRateLimited = (err: unknown): boolean =>
  * Ask state machine: pending -> done | error. Immutable updates; a response is applied only if its
  * attempt number is still current, so retries and unmounts never resurrect stale answers.
  */
-export function useAsk(matchId: string, lang: Lang, getContext: () => AskContext): AskApi {
+export function useAsk(
+  matchId: string,
+  lang: Lang,
+  getContext: () => AskContext,
+  sport: SportId = 'cricket',
+): AskApi {
   const [turns, setTurns] = useState<readonly AskTurn[]>([]);
   const nextId = useRef(0);
   const alive = useRef(true);
@@ -45,7 +51,11 @@ export function useAsk(matchId: string, lang: Lang, getContext: () => AskContext
   const run = useCallback(
     (turn: AskTurn) => {
       const { seq, facts } = contextRef.current();
-      mockAsk({ matchId, seq, question: turn.question, lang: turn.lang, facts: [...facts] }).then(
+      // "what is X / X kya hota hai / X shu che": the curated rule joins the facts, so the answer
+      // quotes the rulebook and never invents a rule.
+      const rule = lookupRule(turn.question, sport);
+      const askFacts = rule ? [...facts, ...ruleFacts(rule)] : [...facts];
+      mockAsk({ matchId, seq, question: turn.question, lang: turn.lang, facts: askFacts }).then(
         (res) =>
           patch(turn.id, turn.attempt, {
             status: 'done',
@@ -60,7 +70,7 @@ export function useAsk(matchId: string, lang: Lang, getContext: () => AskContext
           }),
       );
     },
-    [matchId, patch],
+    [matchId, sport, patch],
   );
 
   const send = useCallback(

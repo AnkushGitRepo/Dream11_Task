@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
+import { format } from '@shared/i18n/format';
 import { Settings } from 'lucide-react';
 import type { MatchTimeline } from '@shared/sports/types';
 import { AppBar } from '@/components/AppBar';
@@ -10,6 +11,7 @@ import { VerifiedInfoContext } from '@/components/VerifiedBadge';
 import { AskTab } from '@/features/ask';
 import { useAwayDetector } from '@/features/away';
 import { CatchUpDock, CatchUpTab, useCatchUp } from '@/features/catchup';
+import { LearnProvider, LearnToggle } from '@/features/learn';
 import { MomentsTab } from '@/features/moments';
 import { pickLabels } from '@/features/moments/types';
 import { createReplayStore, ReplayControl, useReplayClock } from '@/features/replay';
@@ -45,6 +47,7 @@ export function MatchRoomView({ timeline, sportUi }: MatchRoomViewProps) {
   const [lastCaughtUp, setLastCaughtUp] = useState(0);
   const [sheet, setSheet] = useState<SheetId>(null);
   const askInput = useRef<HTMLInputElement>(null);
+  const [askRequest, setAskRequest] = useState<{ id: number; text: string } | null>(null);
   const [heroRef, heroInView] = useInView<HTMLDivElement>();
   const { position } = snapshot;
   const baseFrom = Math.min(lastCaughtUp, position);
@@ -73,6 +76,14 @@ export function MatchRoomView({ timeline, sportUi }: MatchRoomViewProps) {
     setTab('ask');
     requestAnimationFrame(() => askInput.current?.focus());
   }, []);
+  // Learn card "More": jump to Ask and ask the match to explain the term further.
+  const askMore = useCallback(
+    (term: string) => {
+      setTab('ask');
+      setAskRequest((prev) => ({ id: (prev?.id ?? 0) + 1, text: format(t.learnExplainMore, { term }) }));
+    },
+    [t],
+  );
   useMatchShortcuts({
     onTogglePlay,
     onCatchUp,
@@ -106,95 +117,104 @@ export function MatchRoomView({ timeline, sportUi }: MatchRoomViewProps) {
 
   return (
     <VerifiedInfoContext.Provider value={() => setSheet('verified')}>
-      <div className={styles.page}>
-        <AppBar
-          backTo="/matches"
-          backLabel={t.backToMatches}
-          title={title}
-          subtitle={subtitle}
-          right={
-            <>
-              <LangChip onClick={() => setSheet('language')} />
-              <IconButton
-                label={t.settings}
-                onClick={() => setSheet('settings')}
-                icon={<Settings size={22} strokeWidth={1.75} />}
-              />
-            </>
-          }
-        />
-        <StickyScoreBar sportUi={sportUi} visible={!heroInView} {...score} />
-        <main className={styles.layout}>
-          <div className={styles.hero}>
-            <div ref={heroRef}>
-              <sportUi.ScoreHero
-                {...score}
-                replay={
-                  <ReplayControl
-                    store={store}
-                    snapshot={snapshot}
-                    onLongPressSpeed={() => setSheet('scrubber')}
-                  />
-                }
-              />
+      <LearnProvider timeline={timeline} store={store} onAskMore={askMore}>
+        <div className={styles.page}>
+          <AppBar
+            backTo="/matches"
+            backLabel={t.backToMatches}
+            title={title}
+            subtitle={subtitle}
+            right={
+              <>
+                <LearnToggle />
+                <LangChip onClick={() => setSheet('language')} />
+                <IconButton
+                  label={t.settings}
+                  onClick={() => setSheet('settings')}
+                  icon={<Settings size={22} strokeWidth={1.75} />}
+                />
+              </>
+            }
+          />
+          <StickyScoreBar sportUi={sportUi} visible={!heroInView} {...score} />
+          <main className={styles.layout}>
+            <div className={styles.hero}>
+              <div ref={heroRef}>
+                <sportUi.ScoreHero
+                  {...score}
+                  replay={
+                    <ReplayControl
+                      store={store}
+                      snapshot={snapshot}
+                      onLongPressSpeed={() => setSheet('scrubber')}
+                    />
+                  }
+                />
+              </div>
             </div>
-          </div>
-          <div className={styles.content}>
-            {away.missed ? (
-              <AwayBanner
-                label={away.missed.labels?.[lang] ?? away.missed.label}
-                onCatchUp={() => recapFrom(away.missed?.fromPosition ?? baseFrom)}
-                onDismiss={away.dismiss}
-              />
-            ) : null}
-            <div className={styles.tabs}>
-              <SegmentedControl label={t.tabsLabel} options={tabs} value={tab} onChange={setTab} />
+            <div className={styles.content}>
+              {away.missed ? (
+                <AwayBanner
+                  label={away.missed.labels?.[lang] ?? away.missed.label}
+                  onCatchUp={() => recapFrom(away.missed?.fromPosition ?? baseFrom)}
+                  onDismiss={away.dismiss}
+                />
+              ) : null}
+              <div className={styles.tabs}>
+                <SegmentedControl label={t.tabsLabel} options={tabs} value={tab} onChange={setTab} />
+              </div>
+              <div className={styles.panel} hidden={tab !== 'catchup'} role="tabpanel">
+                <CatchUpTab
+                  entries={catchUp.entries}
+                  lang={lang}
+                  caughtUp={caughtUp}
+                  onRetry={catchUp.retry}
+                  onSimulate={away.simulate}
+                  onAsk={() => setTab('ask')}
+                />
+              </div>
+              <div className={styles.panel} hidden={tab !== 'ask'} role="tabpanel">
+                <AskTab
+                  matchId={meta.id}
+                  getContext={getAskContext}
+                  inputRef={askInput}
+                  sport={meta.sport}
+                  request={askRequest}
+                />
+              </div>
+              <div className={styles.panel} hidden={tab !== 'moments'} role="tabpanel">
+                <MomentsTab
+                  timeline={timeline}
+                  position={position}
+                  filters={filters}
+                  kindLabels={pickLabels(sportUi.momentKindLabels, lang)}
+                  onRecapFrom={recapFrom}
+                />
+              </div>
+              {tab === 'catchup' ? (
+                <CatchUpDock
+                  caughtUp={caughtUp}
+                  onCatchUp={onCatchUp}
+                  onQuick={(n) => recapFrom(Math.max(0, store.getSnapshot().position - n))}
+                />
+              ) : null}
+              <ShortcutHint />
             </div>
-            <div className={styles.panel} hidden={tab !== 'catchup'} role="tabpanel">
-              <CatchUpTab
-                entries={catchUp.entries}
-                lang={lang}
-                caughtUp={caughtUp}
-                onRetry={catchUp.retry}
-                onSimulate={away.simulate}
-                onAsk={() => setTab('ask')}
-              />
-            </div>
-            <div className={styles.panel} hidden={tab !== 'ask'} role="tabpanel">
-              <AskTab matchId={meta.id} getContext={getAskContext} inputRef={askInput} />
-            </div>
-            <div className={styles.panel} hidden={tab !== 'moments'} role="tabpanel">
-              <MomentsTab
-                timeline={timeline}
-                position={position}
-                filters={filters}
-                kindLabels={pickLabels(sportUi.momentKindLabels, lang)}
-                onRecapFrom={recapFrom}
-              />
-            </div>
-            {tab === 'catchup' ? (
-              <CatchUpDock
-                caughtUp={caughtUp}
-                onCatchUp={onCatchUp}
-                onQuick={(n) => recapFrom(Math.max(0, store.getSnapshot().position - n))}
-              />
-            ) : null}
-            <ShortcutHint />
-          </div>
-        </main>
-        <MatchSheets
-          open={sheet}
-          onClose={() => setSheet(null)}
-          store={store}
-          snapshot={snapshot}
-          markers={markers}
-          labelAt={labelAt}
-          onRestart={() => {
-            store.restart();
-            setLastCaughtUp(0);
-          }}
-        />
-      </div>
+          </main>
+          <MatchSheets
+            open={sheet}
+            onClose={() => setSheet(null)}
+            store={store}
+            snapshot={snapshot}
+            markers={markers}
+            labelAt={labelAt}
+            onRestart={() => {
+              store.restart();
+              setLastCaughtUp(0);
+            }}
+          />
+        </div>
+      </LearnProvider>
     </VerifiedInfoContext.Provider>
   );
 }

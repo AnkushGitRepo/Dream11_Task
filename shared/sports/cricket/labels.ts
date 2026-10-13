@@ -1,5 +1,5 @@
-import { format } from '../../i18n/format';
-import type { Lang } from '../types';
+import { format } from '../../i18n/format.ts';
+import type { Lang } from '../types.ts';
 
 // Cricket-specific UI wording in en, hinglish (Hindi in Latin script), hi, gu.
 // Core strings (shared/i18n/*) must stay sport-neutral; cricket words live here.

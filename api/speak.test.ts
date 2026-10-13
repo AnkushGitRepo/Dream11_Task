@@ -30,6 +30,7 @@ function makeReq(opts: {
     },
     socket: { remoteAddress: '127.0.0.1' },
     destroy: () => undefined,
+    pause: () => undefined,
   });
   queueMicrotask(() => {
     if (opts.body !== undefined) emitter.emit('data', Buffer.from(opts.body));

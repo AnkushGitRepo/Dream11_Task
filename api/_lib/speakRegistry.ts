@@ -6,7 +6,7 @@ import { LruCache } from './cache';
 // Devanagari rendering). /api/speak can only voice what is registered here, so it cannot be used
 // as a free TTS proxy.
 
-export type SpeakKind = 'recap' | 'answer';
+export type SpeakKind = 'recap' | 'answer' | 'learn';
 
 export interface Speakable {
   readonly text: string;

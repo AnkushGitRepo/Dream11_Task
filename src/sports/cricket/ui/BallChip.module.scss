@@ -100,3 +100,36 @@
     }
   }
 }
+
+// Learn mode: a teachable ball becomes a button with a tiny accent dot (DESIGN_PROMPT §8).
+.learnBtn {
+  position: relative;
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  // Keeps the 44px minimum hit area around the 32px chip.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 2px;
+    border-radius: var(--r-pill);
+  }
+}
+
+.learnDot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--c-accent-text);
+}

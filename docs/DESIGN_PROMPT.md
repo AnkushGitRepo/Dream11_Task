@@ -233,3 +233,22 @@ export const mockMatch = {
 - [ ] Zero hard-coded colours/sizes outside `_tokens.scss`.
 
 =====
+
+
+---
+
+## 8. Learn mode (added Tue 13 Oct) — see PRD F12, ARCHITECTURE §7c
+- **LearnToggle:** pill in the AppBar right cluster (before LangChip): graduation-cap icon + "Learn". Off = surface-2 outline; On = `--c-accent-soft` bg, `--c-accent-text` label, icon filled. First time it's turned on: toast "Learn mode on — I'll explain rules as they happen."
+- **Teachable chips:** when Learn is on, BallChips/MomentItems carrying a teachable event get a tiny 6px dot (`--c-accent-text`) top-right; tapping explains it. `aria-label` adds "— tap to learn: Free hit".
+- **LearnCard** (appears when a teachable event happens live; mobile: slides up above the bottom action area, full width minus gutter; ≥900: top of right column):
+  - Overline `LEARN · FREE HIT` (label style) + close ×.
+  - Title = the term in the fan's language, Archivo 800 22px.
+  - `short` rule line (16px, text) — from the rulebook.
+  - `moment` line (16px, text-2) prefixed with a small "In this match" label — e.g. "Kohli bowled on a free hit, so NOT out. Ball was live, so they ran 3 byes."
+  - Actions: SpeakButton (auto-plays if Auto-read is on) · "Got it" (marks learned, dismiss) · "More" (opens Ask with "Explain <term> more").
+  - Never covers the score; never more than one card at a time; queued cards collapse into "+2 more to learn" chip.
+  - Reduced motion: fade only.
+- **Glossary sheet** (from Settings and from a "Learned 4 rules" chip in the Learn card footer): list of learned + not-yet-learned rules for this sport, each expandable with `detail` and Listen.
+- **Matches page:** Football/Kabaddi "SOON" cards gain a secondary action "Learn the rules" → glossary sheet for that sport (works without match data — shows multi-sport readiness).
+- **Landing:** add one feature row "New to a sport? Turn on Learn." with a mini LearnCard mock (free-hit example).
+- States: loading (card skeleton with title shown immediately from rulebook), AI failure (template moment), offline (rulebook text only).

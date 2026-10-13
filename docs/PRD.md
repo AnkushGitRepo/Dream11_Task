@@ -32,6 +32,7 @@ Evidence (see Sources):
 - G2 Support 4 languages (EN, Hinglish, HI, GU) for text, voice where the device allows.
 - G3 Let fans ask grounded questions about the current match state.
 - G4 Prove the design generalises to other sports (adapter architecture + football stub).
+- G5 Help new fans understand a sport's rules in the moment (Learn mode) — the barrier that stops Indians enjoying football, kabaddi etc.
 
 **Non-goals (v1)** — video/streaming, login/accounts, real live data feed, predictions/win probability or anything
 resembling betting, fantasy team features, push notifications, social/chat features.
@@ -50,6 +51,7 @@ resembling betting, fantasy team features, push notifications, social/chat featu
 | F9 | Grounding & guard | Every number in AI text exists in the facts; on violation the template text is shown with a "Template" badge. Zero ungrounded numbers in the eval set. |
 | F10 | Moments | Timeline of wickets, boundaries, milestones; "Recap from here". |
 | F11 | Landing + Matches | Landing explains the product; matches list with sport tabs (others "Soon"). |
+| F12 | **Learn mode** (rules coach) | Toggle "Learn". When a teachable event happens (cricket: no-ball, free hit, wide, bye/leg-bye, run-out, stumped, LBW, DRS/review, maiden, powerplay…; football: offside, penalty, VAR, cards…; kabaddi: raid, bonus line, super tackle, all-out…) a LearnCard explains the rule in 1–2 spoken sentences + what it meant in THIS moment, in the fan's language, with Puck voice. Each term explained once (remembered locally). Tapping any ball chip / asking "what is X?" also explains. Definitions come from a curated, hand-checked rulebook per sport — the AI only adapts wording and connects it to the moment; it never invents a rule. Demo hook: 19.4 free-hit — Kohli bowled but NOT out, 3 byes counted. |
 | Stretch | Share recap | Native share / WhatsApp link with recap text. |
 
 ## 5. UX principles

@@ -1,0 +1,98 @@
+{
+  "matches": [
+    {
+      "id": "pak-ind-2022-t20wc-mcg",
+      "sport": "cricket",
+      "title": "Pakistan vs India",
+      "subtitle": "ICC Men's T20 World Cup · Match 16 · Melbourne Cricket Ground",
+      "format": "T20",
+      "date": "2022-10-23",
+      "teams": [
+        {
+          "code": "PAK",
+          "name": "Pakistan"
+        },
+        {
+          "code": "IND",
+          "name": "India"
+        }
+      ],
+      "venue": "Melbourne Cricket Ground",
+      "result": "India won by 4 wickets",
+      "source": "Cricsheet",
+      "license": "ODC-BY 1.0",
+      "cricsheetId": "1298150",
+      "file": "pak-ind-2022-t20wc-mcg.json",
+      "events": 251,
+      "innings": [
+        {
+          "team": "PAK",
+          "score": 159,
+          "wkts": 8,
+          "legalBalls": 120
+        },
+        {
+          "team": "IND",
+          "score": 160,
+          "wkts": 6,
+          "legalBalls": 120
+        }
+      ],
+      "hook": "Last-ball thriller",
+      "featured": true,
+      "playable": true,
+      "defaultStart": {
+        "period": 2,
+        "over": 17
+      },
+      "defaultStartSeq": 229
+    },
+    {
+      "id": "ind-sa-2024-t20wc-final",
+      "sport": "cricket",
+      "title": "India vs South Africa",
+      "subtitle": "ICC Men's T20 World Cup · Final · Kensington Oval, Bridgetown, Barbados",
+      "format": "T20",
+      "date": "2024-06-29",
+      "teams": [
+        {
+          "code": "IND",
+          "name": "India"
+        },
+        {
+          "code": "SA",
+          "name": "South Africa"
+        }
+      ],
+      "venue": "Kensington Oval, Bridgetown, Barbados",
+      "result": "India won by 7 runs",
+      "source": "Cricsheet",
+      "license": "ODC-BY 1.0",
+      "cricsheetId": "1415755",
+      "file": "ind-sa-2024-t20wc-final.json",
+      "events": 251,
+      "innings": [
+        {
+          "team": "IND",
+          "score": 176,
+          "wkts": 7,
+          "legalBalls": 120
+        },
+        {
+          "team": "SA",
+          "score": 169,
+          "wkts": 8,
+          "legalBalls": 120
+        }
+      ],
+      "hook": "India won by 7 runs",
+      "featured": true,
+      "playable": true,
+      "defaultStart": {
+        "period": 2,
+        "over": 17
+      },
+      "defaultStartSeq": 232
+    }
+  ]
+}

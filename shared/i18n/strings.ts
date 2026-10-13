@@ -2,6 +2,7 @@ import type { Lang } from '../sports/types';
 import { askStrings } from './ask';
 import { catchupStrings } from './catchup';
 import { chromeStrings } from './chrome';
+import { learnStrings } from './learn';
 import { matchesStrings } from './matches';
 import { momentsStrings } from './moments';
 import { sheetsStrings } from './sheets';
@@ -16,6 +17,7 @@ const AREAS = [
   askStrings,
   momentsStrings,
   matchesStrings,
+  learnStrings,
 ] as const;
 
 function merge(lang: Lang) {

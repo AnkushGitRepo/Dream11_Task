@@ -45,6 +45,14 @@ export const PIPELINE: readonly { readonly title: string; readonly tag: string; 
 export const GUARD_SENTENCE =
   'Every number in the AI’s sentence is checked against the stats engine; if one does not match, a plain template replaces it.';
 
+export const LEARN_MOCK = {
+  ruleId: 'free-hit',
+  copy: 'Rules show up the moment they matter, like a free hit, an offside or a super tackle, in your language and read aloud. Each one is explained once, from a hand-checked rulebook.',
+  // 19.4 of Pakistan v India, 2022: bowled on the free hit, 3 byes run (docs/PRD.md F12).
+  moment: 'Kohli was bowled on the free hit, so he was not out: the ball stayed live and 3 byes were run.',
+  aria: 'Example Learn card: Free hit. The ball after a no-ball; the batter cannot be out bowled.',
+} as const;
+
 export const SPORTS: readonly { readonly name: string; readonly live: boolean }[] = [
   { name: 'Cricket', live: true },
   { name: 'Football', live: false },

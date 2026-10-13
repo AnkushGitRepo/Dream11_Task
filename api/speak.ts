@@ -13,7 +13,7 @@ const MAX_BODY_BYTES = 1024;
 const TTS_TIMEOUT_MS = 12_000;
 const AUDIO_CACHE_ENTRIES = 60;
 const ID_PATTERN = /^[A-Za-z0-9_-]{8,64}$/;
-const KINDS: readonly SpeakKind[] = ['recap', 'answer'];
+const KINDS: readonly SpeakKind[] = ['recap', 'answer', 'learn'];
 
 export interface SpeakDeps {
   readonly getProvider: () => TtsProvider | null;
@@ -119,7 +119,7 @@ export async function handleSpeak(req: IncomingMessage, res: ServerResponse, dep
 
   const body = parseBody(raw);
   if (!body) {
-    sendError(res, 'BAD_REQUEST', 'Expected { kind: "recap" | "answer", id }.');
+    sendError(res, 'BAD_REQUEST', 'Expected { kind: "recap" | "answer" | "learn", id }.');
     return log(400, 'rejected');
   }
 

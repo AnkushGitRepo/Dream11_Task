@@ -1,5 +1,6 @@
-import type { Fact, Lang, MatchTimeline } from '../types';
-import { bowlerFigures, getCricketState, shortName, type CricketBaseline } from './state';
+import type { Fact, Lang, MatchTimeline } from '../types.ts';
+import { bowlerFigures, getCricketState, shortName } from './state.ts';
+import type { CricketBaseline, CricketState } from './stateTypes.ts';
 
 const all = (s: string): Record<Lang, string> => ({ en: s, hinglish: s, hi: s, gu: s });
 
@@ -8,7 +9,11 @@ const all = (s: string): Record<Lang, string> => ({ en: s, hinglish: s, hi: s, g
  * Ask answers may use. Labels are complete phrases per language so answers can be built from them.
  */
 export function snapshotFacts(timeline: MatchTimeline, position: number, baseline: CricketBaseline): Fact[] {
-  const s = getCricketState(timeline, position, baseline);
+  return factsFromState(getCricketState(timeline, position, baseline));
+}
+
+/** Same facts from an already computed state (used with the innings-aware getCricketStateAt). */
+export function factsFromState(s: CricketState): Fact[] {
   const facts: Fact[] = [
     {
       key: 'score',

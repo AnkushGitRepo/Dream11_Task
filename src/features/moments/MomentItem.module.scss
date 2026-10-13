@@ -54,3 +54,17 @@
     margin-inline-start: 0;
   }
 }
+
+.teachable {
+  position: relative;
+}
+
+.dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--r-pill);
+  background: var(--c-accent-text);
+}

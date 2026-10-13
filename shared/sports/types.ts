@@ -42,6 +42,15 @@ export interface Facts {
   numbers: number[]; // numbers = every number the AI may use
 }
 
+/** One curated rule. Hand-written and checked; the AI never writes or alters it. */
+export interface RuleEntry {
+  id: string;
+  term: Record<Lang, string>;
+  short: Record<Lang, string>; // 1 sentence, <= 25 words
+  detail: Record<Lang, string>; // <= 3 sentences
+  related: string[]; // ids of other entries in the same rulebook
+}
+
 export interface SportAdapter<S = unknown> {
   id: SportId;
   normalize(raw: unknown): MatchTimeline; // offline, in scripts/
@@ -50,4 +59,6 @@ export interface SportAdapter<S = unknown> {
   askContext(tl: MatchTimeline, seq: number): Facts; // compact state + scorecard as facts
   isMeaningfulGap(tl: MatchTimeline, fromSeq: number, toSeq: number): boolean; // e.g. ≥ 6 legal balls
   suggestedQuestions(lang: Lang, state: S): string[];
+  /** Rule ids worth explaining for event `seq` (may look at earlier events). Empty when none. */
+  teachables(tl: MatchTimeline, seq: number): string[];
 }

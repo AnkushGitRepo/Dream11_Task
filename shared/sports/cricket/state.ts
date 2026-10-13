@@ -1,120 +1,43 @@
-import type { EventTone, MatchTimeline, TimelineEvent } from '../types';
+import type { MatchTimeline, TimelineEvent } from '../types.ts';
+import { ballData } from './ballData.ts';
+import {
+  BALLS_PER_OVER,
+  WICKETS_IN_INNINGS,
+  bowlingOvers,
+  formatOvers,
+  round2,
+  runRate,
+  shortName,
+} from './format.ts';
+import type {
+  BallView,
+  BatterLine,
+  BowlerLine,
+  CricketBaseline,
+  CricketState,
+  Scorecard,
+} from './stateTypes.ts';
+import { tallyEvents, type Tally } from './tally.ts';
 
-// Pure scoreboard maths for a cricket chase. Every number the UI shows comes from here.
+// Pure scoreboard maths. Every number the UI shows comes from here.
 // `position` = number of events played (0..n), see src/features/replay/replayStore.ts.
 
-export const BALLS_PER_OVER = 6;
-export const WICKETS_IN_INNINGS = 10;
-
-export interface BatterLine {
-  readonly name: string;
-  readonly runs: number;
-  readonly balls: number;
-  readonly fours: number;
-  readonly sixes: number;
-}
-export interface BowlerLine {
-  readonly name: string;
-  readonly legalBalls: number;
-  readonly maidens: number;
-  readonly runs: number;
-  readonly wkts: number;
-}
-
-/** State of the innings before event 0 (lets a replay start mid-innings). */
-export interface CricketBaseline {
-  readonly battingTeam: string; // team code, e.g. 'IND'
-  readonly clock: string; // '17.0'
-  readonly score: number;
-  readonly wkts: number;
-  readonly legalBalls: number;
-  readonly target: number | null;
-  readonly maxBalls: number;
-  readonly batters: Readonly<Record<string, Omit<BatterLine, 'name'>>>;
-  readonly bowlers: Readonly<Record<string, Omit<BowlerLine, 'name'>>>;
-  readonly partnership: { readonly runs: number; readonly balls: number };
-  readonly striker: string;
-  readonly nonStriker: string;
-  readonly bowler: string;
-}
-
-export interface BallView {
-  readonly seq: number;
-  readonly clock: string; // '16.3', for localised screen-reader text
-  readonly over: number; // 0-based over index, used for the strip separator
-  readonly label: string; // '•' '1' '2' '3' '4' '6' 'W' 'wd' 'nb' 'b' 'lb'
-  readonly tone: EventTone;
-  readonly freeHit: boolean;
-  readonly a11y: string;
-}
-
-export interface CricketState {
-  readonly battingTeam: string;
-  readonly score: number;
-  readonly wkts: number;
-  readonly legalBalls: number;
-  readonly overs: string; // '19.0'
-  readonly target: number | null;
-  readonly need: number | null;
-  readonly ballsLeft: number;
-  readonly crr: number | null;
-  readonly rrr: number | null;
-  readonly partnership: { readonly runs: number; readonly balls: number };
-  readonly striker: BatterLine;
-  readonly nonStriker: BatterLine;
-  readonly bowler: BowlerLine;
-  readonly recent: readonly BallView[];
-  readonly freeHitNext: boolean;
-  readonly lastWicketSeq: number | null;
-  readonly finished: boolean;
-  readonly result: string | null;
-}
-
-interface Ball {
-  readonly over: number;
-  readonly batter: string;
-  readonly bowler: string;
-  readonly nonStriker: string;
-  readonly runsBat: number;
-  readonly extras: number;
-  readonly extraType: string | null;
-  readonly legal: boolean;
-  readonly freeHit: boolean;
-  readonly wicket: boolean;
-  readonly score: number;
-  readonly wkts: number;
-}
-
-function readBall(event: TimelineEvent): Ball {
-  const d = event.data;
-  const str = (v: unknown, fallback = '') => (typeof v === 'string' ? v : fallback);
-  const num = (v: unknown) => (typeof v === 'number' ? v : 0);
-  return {
-    over: num(d.over),
-    batter: str(d.batter),
-    bowler: str(d.bowler),
-    nonStriker: str(d.nonStriker),
-    runsBat: num(d.runsBat),
-    extras: num(d.extras),
-    extraType: typeof d.extraType === 'string' ? d.extraType : null,
-    legal: d.legal === true,
-    freeHit: d.freeHit === true,
-    wicket: typeof d.wicket === 'object' && d.wicket !== null,
-    score: num(d.score),
-    wkts: num(d.wkts),
-  };
-}
-
-export function formatOvers(legalBalls: number): string {
-  return `${Math.floor(legalBalls / BALLS_PER_OVER)}.${legalBalls % BALLS_PER_OVER}`;
-}
-
-const round2 = (n: number) => Math.round(n * 100) / 100;
+export { BALLS_PER_OVER, WICKETS_IN_INNINGS, formatOvers, shortName };
+export type {
+  BallView,
+  BatterLine,
+  BowlerLine,
+  CricketBaseline,
+  CricketState,
+  ExtrasLine,
+  FallOfWicket,
+  Scorecard,
+} from './stateTypes.ts';
 
 const EXTRA_LABEL: Record<string, string> = { wide: 'wd', noball: 'nb', bye: 'b', legbye: 'lb' };
 
 export function ballView(event: TimelineEvent): BallView {
-  const b = readBall(event);
+  const b = ballData(event);
   let label: string;
   if (b.wicket) label = 'W';
   else if (b.extraType) label = EXTRA_LABEL[b.extraType] ?? 'x';
@@ -130,19 +53,35 @@ export function ballView(event: TimelineEvent): BallView {
   };
 }
 
-function batterLine(name: string, tally: ReadonlyMap<string, Omit<BatterLine, 'name'>>): BatterLine {
-  const t = tally.get(name);
-  return { name, runs: t?.runs ?? 0, balls: t?.balls ?? 0, fours: t?.fours ?? 0, sixes: t?.sixes ?? 0 };
+function batterLine(name: string, tally: Tally): BatterLine {
+  const t = tally.batters.get(name);
+  return {
+    name,
+    runs: t?.runs ?? 0,
+    balls: t?.balls ?? 0,
+    fours: t?.fours ?? 0,
+    sixes: t?.sixes ?? 0,
+    ...(t?.out ? { out: t.out } : {}),
+  };
 }
 
-function bowlerLine(name: string, tally: ReadonlyMap<string, Omit<BowlerLine, 'name'>>): BowlerLine {
-  const t = tally.get(name);
+function bowlerLine(name: string, tally: Tally): BowlerLine {
+  const t = tally.bowlers.get(name);
   return {
     name,
     legalBalls: t?.legalBalls ?? 0,
     maidens: t?.maidens ?? 0,
     runs: t?.runs ?? 0,
     wkts: t?.wkts ?? 0,
+  };
+}
+
+function scorecardOf(tally: Tally): Scorecard {
+  return {
+    batters: [...tally.batters.keys()].map((n) => batterLine(n, tally)),
+    bowlers: [...tally.bowlers.keys()].map((n) => bowlerLine(n, tally)),
+    extras: tally.extras,
+    fow: tally.fow,
   };
 }
 
@@ -155,82 +94,48 @@ export function getCricketState(
   const total = timeline.events.length;
   const played = timeline.events.slice(0, Math.max(0, Math.min(position, total)));
   const upcoming = timeline.events[played.length];
+  const t = tallyEvents(played, baseline);
 
-  const batters = new Map<string, Omit<BatterLine, 'name'>>(Object.entries(baseline.batters));
-  const bowlers = new Map<string, Omit<BowlerLine, 'name'>>(Object.entries(baseline.bowlers));
-  let { score, wkts, legalBalls } = baseline;
-  let partnership = baseline.partnership;
-  let lastWicketSeq: number | null = null;
-
-  for (const event of played) {
-    const b = readBall(event);
-    const bat = batterLine(b.batter, batters);
-    const faced = b.extraType === 'wide' ? 0 : 1;
-    batters.set(b.batter, {
-      runs: bat.runs + b.runsBat,
-      balls: bat.balls + faced,
-      fours: bat.fours + (b.runsBat === 4 ? 1 : 0),
-      sixes: bat.sixes + (b.runsBat === 6 ? 1 : 0),
-    });
-    const bowl = bowlerLine(b.bowler, bowlers);
-    const conceded = b.runsBat + (b.extraType === 'wide' || b.extraType === 'noball' ? b.extras : 0);
-    bowlers.set(b.bowler, {
-      legalBalls: bowl.legalBalls + (b.legal ? 1 : 0),
-      maidens: bowl.maidens,
-      runs: bowl.runs + conceded,
-      wkts: bowl.wkts + (b.wicket && !b.freeHit ? 1 : 0),
-    });
-    score = b.score;
-    wkts = b.wkts;
-    if (b.legal) legalBalls += 1;
-    if (b.wicket) {
-      partnership = { runs: 0, balls: 0 };
-      lastWicketSeq = event.seq;
-    } else {
-      partnership = {
-        runs: partnership.runs + b.runsBat + b.extras,
-        balls: partnership.balls + (b.legal ? 1 : 0),
-      };
-    }
-  }
-
-  const last = played.length > 0 ? readBall(played[played.length - 1] as TimelineEvent) : null;
-  const next = upcoming ? readBall(upcoming) : null;
+  const last = played.length > 0 ? ballData(played[played.length - 1] as TimelineEvent) : null;
+  const next = upcoming ? ballData(upcoming) : null;
   const strikerName = next?.batter ?? last?.batter ?? baseline.striker;
   const nonStrikerName = next?.nonStriker ?? last?.nonStriker ?? baseline.nonStriker;
   const bowlerName = next?.bowler ?? last?.bowler ?? baseline.bowler;
 
-  const ballsLeft = Math.max(0, baseline.maxBalls - legalBalls);
-  const need = baseline.target === null ? null : Math.max(0, baseline.target - score);
+  const ballsLeft = Math.max(0, baseline.maxBalls - t.legalBalls);
+  const need = baseline.target === null ? null : Math.max(0, baseline.target - t.score);
   const finished =
-    played.length >= total || (need === 0 && baseline.target !== null) || wkts >= WICKETS_IN_INNINGS;
-  const won = baseline.target !== null && score >= baseline.target;
+    played.length >= total || (need === 0 && baseline.target !== null) || t.wkts >= WICKETS_IN_INNINGS;
+  const won = baseline.target !== null && t.score >= baseline.target;
   const freeHitPersists = last !== null && !last.legal && last.extraType === 'wide' && last.freeHit;
   const freeHitNext = next ? next.freeHit : last !== null && (last.extraType === 'noball' || freeHitPersists);
+  const lastEvent = played[played.length - 1];
 
   return {
     battingTeam: baseline.battingTeam,
-    score,
-    wkts,
-    legalBalls,
-    overs: formatOvers(legalBalls),
+    score: t.score,
+    wkts: t.wkts,
+    legalBalls: t.legalBalls,
+    overs: formatOvers(t.legalBalls),
     target: baseline.target,
     need,
     ballsLeft,
-    crr: legalBalls > 0 ? round2((score * BALLS_PER_OVER) / legalBalls) : null,
+    crr: runRate(t.score, t.legalBalls),
     rrr: need !== null && need > 0 && ballsLeft > 0 ? round2((need * BALLS_PER_OVER) / ballsLeft) : null,
-    partnership,
-    striker: batterLine(strikerName, batters),
-    nonStriker: batterLine(nonStrikerName, batters),
-    bowler: bowlerLine(bowlerName, bowlers),
+    partnership: t.partnership,
+    striker: batterLine(strikerName, t),
+    nonStriker: batterLine(nonStrikerName, t),
+    bowler: bowlerLine(bowlerName, t),
     recent: played.slice(-recentCount).map(ballView),
     freeHitNext: freeHitNext && !finished,
-    lastWicketSeq,
+    lastWicketSeq: t.lastWicketSeq,
     finished,
     result:
       finished && played.length >= total && won
-        ? `${baseline.battingTeam} won by ${WICKETS_IN_INNINGS - wkts} wickets`
+        ? `${baseline.battingTeam} won by ${WICKETS_IN_INNINGS - t.wkts} wickets`
         : null,
+    period: baseline.period ?? lastEvent?.period ?? upcoming?.period ?? 1,
+    scorecard: scorecardOf(t),
   };
 }
 
@@ -242,13 +147,5 @@ export function countLegalBalls(timeline: MatchTimeline, fromPosition: number, t
 }
 
 export function bowlerFigures(b: BowlerLine): string {
-  const overs =
-    b.legalBalls % BALLS_PER_OVER === 0 ? String(b.legalBalls / BALLS_PER_OVER) : formatOvers(b.legalBalls);
-  return `${overs}-${b.maidens}-${b.runs}-${b.wkts}`;
-}
-
-/** 'V Kohli' -> 'Kohli', 'Mohammad Nawaz' -> 'Nawaz'. */
-export function shortName(name: string): string {
-  const parts = name.trim().split(/\s+/);
-  return parts[parts.length - 1] ?? name;
+  return `${bowlingOvers(b.legalBalls)}-${b.maidens}-${b.runs}-${b.wkts}`;
 }
