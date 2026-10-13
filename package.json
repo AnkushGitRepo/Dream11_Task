@@ -15,14 +15,16 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "data:build": "node --experimental-strip-types scripts/preprocess-cricsheet.ts"
+    "data:build": "node --experimental-strip-types scripts/preprocess-cricsheet.ts",
+    "eval:prompts": "node --env-file-if-exists=.env.local --experimental-strip-types scripts/eval-prompts.ts"
   },
   "dependencies": {
     "@google/genai": "^2.29.0",
     "lucide-react": "^1.55.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "react-router-dom": "^7.18.4"
+    "react-router-dom": "^7.18.4",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

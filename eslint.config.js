@@ -22,7 +22,14 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ['**/shared/ai/*', '@shared/ai/*', '**/api/*'],
+              // templates.ts is the one client-safe module in shared/ai (pure, deterministic fallbacks).
+              group: [
+                '**/shared/ai/*',
+                '!**/shared/ai/templates',
+                '@shared/ai/*',
+                '!@shared/ai/templates',
+                '**/api/*',
+              ],
               message: 'Server-only module: import it from api/ only, never from src/.',
             },
           ],

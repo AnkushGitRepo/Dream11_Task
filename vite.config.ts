@@ -9,6 +9,7 @@ const SERVER_ENV_KEYS = [
   'TTS_PROVIDER',
   'TTS_MODEL',
   'RATE_LIMIT_PER_MIN',
+  'RATE_LIMIT_BURST',
 ] as const;
 
 /** Mounts the /api/* handlers in `vite dev` (same code Vercel runs in production). Dev-only. */
@@ -22,7 +23,7 @@ function apiDevPlugin(): Plugin {
       for (const key of SERVER_ENV_KEYS) {
         if (env[key] && process.env[key] === undefined) process.env[key] = env[key];
       }
-      for (const route of ['speak', 'learn']) {
+      for (const route of ['speak', 'learn', 'recap', 'ask']) {
         server.middlewares.use(`/api/${route}`, (req, res) => {
           server
             .ssrLoadModule(`/api/${route}.ts`)
@@ -53,5 +54,7 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     include: ['src/**/*.test.{ts,tsx}', 'shared/**/*.test.ts', 'api/**/*.test.ts'],
     css: false,
+    // Component tests run against the offline mock; aiService tests flip this with vi.stubEnv.
+    env: { VITE_USE_MOCK_API: 'true' },
   },
 });

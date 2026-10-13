@@ -8,6 +8,13 @@ import type { MatchTimeline, TimelineEvent } from '@shared/sports/types';
 export const MOCK_MATCH_ID = 'pak-ind-2022-t20wc-mcg';
 
 /**
+ * Real timeline seq (data/matches/pak-ind-2022-t20wc-mcg.json) of this mock's seq 0 = the first
+ * ball of the 18th over (17.1). The server resolves `seqBase + seq`. A test proves each mock event
+ * equals the real event at that seq, so recaps/answers describe exactly what is on screen.
+ */
+export const MOCK_START_SEQ = 229;
+
+/**
  * Innings state before seq 0 (the replay starts at 17.0). Totals computed from
  * data/raw/1298150.json overs 0-16; 19.0 golden check: Kohli 74 (50), Pandya 40 (36), Nawaz 3-0-29-0.
  */
@@ -571,6 +578,7 @@ export const mockTimeline: MatchTimeline = {
     result: 'India won by 4 wickets',
     source: 'Cricsheet',
     license: 'ODC-BY 1.0 (Cricsheet)',
+    seqBase: MOCK_START_SEQ,
   },
   events,
 };

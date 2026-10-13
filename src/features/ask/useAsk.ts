@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { lookupRule, ruleFacts } from '@shared/sports/rules';
 import type { Lang, SportId } from '@shared/sports/types';
-import { mockAsk } from '@/services/mockApi';
+import { askMatch } from '@/services/aiService';
 import type { AskContext, AskTurn } from './types';
 
 export interface AskApi {
@@ -50,12 +49,16 @@ export function useAsk(
 
   const run = useCallback(
     (turn: AskTurn) => {
-      const { seq, facts } = contextRef.current();
-      // "what is X / X kya hota hai / X shu che": the curated rule joins the facts, so the answer
-      // quotes the rulebook and never invents a rule.
-      const rule = lookupRule(turn.question, sport);
-      const askFacts = rule ? [...facts, ...ruleFacts(rule)] : [...facts];
-      mockAsk({ matchId, seq, question: turn.question, lang: turn.lang, facts: askFacts }).then(
+      const { seq, facts, seqBase } = contextRef.current();
+      askMatch({
+        matchId,
+        seq,
+        seqBase: seqBase ?? 0,
+        question: turn.question,
+        lang: turn.lang,
+        sport,
+        facts,
+      }).then(
         (res) =>
           patch(turn.id, turn.attempt, {
             status: 'done',

@@ -4,8 +4,7 @@ import type { Lang } from '@shared/sports/types';
 import { FactStrip } from '@/components/FactStrip';
 import { SegmentedControl } from '@/components/SegmentedControl';
 import { loadIndicFont } from '@/i18n/loadIndicFont';
-import { buildRecapText } from '@/services/mockApi';
-import { getDemoModel } from './demoModel';
+import { demoRecapText, getDemoModel } from './demoModel';
 import { Section, SectionTitle } from './Section';
 import styles from './LanguageShowcase.module.scss';
 
@@ -19,7 +18,7 @@ const OPTIONS: readonly { value: Lang; label: string }[] = [
 export function LanguageShowcase() {
   const [lang, setLang] = useState<Lang>('en');
   const { window } = getDemoModel();
-  const { lead, body } = buildRecapText(window.facts, lang);
+  const { lead, body } = demoRecapText(window.facts, lang);
 
   useEffect(() => {
     loadIndicFont(lang);

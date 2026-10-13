@@ -59,8 +59,33 @@ export function factsFromState(s: CricketState): Fact[] {
     });
     facts.push({ key: 'ballsLeft', value: b, label: all(`${b}`) });
   }
-  if (s.crr !== null) facts.push({ key: 'crr', value: s.crr, label: all(`CRR ${s.crr.toFixed(2)}`) });
-  if (s.rrr !== null) facts.push({ key: 'rrr', value: s.rrr, label: all(`RRR ${s.rrr.toFixed(2)}`) });
+  // Full words, not "CRR"/"RRR": these labels become Ask answers and are read aloud.
+  if (s.crr !== null) {
+    const n = s.crr.toFixed(2);
+    facts.push({
+      key: 'crr',
+      value: s.crr,
+      label: {
+        en: `Run rate ${n}`,
+        hinglish: `Run rate ${n}`,
+        hi: `रन रेट ${n}`,
+        gu: `રન રેટ ${n}`,
+      },
+    });
+  }
+  if (s.rrr !== null) {
+    const n = s.rrr.toFixed(2);
+    facts.push({
+      key: 'rrr',
+      value: s.rrr,
+      label: {
+        en: `Required run rate ${n}`,
+        hinglish: `Zaroori run rate ${n}`,
+        hi: `आवश्यक रन रेट ${n}`,
+        gu: `જરૂરી રન રેટ ${n}`,
+      },
+    });
+  }
   const { partnership: p } = s;
   const pText = `${p.runs} (${p.balls})`;
   facts.push({

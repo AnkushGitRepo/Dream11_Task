@@ -53,7 +53,8 @@ describe('LandingPage', () => {
     const enText = panel.textContent;
     fireEvent.click(screen.getByRole('tab', { name: 'हिं' }));
     expect(panel).toHaveAttribute('lang', 'hi');
-    expect(panel.textContent).toContain('इस दौरान');
+    expect(panel.textContent).toMatch(/[\u0900-\u097F]/);
+    expect(panel.textContent).toContain('गेंद');
     expect(panel.textContent).not.toBe(enText);
     fireEvent.click(screen.getByRole('tab', { name: 'ગુ' }));
     expect(panel).toHaveAttribute('lang', 'gu');

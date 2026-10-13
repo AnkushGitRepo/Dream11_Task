@@ -1,4 +1,5 @@
 import type { Lang, RuleEntry, TimelineEvent } from '../sports/types.ts';
+import { extractJsonObject, readText } from './json.ts';
 
 // SERVER-ONLY. Pure helpers for /api/learn: the prompt, the template fallback and parsing. The
 // rule text itself always comes from the rulebook; the model only writes the one "in this match"
@@ -88,23 +89,12 @@ export function buildMomentPrompt(args: {
 }
 
 export function parseMomentReply(reply: string): MomentText | null {
-  const start = reply.indexOf('{');
-  const end = reply.lastIndexOf('}');
-  if (start === -1 || end <= start) return null;
-  let value: unknown;
-  try {
-    value = JSON.parse(reply.slice(start, end + 1));
-  } catch {
-    return null;
-  }
-  if (typeof value !== 'object' || value === null) return null;
-  const { moment, speak } = value as Record<string, unknown>;
-  if (typeof moment !== 'string') return null;
-  const m = moment.trim();
-  if (m === '' || m.length > MAX_MOMENT_CHARS) return null;
-  const s = typeof speak === 'string' && speak.trim() !== '' ? speak.trim() : m;
-  if (s.length > MAX_MOMENT_CHARS) return null;
-  return { moment: m, speak: s };
+  const obj = extractJsonObject(reply);
+  if (!obj) return null;
+  const moment = readText(obj, 'moment', MAX_MOMENT_CHARS);
+  if (!moment) return null;
+  const speak = readText(obj, 'speak', MAX_MOMENT_CHARS) ?? moment;
+  return { moment, speak };
 }
 
 /** The text sent to TTS. Hinglish is voiced from the Devanagari rulebook text. */

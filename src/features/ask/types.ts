@@ -14,7 +14,7 @@ export interface AskTurn {
   /** Id used to fetch the natural voice (POST /api/speak). */
   readonly answerId?: string;
   /** 'unknown' = honest "I don't know". */
-  readonly source?: 'template' | 'unknown';
+  readonly source?: 'ai' | 'template' | 'unknown';
   readonly failure?: 'failed' | 'rateLimited';
 }
 
@@ -22,6 +22,8 @@ export interface AskTurn {
 export interface AskContext {
   /** Latest event seq played (position - 1). */
   readonly seq: number;
-  /** Engine snapshot facts for that moment. */
+  /** Engine snapshot facts for that moment (mock mode only; the server computes its own). */
   readonly facts: readonly Fact[];
+  /** Real timeline seq of seq 0 when the replay is a window of the match (default 0). */
+  readonly seqBase?: number;
 }

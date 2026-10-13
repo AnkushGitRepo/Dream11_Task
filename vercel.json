@@ -1,7 +1,9 @@
 {
   "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }],
   "functions": {
-    "api/learn.ts": { "includeFiles": "data/matches/**" }
+    "api/learn.ts": { "includeFiles": "data/matches/**" },
+    "api/recap.ts": { "includeFiles": "data/matches/**" },
+    "api/ask.ts": { "includeFiles": "data/matches/**" }
   },
   "headers": [
     {

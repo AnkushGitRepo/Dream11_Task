@@ -125,16 +125,24 @@ a recompute on `visibilitychange` — so hidden tabs (throttled timers) still la
 ## 6. API contracts
 ```
 POST /api/recap   body ≤ 1 KB
-{ "matchId": "ind-wi-…", "fromSeq": 120, "toSeq": 136, "lang": "hinglish" }
-→ 200 { "lead": string, "body": string, "facts": FactChip[], "source": "ai"|"template", "window": {...} }
+{ "matchId": "pak-ind-2022-t20wc-mcg", "fromSeq": 0, "toSeq": 11, "seqBase": 229, "lang": "hinglish" }
+→ 200 { "id", "lead", "body", "source": "ai"|"template", "window": { "fromSeq", "toSeq" } }
 
 POST /api/ask     body ≤ 2 KB
-{ "matchId": "…", "seq": 136, "question": "kitne runs chahiye?", "lang": "hinglish" }
-→ 200 { "answer": string, "source": "ai"|"template"|"unknown" }
+{ "matchId": "…", "seq": 11, "seqBase": 229, "question": "kitne run chahiye?", "lang": "hinglish" }
+→ 200 { "id", "answer", "source": "ai"|"template"|"unknown" }
 
-Errors: 400 {code:'BAD_REQUEST'} · 404 {code:'MATCH_NOT_FOUND'} · 405 · 413 · 429 {code:'RATE_LIMITED', retryAfter} · 500 {code:'INTERNAL'}
+POST /api/learn   → { id, title, short, moment, speak, source }      (see §7c)
+POST /api/speak   { kind: 'recap'|'answer'|'learn', id } → audio/wav  (see §7b)
+
+Errors: { code, message } — 400 BAD_REQUEST · 404 NOT_FOUND · 405 · 413 · 415 · 429 RATE_LIMITED (+ Retry-After) · 502 INTERNAL · 503 UNAVAILABLE
 ```
-Server rules: `toSeq - fromSeq ≤ 120`; `seq` within timeline; `lang` enum; `matchId` must be in the allow-list.
+Server rules (zod, `api/_lib/schemas.ts`): `matchId` must be in the `data/matches/index.json` allow-list; seqs are integers;
+`toSeq ≥ fromSeq` and the window ≤ 120 events; `lang` enum; `question` is control-char-stripped, trimmed, 1–200 chars.
+`seqBase` (default 0) is the real timeline seq of the client's seq 0: the Match Room replays a mid-match window
+(`MatchMeta.seqBase`), the server resolves `real = seqBase + seq` and rejects anything outside the timeline.
+The response carries **no facts**: the server computes them itself from the engine and the client's FactStrip comes from
+the same engine. One token bucket (20/min, burst 5, `RATE_LIMIT_BURST`) is shared by all four routes.
 
 ## 7. AI pipeline
 1. **Facts** — adapter computes facts + the `numbers[]` allow-list (also includes derived forms: overs like `16.3`, ratios).
@@ -158,9 +166,10 @@ fonts: 2 families + lazy Indic, `preload` Archivo · LCP < 2.0 s (Moto G-class, 
 |---|---|---|
 | `LLM_PROVIDER` | server | `gemini` (default) \| `anthropic` \| `none` (templates only) |
 | `GEMINI_API_KEY` / `ANTHROPIC_API_KEY` | server | provider key |
-| `LLM_MODEL` | server | override model id |
+| `LLM_MODEL` | server | override the default model (`gemini-3.8-flash`, unverified live) |
+| `RATE_LIMIT_BURST` | server | token-bucket burst shared by all AI routes (default 5) |
 | `RATE_LIMIT_PER_MIN` | server | default 20 per IP |
-| `VITE_USE_MOCK_API` | client | `true` in Phase 1 |
+| `VITE_USE_MOCK_API` | client | `true` = offline mock (tests, no server); anything else = real `/api/*` |
 
 ## 7b. Natural voice (server TTS) — replaces browser speechSynthesis as the primary voice
 - Provider: **Gemini TTS via the Gemini API** (same `GEMINI_API_KEY`). Model from `TTS_MODEL` (verify current id in the SDK/docs; flash TTS tier).

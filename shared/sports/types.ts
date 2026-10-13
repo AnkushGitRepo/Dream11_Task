@@ -24,6 +24,11 @@ export interface MatchMeta {
   result?: string;
   source: string;
   license: string;
+  /**
+   * Set when `events` is a window of the full match: the real timeline seq of events[0]. The
+   * server resolves client seqs as `seqBase + seq`. Absent (= 0) for a complete timeline.
+   */
+  seqBase?: number;
 }
 export interface MatchTimeline {
   meta: MatchMeta;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { checkNumbers, extractNumbers } from './guard.ts';
+import { checkNumbers, extractNumbers, findBanned } from './guard.ts';
 
 describe('extractNumbers', () => {
   it('reads ASCII, Devanagari and Gujarati digits', () => {
@@ -50,5 +50,32 @@ describe('checkNumbers', () => {
 
   it('treats a decimal as different from its integer part', () => {
     expect(checkNumbers('19.5 overs', [19]).ok).toBe(false);
+  });
+});
+
+describe('findBanned', () => {
+  it.each([
+    'You can bet on this one.',
+    'The odds are shifting.',
+    'India will win from here.',
+    'This is going to win them the game.',
+    'My prediction: a close finish.',
+    'India favourites now.',
+    'Ab satta market mein jeet jayega India.',
+    'इंडिया जीतेगा यह मैच।',
+    'આ મેચમાં ભારત જીતશે.',
+  ])('flags %s', (text) => {
+    expect(findBanned(text).length).toBeGreaterThan(0);
+  });
+
+  it.each([
+    'Kohli hit a six and India need 22 off 7.',
+    'The batting side took the win at the last ball.',
+    'Karthik was stumped, 144/5 at 19.1.',
+    'कोहली ने छक्का मारा और 22 रन चाहिए।',
+    'કોહલીએ છગ્ગો માર્યો.',
+    'The bowler beat the bat twice.',
+  ])('allows %s', (text) => {
+    expect(findBanned(text)).toEqual([]);
   });
 });

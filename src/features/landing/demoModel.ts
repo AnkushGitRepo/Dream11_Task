@@ -1,6 +1,6 @@
+import { recapTemplate } from '@shared/ai/templates';
 import type { Fact, Lang } from '@shared/sports/types';
 import { MOCK_BASELINE, mockTimeline } from '@/mocks/match.mock';
-import { buildRecapText } from '@/services/mockApi';
 import type { RecapEntry } from '@/features/catchup/types';
 import { getSportUi } from '@/sports/uiRegistry';
 
@@ -62,10 +62,24 @@ export function getDemoModel(): DemoModel {
   return cached;
 }
 
+/** The demo window's recap in one language: the deterministic template, no server involved. */
+export function demoRecapText(facts: readonly Fact[], lang: Lang): { lead: string; body: string } {
+  const { lead, body } = recapTemplate(
+    {
+      window: { fromSeq: 0, toSeq: 0, fromClock: '', toClock: '' },
+      items: [...facts],
+      highlights: [],
+      numbers: [],
+    },
+    lang,
+  );
+  return { lead, body };
+}
+
 /** The same recap window rendered in one language (template text, source 'template'). */
 export function demoRecapEntry(lang: Lang): RecapEntry {
   const { window } = getDemoModel();
-  const { lead, body } = buildRecapText(window.facts, lang);
+  const { lead, body } = demoRecapText(window.facts, lang);
   return {
     id: 0,
     lang,

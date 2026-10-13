@@ -1,40 +1,40 @@
 # STATE — project memory (keep < 60 lines; rewrite via /checkpoint)
 
 ## Phase / focus
-Phases 1, 2, 3.5 (infra) and 3.6 (Learn mode) are built; Phase 1 committed (936d5b7), everything since is UNCOMMITTED.
-Next phase: 3 (`/api/recap`, `/api/ask`, prompts, full guard) then 4 (voice in, a11y, perf) and 5 (ship).
+Phases 1, 2, 3, 3.5 (infra) and 3.6 are built. 1, 2 and 3.6 are committed (35d2d4b); Phase 3 (real recap/ask) is UNCOMMITTED.
+Next: Phase 4 (voice in, a11y, perf) and 5 (ship), plus the live-model checks below.
 
 ## Done recently
-- Phase 3.6 Learn mode: rulebooks (cricket 15 / football 10 / kabaddi 8 x 4 langs, `shared/sports/*/rules.ts`, helpers in `shared/sports/rules.ts`),
-  `SportAdapter.teachables()`, `/api/learn`, `shared/ai/{guard,provider,learnMoment}.ts`, `features/learn/*`, Matches "More sports" cards, landing row.
-- Phase 2 engine: preprocess -> `data/matches/*.json`, cricket adapter, independent golden tests, football stub, registry.
-- Verified: tsc, eslint, stylelint, `npm run build`, 369 tests (52 files), live dev `/api/learn` (template path; no key set).
+- Phase 3: zod schemas, `/api/recap` + `/api/ask`, `shared/ai/{prompts,promptExamples,templates,askTemplates,pipeline,json,lang}.ts`,
+  `api/_lib/{handlerKit,schemas,shared,matchSeq}.ts`, `src/services/aiService.ts`, `npm run eval:prompts`.
+- speak/learn moved to zod + the handler kit; one shared rate limiter; provider default model + JSON mode + 1 retry.
+- Verified: tsc, eslint, stylelint, build, 548 tests; dev smoke of recap/ask/speak (template path). Mock chunk is absent from real-mode builds.
 
 ## Next
-1. Commit (Phase 2 + 3.6 are a large uncommitted tree; suggest 2-3 conventional commits).
-2. Phase 3: `/api/recap` + `/api/ask` using `shared/ai/{guard,provider}`, `lookupRule`/`askContextWithRule`, register speakables, add zod.
-3. Export GEMINI_API_KEY, LLM_MODEL, TTS_MODEL; run `node scripts/voice-samples.mjs`; hear Learn cards end to end.
+1. Commit Phase 3. 2. Export GEMINI_API_KEY (+ TTS_MODEL) in your shell: `npm run eval:prompts`, then `node scripts/voice-samples.mjs`.
+3. Set `VITE_USE_MOCK_API=false` in your local env file (the example now says false) so `npm run dev` hits the real routes.
+4. Real-JSON `matchService` (retire the `seqBase` bridge). 5. Phase 4 items in TODO.md.
 
 ## Open issues / blockers
-- hi/gu translations (UI + rulebooks) unreviewed by a native speaker. Rule entries I am least sure of: LBW wording, DRS review counts
-  (kept generic), kabaddi baulk-line/empty-raid and bonus-line details (PKL conventions), football extra-time.
-- TTS and LLM model ids unverified against the live API (`TTS_MODEL`, `LLM_MODEL`); without them /api/learn serves the template moment.
-- `/api/ask` does not exist: Ask is still the client mock (`src/services/mockApi.ts`); rule questions are answered from the rulebook there.
-- Glossary Listen uses the basic browser voice. LearnCard dock offset on mobile is untested on a device.
-- MatchRoomView.tsx is ~220 lines (limit 150): extract `useMatchRoomModel`. state.ts 254 lines. Functions >40 lines remain in the cricket engine.
-- zod not installed: /api/speak and /api/learn validate by hand. favicon missing. hex-colour stylelint ban + `shared/ai/provider` import ban TODO.
-- Demo match: Cricsheet 1298150 (PAK v IND, 2022, MCG). Featured #2: 1415755. LLM: Gemini.
+- LIVE LLM BLOCKED BY QUOTA: eval on 14 Oct got 429 "exceeded your current quota" for gemini-3.8-flash (503 demand spikes earlier) across 4 min of backoff;
+  the id itself is valid (Google's 404 for gemini-2.5-flash recommends it). Check plan/billing in AI Studio, then `npm run eval:prompts`.
+- (old note) LIVE LLM NEVER RUN: default model `gemini-3.8-flash` (newest non-preview Flash in SDK 2.29.0) is unverified; guard-failure rate unknown
+  until `npm run eval:prompts` runs with a key. TTS model id likewise unverified.
+- The number guard is set-membership (a number must exist in the facts), not claim verification: a wrong-but-present number can pass.
+- hi/gu translations (UI, rulebooks, templates, prompt examples) unreviewed by a native speaker.
+- Client replays the mock timeline (seq 0 = real seq 229); `src/mocks/match.mock.test.ts` proves it equals the real events.
+- MatchRoomView.tsx ~225 lines (limit 150). state.ts 254 lines. Some cricket-engine functions >40 lines.
+- Glossary Listen uses the basic browser voice. LearnCard mobile offset untested on a device.
+- Burst 5 is shared by recap, ask, learn and speak: raise `RATE_LIMIT_BURST` if real use trips 429.
+- favicon missing; hex-colour stylelint ban TODO. Demo: Cricsheet 1298150; featured #2 1415755.
 
 ## Gotchas
 - DEADLINE: **Wed 14 Oct 2026, 18:00 IST** (submit by 17:00). NOTHING is cut. Deploy to Vercel by Wed 10:00.
-- Cricsheet has NO record of the free-hit "bowled, not out" at 19.4 (seq 247 = `byes:3`). It comes from a curated annotation in
-  `scripts/preprocess-cricsheet.ts` (`data.annotation/annotationNote/annotationSource`); re-run `npm run data:build` after editing it.
-- Learn moment numbers: the guard allows only numbers shown to the model in the prompt (+ clock parts), not the whole scorecard.
-- Learn trigger looks at the newest 2 events only (`MAX_LOOKBACK`); seeking with Learn off raises nothing.
-- SpeakKind is `recap | answer | learn`; /api/speak voices only registered ids. Hinglish is voiced from Devanagari text.
-- `data/matches` is read server-side via `api/_lib/matchStore.ts` (allow-list from index.json; vercel.json includeFiles for api/learn.ts).
-- Replay `position` = events played (0..n); latest seq = position - 1.
-- Default language = hinglish, so component tests asserting English call `updateSettings({ lang: 'en' })`.
-- Theme tokens: dark = default, light = `data-theme="paper"`. Chip `selected` undefined = plain action chip.
+- src/ may import only `@shared/ai/templates` from shared/ai (eslint exception); everything else in shared/ai and api/ is server-only.
+- Hooks block shell commands that mention env files, even in comments or heredocs: write such files with the Write tool.
+- Every AI endpoint: prompt -> `callModel` (timeout) -> parse -> guard (numbers in prompt facts, banned phrases, script, rule quote) -> template.
+- `speak`: Hinglish is shown in Latin and voiced from Devanagari; templates/prompts keep symbols and abbreviations out of it.
+- SpeakKind = recap | answer | learn; /api/speak voices only registered ids. Free-hit "bowled" at 19.4 is a curated annotation.
+- Learn trigger looks at the newest 2 events only; replay `position` = events played (latest seq = position - 1).
+- Default language = hinglish; component tests asserting English call `updateSettings({ lang: 'en' })`. Vitest sets VITE_USE_MOCK_API=true.
 - No Tailwind/Bootstrap/CSS-in-JS. No video, logos, Dream11 branding or betting language. Never cat data/*.json.
-- Testing-library cleanup is manual (`afterEach(cleanup)`). Headless browser throttles rAF between tool calls.

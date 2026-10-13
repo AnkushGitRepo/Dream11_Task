@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Lang, MatchTimeline } from '@shared/sports/types';
 import { getSettings } from '@/features/settings/settingsStore';
-import { mockRecap } from '@/services/mockApi';
+import { getRecap } from '@/services/aiService';
 import type { SportUi } from '@/sports/types';
 import type { RecapEntry } from './types';
 
@@ -36,12 +36,13 @@ export function useCatchUp(
 
   const load = useCallback(
     (entry: RecapEntry) => {
-      mockRecap({
+      getRecap({
         matchId: timeline.meta.id,
         fromSeq: entry.fromPosition,
         toSeq: Math.max(entry.fromPosition, entry.toPosition - 1),
+        seqBase: timeline.meta.seqBase ?? 0,
         lang: entry.lang,
-        facts: [...entry.facts],
+        facts: entry.facts,
       }).then(
         (res) =>
           patch(entry.id, {

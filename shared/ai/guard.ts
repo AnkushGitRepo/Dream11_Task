@@ -72,3 +72,26 @@ export function checkNumbers(text: string, allowed: readonly number[]): GuardRes
   const offending = extractNumbers(text).filter((n) => !ok.has(n));
   return { ok: offending.length === 0, offending: offending.map(String) };
 }
+
+// ---- prediction / betting language ------------------------------------------------------------
+// The app never predicts or talks about betting (AGENTS.md; docs/SECURITY.md). Matched as whole
+// words/phrases, in every supported language, so a model that drifts into it is replaced by the
+// template instead of shown.
+
+const BANNED: readonly RegExp[] = [
+  /\b(?:bet|bets|betting|bettor|bookie|bookmaker|odds|wager|gamble|gambling|punter|jackpot)\b/i,
+  /\b(?:predict|predicts|predicted|prediction|predictions|forecast|projected)\b/i,
+  /\b(?:will|going to|gonna|likely to|bound to|sure to)\s+(?:win|lose|beat|chase|score|take)\b/i,
+  /\b(?:chances? of (?:winning|losing)|win probability|favou?rites?)\b/i,
+  /\b(?:satta|jeetega|jeetegi|jeet jayega|haarega|harega|jeetne wala|bhavishyavani)\b/i,
+  /(?:सट्टा|सट्टे|जीतेगा|जीतेगी|हारेगा|हारेगी|भविष्यवाणी|अनुमान लगा)/,
+  /(?:સટ્ટો|સટ્ટા|જીતશે|હારશે|ભવિષ્યવાણી|અનુમાન)/,
+];
+
+/** The banned phrases found in `text` (empty = clean). */
+export function findBanned(text: string): string[] {
+  return BANNED.flatMap((re) => {
+    const m = re.exec(text);
+    return m ? [m[0]] : [];
+  });
+}

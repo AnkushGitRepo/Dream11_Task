@@ -13,7 +13,7 @@ describe('snapshotFacts', () => {
     expect(f.need?.value).toBe(16);
     expect(f.need?.label.en).toBe('Need 16 off 6 balls');
     expect(f.need?.label.hinglish).toBe('6 balls mein 16 runs chahiye');
-    expect(f.rrr?.label.en).toBe('RRR 16.00');
+    expect(f.rrr?.label.en).toBe('Required run rate 16.00');
     expect(f.bowler?.value).toBe('Nawaz 3-0-29-0');
     const batters = [f.striker?.value, f.nonStriker?.value];
     expect(batters).toContain('Kohli 74 (50)');

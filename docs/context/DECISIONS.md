@@ -45,3 +45,11 @@
 2026-10-13 — Football/Kabaddi "Learn the rules" lives on a "More sports" section of /matches (those sports only exist as disabled tabs today, there are no cards).
 
 2026-10-13 — Fixed kabaddi baulk-line rule: not crossing it = raider OUT; empty raid = crossed but no points (PKL rules). Reviewed EN rulebook entries for lbw, drs, maiden, powerplay, no-ball, free-hit(+bowled-not-out), bye, kabaddi, football: OK.
+2026-10-13 — Client keeps replaying the mock timeline and sends `seqBase` (229); server resolves real seq — smallest safe bridge, proven by a mock-vs-real event equality test; real-JSON matchService follows.
+2026-10-13 — Default LLM `gemini-3.8-flash` = newest non-preview Flash text id in @google/genai 2.29.0 — unverified live; LLM_MODEL overrides.
+2026-10-13 — Recap/ask responses carry no facts and clients send none: the server computes facts, so a client cannot influence the allow-list.
+2026-10-13 — A rule answer must quote the rulebook `short` verbatim or the rulebook text is served — rules are never paraphrased by the model.
+2026-10-13 — Refused (guard) answers are cached, provider outages are not — do not pay twice for a refusal, but retry after an outage.
+2026-10-13 — One shared token bucket for recap/ask/learn/speak (burst configurable) — a client cannot multiply its budget across routes.
+2026-10-13 — `shared/ai/templates.ts` is the only shared/ai module src/ may import (pure fallbacks, also used by the landing demo).
+

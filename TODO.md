@@ -44,17 +44,20 @@
 - [ ] `matchService` loads real JSON (async, cached)
 
 ## Phase 3 — AI + API
-- [ ] `shared/ai/provider.ts` (gemini, anthropic, none) — minimal Gemini `TextProvider` exists (built for /api/learn); extend
-- [ ] `prompts.ts` with language style guides + `templates.ts`
-- [ ] `guard.ts` + adversarial tests — number guard exists (ASCII/Devanagari/Gujarati digits + English words); add recap/ask adversarial cases
-- [ ] `api/_lib`: http, zod schemas, rateLimit, cache, matches allow-list
-- [ ] `api/recap.ts`, `api/ask.ts` + contract tests
-- [ ] `aiService` replaces mockApi (`VITE_USE_MOCK_API=false`)
-- [ ] `scripts/eval-prompts.ts` → 0 guard failures
+- [x] `shared/ai/provider.ts` Gemini `TextProvider` (default model `gemini-3.8-flash`, JSON mode, 1 retry); anthropic/none providers deferred (templates cover "none")
+- [x] `prompts.ts` (style guide + 2 examples per language, `<question>` untrusted) + `templates.ts` (+ `askTemplates.ts`) per-language fallback
+- [x] `guard.ts` (digits in 3 scripts + English words, banned prediction/betting phrases) + `pipeline.ts` adversarial tests
+- [x] `api/_lib`: zod schemas, shared rate limiter, handler kit, match allow-list/seq resolver
+- [x] `api/recap.ts`, `api/ask.ts` + contract tests (and speak/learn moved to zod)
+- [x] `aiService` replaces mockApi on the production path (`VITE_USE_MOCK_API` mock only when `true`); mock chunk dead-code-eliminated
+- [x] `scripts/eval-prompts.ts` (`npm run eval:prompts`) — template mode verified; LIVE run needs GEMINI_API_KEY in the shell
+- [ ] Run `npm run eval:prompts` with a key; target 0 guard failures, fix prompts/examples if not
+- [ ] Verify `gemini-3.8-flash` (or set `LLM_MODEL`) against the live API
+- [ ] Real-JSON `matchService` + replay from `defaultStartSeq` (retires the `seqBase` bridge; makes IND v SA playable)
 
 ## Phase 3.5 — Natural voice (server TTS)
 - [x] `shared/ai/tts.ts` TtsProvider (gemini; sarvam stub) + `voices.ts` (voice + style prompt per lang)
-- [ ] Recap/answer JSON gets `speak` field (Devanagari for Hinglish); guard checks it — blocked on Phase 3 (`/api/recap`, `/api/ask`); they must call `registerSpeakable(kind, id, {text, lang})` from api/_lib/speakRegistry.ts
+- [x] Recap/answer JSON gets `speak` field (Devanagari for Hinglish); guard checks it; `/api/recap` and `/api/ask` register it via `registerSpeakable`
 - [x] `api/speak.ts` (id-based, no free text, LRU audio cache, rate limit)
 - [x] `useSpeak` → `<audio>` playback, pre-fetch after recap, playbackRate = voice speed; browser TTS fallback only on error
 - [ ] Run `node scripts/voice-samples.mjs` with GEMINI_API_KEY and TTS_MODEL exported in the shell, then Ankush listens to EN / Hinglish / HI / GU samples and picks voices

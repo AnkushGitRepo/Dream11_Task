@@ -108,7 +108,11 @@ export function MatchRoomView({ timeline, sportUi }: MatchRoomViewProps) {
   const filters = sportUi.momentFilters.map((f) => ({ id: f.id, label: f.label[lang], tones: f.tones }));
   const getAskContext = () => {
     const p = store.getSnapshot().position;
-    return { seq: p - 1, facts: sportUi.snapshot(timeline, p, MOCK_BASELINE) };
+    return {
+      seq: p - 1,
+      seqBase: meta.seqBase ?? 0,
+      facts: sportUi.snapshot(timeline, p, MOCK_BASELINE),
+    };
   };
 
   const score = { timeline, position, baseline: MOCK_BASELINE };
