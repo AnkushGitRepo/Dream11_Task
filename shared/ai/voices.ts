@@ -1,7 +1,7 @@
 import type { Lang } from '../sports/types';
 
 // SERVER-ONLY. One voice + one style prompt per language for server TTS (docs/ARCHITECTURE.md §7b).
-// Voice names are PROVISIONAL: pick by ear from tmp/voice-samples (scripts/voice-samples.mjs).
+// Voice chosen by ear (Ankush, 13 Oct): Puck for every language. Alternates kept for future A/B.
 
 export interface VoiceProfile {
   /** Gemini prebuilt voice used in production for this language. */
@@ -31,13 +31,13 @@ export const VOICES: Readonly<Record<Lang, VoiceProfile>> = {
     style: `${FAN}. Natural Hinglish: Hindi with English cricket words (over, wicket, runs) said the way fans say them`,
   },
   hi: {
-    voiceName: 'Kore',
+    voiceName: 'Puck',
     alternate: 'Leda',
     languageCode: 'hi',
     style: `${FAN}. Spoken Hindi, the way friends talk, not formal newsreader Hindi`,
   },
   gu: {
-    voiceName: 'Kore',
+    voiceName: 'Puck',
     alternate: 'Aoede',
     languageCode: 'gu',
     style: `${FAN}. Spoken Gujarati, everyday and friendly, English cricket words kept as they are`,

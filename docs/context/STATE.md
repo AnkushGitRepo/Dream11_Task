@@ -29,7 +29,8 @@ Remaining before voice is audible end to end: Phase 3 `/api/recap` + `/api/ask` 
 - Demo match: Cricsheet 1298150 (PAK v IND, 2022, MCG). Featured #2: 1415755. LLM: Gemini.
 
 ## Gotchas
-- DEADLINE: Tue 13 Oct was self-imposed. Hard deadline = 5 days after the Dream11 email (~16–17 Oct). NOTHING is cut: do Phase 2 (full engine), Phase 3 (AI), Phase 3.5 (natural voice), 4, 5 properly.
+- DEADLINE: **Wed 14 Oct 2026, 18:00 IST** (submit by 17:00). NOTHING is cut: Phase 2, 3, 3.5, 4, 5 all done properly. Deploy to Vercel by Wed 10:00.
+- What Ankush heard as 'robotic' on Tue was the BROWSER FALLBACK: /api/speak 404s until Phase 3 registers speakables, and tmp/voice-samples was empty. Gemini TTS has not been heard yet.
 - VOICE: browser speechSynthesis sounds robotic — replace with server TTS (Gemini TTS, same GEMINI_API_KEY). See ARCHITECTURE §7b. Browser TTS = last-resort fallback only.
 - No Tailwind/Bootstrap/CSS-in-JS (guard hook blocks installs). SCSS modules + tokens only.
 - No video, no logos, no Dream11 branding, no predictions/betting language.

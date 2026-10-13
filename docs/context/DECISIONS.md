@@ -35,3 +35,4 @@
 2026-10-13 — Rate limiter bucket size = burst, refill = per-minute rate; per-instance in-memory (documented limitation, Upstash/WAF in production).
 2026-10-13 — The voice sample script takes its secrets from the shell's exported variables and never loads secret files itself — respects the guard hook.
 2026-10-13 — shared/ai/** uses erasable TS syntax + `.ts` import extensions so Node can run it directly (scripts/voice-samples.mjs); excluded from the app tsconfig, included in the node one.
+2026-10-13 — TTS voice = Gemini 'Puck' for all languages — chosen by ear from samples.
