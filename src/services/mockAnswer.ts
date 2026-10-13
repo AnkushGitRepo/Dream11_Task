@@ -36,7 +36,11 @@ export function detectIntent(question: string): Intent | null {
   return null;
 }
 
-export function answerFromFacts(question: string, facts: readonly Fact[], lang: Lang): MockAskResponse {
+export function answerFromFacts(
+  question: string,
+  facts: readonly Fact[],
+  lang: Lang,
+): Omit<MockAskResponse, 'id'> {
   const intent = detectIntent(question);
   const labels =
     intent === null

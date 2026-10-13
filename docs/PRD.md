@@ -44,7 +44,7 @@ resembling betting, fantasy team features, push notifications, social/chat featu
 | F3 | Catch me up | One tap recaps from the last seen ball to now; quick ranges (1/2/5 overs); 3–4 lines lead-first; FactStrip; p95 < 3 s; cached repeats < 200 ms. |
 | F4 | Away detection | Returning after ≥ 6 legal balls shows AwayBanner with the missed count; "Simulate stepping away" for desktop demos. |
 | F5 | Languages | EN / Hinglish / Hindi / Gujarati for recap, answers, UI chrome strings; correct `lang` attributes and fonts. |
-| F6 | Voice out | Listen/Stop on any recap/answer via Web Speech; voice chosen per language; hidden when no voice exists. |
+| F6 | Voice out (natural) | Listen/Stop on any recap/answer using server TTS (Gemini TTS) with a warm, conversational style per language; first audio < 3 s (pre-fetched); must not sound robotic. Browser TTS only as fallback. |
 | F7 | Ask the match | Text question (≤ 200 chars) answered only from match data; says "I don't know" otherwise; suggested chips per language. |
 | F8 | Voice in | Mic → speech recognition (`hi-IN` / `en-IN` / `gu-IN`) → fills composer; hidden where unsupported. |
 | F9 | Grounding & guard | Every number in AI text exists in the facts; on violation the template text is shown with a "Template" badge. Zero ungrounded numbers in the eval set. |

@@ -161,3 +161,14 @@ fonts: 2 families + lazy Indic, `preload` Archivo · LCP < 2.0 s (Moto G-class, 
 | `LLM_MODEL` | server | override model id |
 | `RATE_LIMIT_PER_MIN` | server | default 20 per IP |
 | `VITE_USE_MOCK_API` | client | `true` in Phase 1 |
+
+## 7b. Natural voice (server TTS) — replaces browser speechSynthesis as the primary voice
+- Provider: **Gemini TTS via the Gemini API** (same `GEMINI_API_KEY`). Model from `TTS_MODEL` (verify current id in the SDK/docs; flash TTS tier).
+  Supports Hindi and Gujarati; English. Style prompt per language, e.g. *"Speak like an excited Indian cricket fan catching a friend up — warm, quick, natural, not a news anchor."*
+- Voice per language: one fixed voice name per lang (pick by ear, store in `shared/ai/voices.ts`).
+- **Hinglish:** the recap/answer JSON gets an extra `speak` field — the same content written in Devanagari for TTS (display stays Latin). Guard checks `speak` too. A/B by ear vs. feeding Latin Hinglish directly; keep the better one.
+- Endpoint: `POST /api/speak { kind: 'recap'|'answer', id }` → `audio/wav` (or mp3). **Never accepts free text** — the server only voices text it generated itself (looked up by id in the recap/answer cache). This prevents the API being used as a free TTS proxy.
+- Cache audio in an LRU keyed by `id:lang` (server) and as a Blob URL (client). Pre-fetch audio right after a recap arrives so "Listen" plays instantly.
+- Rate limit shared with /api/recap. Timeout 12 s. On failure: show "Voice unavailable" toast; browser speechSynthesis only as an explicit fallback.
+- Client: `<audio>` element driven by `useSpeak`; SpeakButton waveform reflects play/pause/ended; respects voice speed via `playbackRate`.
+- Fallback provider option (if Gemini voice quality for Gujarati/Hinglish is poor): Sarvam AI Bulbul v3 (Indian languages incl. Gujarati, native Hinglish code-mixing) behind the same `TtsProvider` interface, `TTS_PROVIDER=gemini|sarvam`.

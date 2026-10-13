@@ -70,3 +70,7 @@ There are no accounts and no personal data — keep it that way.
 - [ ] Mic requested only on tap; our code never sends or stores audio; About sheet discloses browser speech processing
 - [ ] `npm audit --omit=dev` has no high/critical (dev-only stylelint→braces advisory is accepted: build-time tool, never shipped)
 - [ ] No betting/prediction language in prompts, templates or UI copy
+
+## 8. TTS endpoint
+- `/api/speak` voices only server-generated text referenced by id; no client-supplied text. Same rate limit + body caps. Audio responses `Cache-Control: private, max-age=3600`.
+- CSP: audio is served same-origin as blob/media — add `media-src 'self' blob:` to the CSP.

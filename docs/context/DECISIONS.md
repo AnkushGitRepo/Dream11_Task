@@ -30,3 +30,8 @@
 2026-10-12 — Footer sources are plain domain names, not links — the exact article URLs were never recorded; add them before submission.
 2026-10-12 — Landing phone demo lays out at 390px then scales to the frame (useFitScale) — real components never wrap or clip at 360px.
 2026-10-12 — IND v SA 2024 final is a visible "Coming soon" card/row, not a link — the timeline is not preprocessed until Phase 2.
+2026-10-13 — /api/speak voices only ids registered by the server (api/_lib/speakRegistry.ts); Phase 3 recap/ask must register their `speak` text — prevents use as a free TTS proxy.
+2026-10-13 — TTS_MODEL default `gemini-3.8-flash-tts` comes from the installed SDK's model-id list, NOT verified against the live API (no key run yet); voice names in shared/ai/voices.ts are provisional until picked by ear.
+2026-10-13 — Rate limiter bucket size = burst, refill = per-minute rate; per-instance in-memory (documented limitation, Upstash/WAF in production).
+2026-10-13 — The voice sample script takes its secrets from the shell's exported variables and never loads secret files itself — respects the guard hook.
+2026-10-13 — shared/ai/** uses erasable TS syntax + `.ts` import extensions so Node can run it directly (scripts/voice-samples.mjs); excluded from the app tsconfig, included in the node one.

@@ -26,7 +26,12 @@ export function AnswerBubble({ turn }: { readonly turn: AskTurn }) {
       </p>
       <div className={styles.meta}>
         {known ? <VerifiedBadge /> : null}
-        <SpeakButton text={turn.answer} lang={turn.lang} compact />
+        <SpeakButton
+          text={turn.answer}
+          lang={turn.lang}
+          source={turn.answerId ? { kind: 'answer', id: turn.answerId } : undefined}
+          compact
+        />
       </div>
     </div>
   );

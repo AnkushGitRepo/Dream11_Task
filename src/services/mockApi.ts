@@ -18,6 +18,8 @@ export interface MockAskRequest {
   facts: Fact[];
 }
 export interface MockRecapResponse {
+  /** Stable id (matches /^[A-Za-z0-9_-]{8,64}$/) the server voices via POST /api/speak. */
+  id: string;
   lead: string;
   body: string;
   facts: Fact[];
@@ -25,6 +27,8 @@ export interface MockRecapResponse {
   window: { fromSeq: number; toSeq: number };
 }
 export interface MockAskResponse {
+  /** Stable id (matches /^[A-Za-z0-9_-]{8,64}$/) the server voices via POST /api/speak. */
+  id: string;
   answer: string;
   /** 'unknown' = honest "I don't know" (no matching facts). */
   source: 'template' | 'unknown';
@@ -70,6 +74,15 @@ export function buildRecapText(facts: readonly Fact[], lang: Lang): { lead: stri
   return buildText([...facts], lang);
 }
 
+/** Small deterministic string hash (djb2) as base36; ids only need to be stable, not secret. */
+function hash(input: string): string {
+  let h = 5381;
+  for (let i = 0; i < input.length; i += 1) h = ((h << 5) + h + input.charCodeAt(i)) | 0;
+  return (h >>> 0).toString(36).padStart(7, '0');
+}
+
+let askCounter = 0;
+
 function queryParam(name: string): string | null {
   return typeof window === 'undefined' ? null : new URLSearchParams(window.location.search).get(name);
 }
@@ -85,6 +98,7 @@ export async function mockRecap(req: MockRecapRequest): Promise<MockRecapRespons
   await delay();
   const { lead, body } = buildText(req.facts, req.lang);
   return {
+    id: `rec-${hash(`${req.matchId}:${req.fromSeq}:${req.toSeq}:${req.lang}`)}`,
     lead,
     body,
     facts: req.facts,
@@ -98,5 +112,7 @@ export async function mockAsk(req: MockAskRequest): Promise<MockAskResponse> {
   const mode = queryParam('ask');
   if (mode === 'error') throw new AskError('FAILED');
   if (mode === 'ratelimit') throw new AskError('RATE_LIMITED');
-  return answerFromFacts(req.question, req.facts, req.lang);
+  askCounter += 1;
+  const id = `ans-${askCounter}-${hash(`${req.matchId}:${req.seq}:${req.lang}:${req.question}`)}`;
+  return { id, ...answerFromFacts(req.question, req.facts, req.lang) };
 }

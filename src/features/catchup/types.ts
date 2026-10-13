@@ -1,6 +1,9 @@
 import type { Fact, Lang } from '@shared/sports/types';
 
 export interface RecapText {
+  /** Server/mock id used to fetch the natural voice (POST /api/speak). */
+  /** Absent for demo/static recaps the server never generated. */
+  readonly id?: string;
   readonly lead: string;
   readonly body: string;
   readonly source: 'ai' | 'template';

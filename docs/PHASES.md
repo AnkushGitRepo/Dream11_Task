@@ -1,6 +1,6 @@
 # PHASES.md — build plan to the deadline
 
-Deadline: **Tue 13 Oct 2026, ~22:00 IST** (submit before midnight; leave buffer).
+Deadline: self-target was Tue 13 Oct; **hard deadline = 5 days after the email (~16–17 Oct)**. Scope is NOT cut.
 Rule: each phase ends with `/checkpoint` and a git commit. If a phase overruns by > 1 h, apply its cut list.
 
 | Phase | Window (IST) | Goal | Exit criteria | Cut list if late |
@@ -9,6 +9,7 @@ Rule: each phase ends with `/checkpoint` and a git commit. If a phase overruns b
 | **1 · Frontend (mock data)** | Mon 19:00–01:30 | All pages per DESIGN_PROMPT using `mockApi` | DESIGN_PROMPT §7 checklist except Lighthouse | Moments filters, scrubber sheet, landing language showcase |
 | **2 · Engine + real data** | Tue 08:30–11:30 | Cricsheet → timeline; cricket adapter; golden tests | Golden tests green; Match Room runs on real match JSON | Partnership stat, milestones |
 | **3 · AI + API** | Tue 11:30–15:00 | `/api/recap`, `/api/ask`, prompts, guard, templates, rate limit | Real recaps in 4 languages, 0 guard failures in eval, templates when `LLM_PROVIDER=none` | Ask context depth, server cache |
+| **3.5 · Natural voice** | after Phase 3 | Gemini TTS `/api/speak` per ARCHITECTURE §7b | Hinglish/Hindi/Gujarati recaps sound human to Ankush; Listen plays < 1 s after recap (pre-fetch) | Sarvam fallback provider |
 | **4 · Voice, polish, a11y, perf** | Tue 15:00–18:00 | Voice in/out, AwayBanner on real devices, Lighthouse, axe | TESTING §5 manual checklist; Lighthouse ≥ 90/95/95 | Voice in (F8), Gujarati voice, share |
 | **5 · Ship** | Tue 18:00–21:30 | Deploy, security headers, Loom, note, submit | Public URL on phone; `/ship-check` = GO; form submitted | Loom polish |
 

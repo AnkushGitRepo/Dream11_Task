@@ -45,7 +45,12 @@ export function RecapCard({ entry, onAsk, autoPlay = false }: RecapCardProps) {
         <FactStrip facts={entry.facts} lang={entry.lang} />
       </div>
       <div className={`${styles.actions} ${styles.line}`} style={line(4)}>
-        <SpeakButton text={spoken} lang={entry.lang} autoPlay={autoPlay} />
+        <SpeakButton
+          text={spoken}
+          lang={entry.lang}
+          source={recap.id ? { kind: 'recap', id: recap.id } : undefined}
+          autoPlay={autoPlay}
+        />
         <Button variant="ghost" size="sm" onClick={() => toast.show(t.catchupComingSoon)}>
           <Share2 size={18} strokeWidth={1.75} aria-hidden="true" />
           {t.catchupShare}

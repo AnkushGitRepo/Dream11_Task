@@ -36,6 +36,7 @@ afterEach(() => {
 describe('mockAsk', () => {
   it('answers the chase question from facts only', async () => {
     expect(await ask('How many runs are needed?')).toEqual({
+      id: expect.stringMatching(/^[A-Za-z0-9_-]{8,64}$/) as string,
       answer: 'Need 16 off 6 balls · RRR 16.00',
       source: 'template',
     });

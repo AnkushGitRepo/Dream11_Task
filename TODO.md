@@ -52,6 +52,13 @@
 - [ ] `aiService` replaces mockApi (`VITE_USE_MOCK_API=false`)
 - [ ] `scripts/eval-prompts.ts` → 0 guard failures
 
+## Phase 3.5 — Natural voice (server TTS)
+- [x] `shared/ai/tts.ts` TtsProvider (gemini; sarvam stub) + `voices.ts` (voice + style prompt per lang)
+- [ ] Recap/answer JSON gets `speak` field (Devanagari for Hinglish); guard checks it — blocked on Phase 3 (`/api/recap`, `/api/ask`); they must call `registerSpeakable(kind, id, {text, lang})` from api/_lib/speakRegistry.ts
+- [x] `api/speak.ts` (id-based, no free text, LRU audio cache, rate limit)
+- [x] `useSpeak` → `<audio>` playback, pre-fetch after recap, playbackRate = voice speed; browser TTS fallback only on error
+- [ ] Run `node scripts/voice-samples.mjs` with GEMINI_API_KEY and TTS_MODEL exported in the shell, then Ankush listens to EN / Hinglish / HI / GU samples and picks voices
+
 ## Phase 4 — Voice, polish, a11y, perf
 - [ ] Voice in (`useListen`) with transcript UI
 - [ ] Real-device checklist (TESTING §5)

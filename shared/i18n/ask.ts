@@ -29,6 +29,8 @@ const en = {
   askRateLimited: 'Easy, captain — try again in a few seconds.',
   speakListen: 'Listen',
   speakStop: 'Stop',
+  voiceFailedToast: 'Voice unavailable',
+  basicVoice: 'Basic voice',
 } as const;
 
 type Keys = keyof typeof en;
@@ -61,6 +63,8 @@ export const askStrings = {
     askRateLimited: 'Araam se, captain — kuch second baad dobara try karo.',
     speakListen: 'Suno',
     speakStop: 'Roko',
+    voiceFailedToast: 'Awaaz abhi available nahi hai',
+    basicVoice: 'Basic awaaz',
   },
   hi: {
     askEmptyTitle: 'मैच से पूछिए।',
@@ -89,6 +93,8 @@ export const askStrings = {
     askRateLimited: 'आराम से, कप्तान — कुछ सेकंड बाद फिर कोशिश करें।',
     speakListen: 'सुनें',
     speakStop: 'रोकें',
+    voiceFailedToast: 'आवाज़ अभी उपलब्ध नहीं है',
+    basicVoice: 'बेसिक आवाज़',
   },
   gu: {
     askEmptyTitle: 'મેચને પૂછો.',
@@ -117,5 +123,7 @@ export const askStrings = {
     askRateLimited: 'શાંતિથી, કેપ્ટન — થોડી સેકન્ડ પછી ફરી પ્રયત્ન કરો.',
     speakListen: 'સાંભળો',
     speakStop: 'બંધ કરો',
+    voiceFailedToast: 'અવાજ હમણાં ઉપલબ્ધ નથી',
+    basicVoice: 'બેઝિક અવાજ',
   },
 } satisfies Record<Lang, Record<Keys, string>>;

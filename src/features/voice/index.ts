@@ -6,3 +6,5 @@ export { hasVoiceFor, useHasVoice } from './useVoices';
 export { useListen } from './useListen';
 export type { ListenApi, ListenError } from './useListen';
 export { pickVoice } from './voices';
+export { fetchSpeech, prefetchSpeech, revokeAll, SpeechError } from './speakService';
+export type { SpeechSource, SpeechKind, SpeechErrorCode } from './speakService';

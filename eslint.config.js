@@ -13,4 +13,21 @@ export default tseslint.config(
       '@typescript-eslint/ban-ts-comment': 'error',
     },
   },
+  {
+    // Server-only code (LLM/TTS providers and their keys) must never be bundled into the client.
+    files: ['src/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/shared/ai/*', '@shared/ai/*', '**/api/*'],
+              message: 'Server-only module: import it from api/ only, never from src/.',
+            },
+          ],
+        },
+      ],
+    },
+  },
 );

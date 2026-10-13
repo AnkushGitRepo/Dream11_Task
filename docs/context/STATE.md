@@ -1,25 +1,24 @@
 # STATE — project memory (keep < 60 lines; rewrite via /checkpoint)
 
 ## Phase / focus
-Phase 1 — Frontend (mock data) is functionally COMPLETE. Chunk 3b (Matches, Landing, NotFound, a11y pass) is
-built and UNCOMMITTED. Next: commit, then Phase 2 (engine + real data).
+Phase 3.5 (natural voice) infrastructure built, UNCOMMITTED, ahead of Phase 2/3 by request. Phase 1 committed (936d5b7).
+Remaining before voice is audible end to end: Phase 3 `/api/recap` + `/api/ask` registering speakables, and the sample run.
 
 ## Done recently
-- Chunks 1, 2, 3a committed (c92c5b1, 7165896, 059bc6d). Chunk 3b = working tree (17 changed paths).
-- Matches page (SportTabs, Live-now empty card, featured carousel, All replays, skeleton/error `?matches=error`).
-- Landing page (paper theme, scaled live phone demo with real ScoreHero/RecapCard, problem strip, how it works,
-  trust band, language showcase, sports row, CTA, footer). NotFound "OUT!".
-- a11y/responsive audit at 360/390/768/1280 on all 4 routes via iframes: no horizontal scroll, no contrast
-  failures, every focusable has a focus ring. Fixed: /matches page-wide overflow from an sr-only span in the
-  carousel (needs position:relative), SegmentedControl 44px hit area, Chip min-width 44, shortcut-hint contrast.
-- Build, lint, 102 tests green.
+- Server: shared/ai/{tts,voices}.ts (GeminiTts, Sarvam stub, PCM->WAV), api/speak.ts + api/_lib/{http,rateLimit,cache,speakRegistry},
+  Vite dev plugin (/api/speak), vercel.json (CSP media-src 'self' blob:, SPA rewrite), lint rule: no shared/ai or api imports in src/.
+- Client: useSpeak plays an <audio> blob (prefetch on arrival, playbackRate = voice speed), browser TTS only as labelled fallback.
+- Verified: build, lint, 127 tests; live dev endpoint returns 405/415/400/404/413 correctly (no key needed for those).
+- @google/genai ^2.29.0 installed (server-only).
 
 ## Next
-1. Commit chunk 3b. 2. Phase 2: scripts/preprocess-cricsheet.ts -> data/matches/*.json + index.json.
-3. Cricket adapter on the FULL timeline (normalize, getState, summarize, askContext, isMeaningfulGap) + golden tests
-   (powerplay + each wicket checkpoints in TODO). 4. Matches/Match Room read from the index instead of mocks.
+1. Export GEMINI_API_KEY + TTS_MODEL in your shell, run `node scripts/voice-samples.mjs`; listen to tmp/voice-samples; pick voices in voices.ts.
+2. Commit. 3. Phase 2 (preprocess + adapter + golden tests). 4. Phase 3 (providers, prompts, guard incl. `speak`, /api/recap, /api/ask).
 
 ## Open issues / blockers
+- /api/speak 404s for every id until Phase 3 registers speakables; client then shows the labelled browser fallback (or hides Listen).
+- TTS model id + voice names unverified against the live API; Hinglish Devanagari-vs-Latin A/B still to be listened to.
+- zod not installed: /api/speak validates by hand; Phase 3 adds zod.
 - hi/gu translations are unreviewed by a native speaker. `shared/sports/cricket/snapshot.ts` has an English-only "Need n off b balls".
 - MatchRoomView.tsx is ~200 lines (component limit 150): extract a `useMatchRoomModel` hook. state.ts is 254 lines.
 - Landing copy is English marketing constants (only the showcase is multilingual). Footer sources are plain domains, no URLs yet.
@@ -30,7 +29,8 @@ built and UNCOMMITTED. Next: commit, then Phase 2 (engine + real data).
 - Demo match: Cricsheet 1298150 (PAK v IND, 2022, MCG). Featured #2: 1415755. LLM: Gemini.
 
 ## Gotchas
-- Deadline Tue 13 Oct 2026 night IST. Frontend first, mock API behind `VITE_USE_MOCK_API`.
+- DEADLINE: Tue 13 Oct was self-imposed. Hard deadline = 5 days after the Dream11 email (~16–17 Oct). NOTHING is cut: do Phase 2 (full engine), Phase 3 (AI), Phase 3.5 (natural voice), 4, 5 properly.
+- VOICE: browser speechSynthesis sounds robotic — replace with server TTS (Gemini TTS, same GEMINI_API_KEY). See ARCHITECTURE §7b. Browser TTS = last-resort fallback only.
 - No Tailwind/Bootstrap/CSS-in-JS (guard hook blocks installs). SCSS modules + tokens only.
 - No video, no logos, no Dream11 branding, no predictions/betting language.
 - Never cat data/matches/*.json or data/raw/*.json. The guard hook blocks shell commands that name env files.

@@ -11,6 +11,8 @@ export interface AskTurn {
   /** Bumped on every (re)send; responses for an older attempt are dropped. */
   readonly attempt: number;
   readonly answer?: string;
+  /** Id used to fetch the natural voice (POST /api/speak). */
+  readonly answerId?: string;
   /** 'unknown' = honest "I don't know". */
   readonly source?: 'template' | 'unknown';
   readonly failure?: 'failed' | 'rateLimited';

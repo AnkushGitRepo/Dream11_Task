@@ -46,7 +46,13 @@ export function useAsk(matchId: string, lang: Lang, getContext: () => AskContext
     (turn: AskTurn) => {
       const { seq, facts } = contextRef.current();
       mockAsk({ matchId, seq, question: turn.question, lang: turn.lang, facts: [...facts] }).then(
-        (res) => patch(turn.id, turn.attempt, { status: 'done', answer: res.answer, source: res.source }),
+        (res) =>
+          patch(turn.id, turn.attempt, {
+            status: 'done',
+            answer: res.answer,
+            answerId: res.id,
+            source: res.source,
+          }),
         (err: unknown) =>
           patch(turn.id, turn.attempt, {
             status: 'error',

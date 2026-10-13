@@ -66,3 +66,28 @@
     transform: scaleY(1);
   }
 }
+
+// Subtle busy state: icon pulses, layout untouched.
+.busy {
+  animation: pulse var(--d-slow) var(--e-out) infinite alternate;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+.basic {
+  font-size: var(--t-label-size);
+  color: var(--c-text-2);
+}
+
+@keyframes pulse {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.55;
+  }
+}
