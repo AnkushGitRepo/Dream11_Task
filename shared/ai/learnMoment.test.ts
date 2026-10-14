@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { RuleEntry, TimelineEvent } from '../sports/types.js';
 import { checkNumbers } from './guard.js';
+import { numbersMissingFromSpeak } from './parity.js';
 import {
   allowedNumbers,
   buildMomentPrompt,
@@ -94,6 +95,26 @@ describe('buildMomentPrompt', () => {
     expect(p.user).toContain('Score 158/5');
     expect(p.user).toContain(note.en);
     expect(p.system).toMatch(/Latin/);
+  });
+});
+
+describe('spoken parity', () => {
+  it('every number in the shown moment (note or frame) is also in the spoken text, in every language', () => {
+    const e = event({ annotationNote: note });
+    for (const lang of ['en', 'hinglish', 'hi', 'gu'] as const) {
+      const t = templateMoment(e, lang);
+      expect(numbersMissingFromSpeak(t.moment, t.speak), lang).toEqual([]);
+      const frame = templateMoment(event(), lang);
+      expect(numbersMissingFromSpeak(frame.moment, frame.speak), lang).toEqual([]);
+    }
+  });
+
+  it('the full card (term + rule + moment) is voiced in full', () => {
+    for (const lang of ['en', 'hinglish', 'hi', 'gu'] as const) {
+      const t = templateMoment(event(), lang);
+      const shown = `${rule.term[lang]}. ${rule.short[lang]} ${t.moment}`;
+      expect(numbersMissingFromSpeak(shown, composeSpeak(rule, lang, t.speak)), lang).toEqual([]);
+    }
   });
 });
 

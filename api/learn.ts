@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { checkNumbers, findBanned } from '../shared/ai/guard.js';
+import { numbersMissingFromSpeak, spokenForm } from '../shared/ai/parity.js';
 import { callModel, type PipelineDeps } from '../shared/ai/pipeline.js';
 import {
   allowedNumbers,
@@ -77,6 +78,7 @@ async function generateMoment(
   deps: PipelineDeps,
   prompt: { system: string; user: string },
   allowed: readonly number[],
+  lang: Lang,
 ): Promise<MomentText | null> {
   const called = await callModel(deps, prompt, LEARN_MAX_TOKENS);
   if (!called.ok) return null; // no key / timeout / provider error: the template takes over
@@ -84,7 +86,10 @@ async function generateMoment(
   if (!parsed) return null;
   const texts = [parsed.moment, parsed.speak];
   const clean = texts.every((t) => checkNumbers(t, allowed).ok && findBanned(t).length === 0);
-  return clean ? parsed : null;
+  // The card voices everything it shows: no number may be dropped from the spoken sentence.
+  const spoken = spokenForm(parsed.speak, lang);
+  if (!clean || numbersMissingFromSpeak(parsed.moment, spoken).length > 0) return null;
+  return { moment: parsed.moment, speak: spoken };
 }
 
 function withToken(out: LearnResponse, lang: Lang, secret: string | undefined): LearnResponse {
@@ -130,6 +135,7 @@ export async function handleLearn(req: IncomingMessage, res: ServerResponse, dep
     { provider: deps.getProvider(), timeoutMs: deps.timeoutMs },
     prompt,
     allowed,
+    body.lang,
   );
   const text = generated ?? templateMoment(event, body.lang);
   const spoken = composeSpeak(rule, body.lang, text.speak);

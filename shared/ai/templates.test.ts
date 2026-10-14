@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { numbersMissingFromSpeak } from './parity.js';
 import { cricketAdapter } from '../sports/cricket/adapter.js';
 import { askContextWithRule, getRule } from '../sports/rules.js';
 import type { Facts, Lang, MatchTimeline } from '../sports/types.js';
@@ -173,6 +174,8 @@ describe('askTemplate', () => {
             const a = askTemplate(q, f, lang);
             expect(checkNumbers(a.answer, allowed).ok, `${seq} ${q} ${lang}: ${a.answer}`).toBe(true);
             expect(checkNumbers(a.speak, allowed).ok, `${seq} ${q} ${lang}: ${a.speak}`).toBe(true);
+            // an answer is voiced in full: nothing shown may be missing from what is spoken
+            expect(numbersMissingFromSpeak(a.answer, a.speak), `${seq} ${q} ${lang}: ${a.answer}`).toEqual([]);
             checked += 1;
           }
         }

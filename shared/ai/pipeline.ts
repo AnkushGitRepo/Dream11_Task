@@ -11,6 +11,7 @@ import {
   ruleFromFacts,
   type Prompt,
 } from './prompts.js';
+import { numbersMissingFromSpeak, spokenForm } from './parity.js';
 import { askTemplate, recapTemplate, type RecapText } from './templates.js';
 import type { TextProvider } from './provider.js';
 
@@ -19,7 +20,7 @@ import type { TextProvider } from './provider.js';
 // `reason` says why the template was used, for logs and the eval report; it never reaches clients.
 
 export type FallbackReason =
-  'no-provider' | 'provider-error' | 'timeout' | 'parse' | 'numbers' | 'banned' | 'script' | 'rule-quote';
+  'no-provider' | 'provider-error' | 'timeout' | 'parse' | 'numbers' | 'banned' | 'script' | 'rule-quote' | 'parity';
 
 /** Reasons that mean the model answered but the answer was refused (the eval's "guard failures"). */
 export const GUARD_REASONS: readonly FallbackReason[] = [
@@ -27,6 +28,7 @@ export const GUARD_REASONS: readonly FallbackReason[] = [
   'banned',
   'script',
   'rule-quote',
+  'parity',
   'parse',
 ];
 
@@ -96,11 +98,14 @@ function scriptOk(display: string, speak: string, lang: Lang): boolean {
 }
 
 /** Markdown and arrows the model sometimes adds; they would be read out by the voice. */
-const cleanSpeak = (s: string): string =>
-  s
-    .replace(/[*_#`~→]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+const cleanSpeak = (s: string, lang: Lang): string =>
+  spokenForm(
+    s
+      .replace(/[*_#`~→]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim(),
+    lang,
+  );
 
 const squash = (s: string): string => s.replace(/\s+/g, ' ').trim().toLowerCase();
 
@@ -130,7 +135,7 @@ export async function runRecap(
   if (!called.ok) return fallback(called.reason, called.detail);
   const parsed = parseRecapReply(called.text);
   if (!parsed) return fallback('parse');
-  const speak = cleanSpeak(parsed.speak);
+  const speak = cleanSpeak(parsed.speak, lang);
   const bad = check([parsed.lead, parsed.body, speak], allowedFromFacts(facts));
   if (bad) return fallback(bad);
   if (!scriptOk(`${parsed.lead} ${parsed.body}`, speak, lang)) return fallback('script');
@@ -150,9 +155,11 @@ export async function runAsk(
   if (!called.ok) return fallback(called.reason);
   const parsed = parseAskReply(called.text);
   if (!parsed) return fallback('parse');
-  const speak = cleanSpeak(parsed.speak);
+  const speak = cleanSpeak(parsed.speak, lang);
   const bad = check([parsed.answer, speak], allowedFromFacts(facts));
   if (bad) return fallback(bad);
+  // Unlike a recap, an answer is voiced IN FULL: every number on screen must be spoken too.
+  if (numbersMissingFromSpeak(parsed.answer, speak).length > 0) return fallback('parity');
   if (!scriptOk(parsed.answer, speak, lang)) return fallback('script');
   const rule = ruleFromFacts(facts, lang);
   if (rule && !squash(parsed.answer).includes(squash(rule.short))) return fallback('rule-quote');

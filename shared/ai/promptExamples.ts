@@ -161,7 +161,7 @@ export const ASK_EXAMPLES: Readonly<Record<Lang, readonly [AskExample, AskExampl
       facts: ASK_FACTS,
       output: {
         answer: 'Kohli is on 68 off 49 and Pandya is on 40 off 36.',
-        speak: 'Kohli is on 68 and Pandya is on 40.',
+        speak: 'Kohli is on 68 off 49 balls, and Pandya is on 40 off 36 balls.',
       },
     },
   ],
@@ -179,7 +179,7 @@ export const ASK_EXAMPLES: Readonly<Record<Lang, readonly [AskExample, AskExampl
       facts: ASK_FACTS,
       output: {
         answer: 'Kohli 49 gend mein 68 par hain aur Pandya 36 gend mein 40 par.',
-        speak: 'कोहली 68 रन पर हैं और पंड्या 40 रन पर।',
+        speak: 'कोहली 49 गेंद में 68 रन पर हैं, और पंड्या 36 गेंद में 40 रन पर।',
       },
     },
   ],
@@ -197,7 +197,7 @@ export const ASK_EXAMPLES: Readonly<Record<Lang, readonly [AskExample, AskExampl
       facts: ASK_FACTS,
       output: {
         answer: 'कोहली 49 गेंद में 68 पर हैं और पंड्या 36 गेंद में 40 पर।',
-        speak: 'कोहली 68 रन पर हैं और पंड्या 40 रन पर।',
+        speak: 'कोहली 49 गेंद में 68 रन पर हैं, और पंड्या 36 गेंद में 40 रन पर।',
       },
     },
   ],
@@ -215,7 +215,7 @@ export const ASK_EXAMPLES: Readonly<Record<Lang, readonly [AskExample, AskExampl
       facts: ASK_FACTS,
       output: {
         answer: 'કોહલી 49 બોલમાં 68 પર છે અને પંડ્યા 36 બોલમાં 40 પર.',
-        speak: 'કોહલી 68 રન પર છે અને પંડ્યા 40 રન પર.',
+        speak: 'કોહલી 49 બોલમાં 68 રન પર છે, અને પંડ્યા 36 બોલમાં 40 રન પર.',
       },
     },
   ],

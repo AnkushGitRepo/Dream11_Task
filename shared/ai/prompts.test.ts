@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { Facts, Lang } from '../sports/types.js';
 import { askContextWithRule, getRule } from '../sports/rules.js';
 import { checkNumbers, findBanned } from './guard.js';
+import { numbersMissingFromSpeak } from './parity.js';
 import { ASK_EXAMPLES, RECAP_EXAMPLES } from './promptExamples.js';
 import {
   allowedFromFacts,
@@ -54,14 +55,16 @@ describe('few-shot examples', () => {
       }
     });
 
-    it('speak lines are short stories: <= 35 words and <= 2 numbers', () => {
-      const speaks = [
-        ...RECAP_EXAMPLES[lang].map((e) => e.output.speak),
-        ...ASK_EXAMPLES[lang].map((e) => e.output.speak),
-      ];
-      for (const speak of speaks) {
+    it('recap speak lines are short stories: <= 35 words and <= 2 numbers', () => {
+      for (const speak of RECAP_EXAMPLES[lang].map((e) => e.output.speak)) {
         expect(speak.trim().split(/\s+/).length, speak).toBeLessThanOrEqual(35);
         expect((speak.match(/\d+(?:\.\d+)?/g) ?? []).length, speak).toBeLessThanOrEqual(2);
+      }
+    });
+
+    it('ask speak lines carry every number of the answer (parity, not a summary)', () => {
+      for (const ex of ASK_EXAMPLES[lang]) {
+        expect(numbersMissingFromSpeak(ex.output.answer, ex.output.speak), ex.output.speak).toEqual([]);
       }
     });
 
