@@ -1,17 +1,17 @@
 import { createHash } from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { GUARD_REASONS, runRecap } from '../shared/ai/pipeline';
-import { createTextProvider, type TextProvider } from '../shared/ai/provider';
-import type { MatchTimeline } from '../shared/sports/types';
-import { LruCache } from './_lib/cache';
-import { guardRequest } from './_lib/handlerKit';
-import { sendError, sendJson } from './_lib/http';
-import { inTimeline, resolveMatch } from './_lib/matchSeq';
-import { loadTimeline } from './_lib/matchStore';
-import type { RateLimiter } from './_lib/rateLimit';
-import { recapBodySchema, type RecapBody } from './_lib/schemas';
-import { sharedLimiter } from './_lib/shared';
-import { registerSpeakable } from './_lib/speakRegistry';
+import { GUARD_REASONS, runRecap } from '../shared/ai/pipeline.js';
+import { createTextProvider, type TextProvider } from '../shared/ai/provider.js';
+import type { MatchTimeline } from '../shared/sports/types.js';
+import { LruCache } from './_lib/cache.js';
+import { guardRequest } from './_lib/handlerKit.js';
+import { sendError, sendJson } from './_lib/http.js';
+import { inTimeline, resolveMatch } from './_lib/matchSeq.js';
+import { loadTimeline } from './_lib/matchStore.js';
+import type { RateLimiter } from './_lib/rateLimit.js';
+import { recapBodySchema, type RecapBody } from './_lib/schemas.js';
+import { sharedLimiter } from './_lib/shared.js';
+import { registerSpeakable } from './_lib/speakRegistry.js';
 
 // POST /api/recap { matchId, fromSeq, toSeq, seqBase?, lang } -> { id, lead, body, source, window }
 // Facts come from the sport engine on the server (the client never sends numbers). One guarded

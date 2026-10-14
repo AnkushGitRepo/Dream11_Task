@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { askContextWithRule, getRule, getRulebook, lookupRule, RULE_LIMITS } from './rules.ts';
-import type { Lang, SportId } from './types.ts';
+import { askContextWithRule, getRule, getRulebook, lookupRule, RULE_LIMITS } from './rules.js';
+import type { Lang, SportId } from './types.js';
 
 const LANGS: readonly Lang[] = ['en', 'hinglish', 'hi', 'gu'];
 const SPORTS: readonly SportId[] = ['cricket', 'football', 'kabaddi'];

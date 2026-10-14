@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { createRateLimiter } from './rateLimit';
-import { LruCache } from './cache';
+import { createRateLimiter } from './rateLimit.js';
+import { LruCache } from './cache.js';
 
 describe('LruCache', () => {
   it('evicts the least recently used entry', () => {

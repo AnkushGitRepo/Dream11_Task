@@ -1,8 +1,8 @@
-import type { MatchTimeline, TimelineEvent } from '../types.ts';
-import { ballData } from './ballData.ts';
-import { clockToLegalBalls, BALLS_PER_OVER } from './format.ts';
-import { getCricketState } from './state.ts';
-import type { CricketBaseline, CricketState, Scorecard } from './stateTypes.ts';
+import type { MatchTimeline, TimelineEvent } from '../types.js';
+import { ballData } from './ballData.js';
+import { clockToLegalBalls, BALLS_PER_OVER } from './format.js';
+import { getCricketState } from './state.js';
+import type { CricketBaseline, CricketState, Scorecard } from './stateTypes.js';
 
 // Innings-aware helpers. `position` = number of events played (0..n); latest seq = position - 1.
 

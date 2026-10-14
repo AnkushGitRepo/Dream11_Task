@@ -6,7 +6,6 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "types": ["node"],
-    "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,

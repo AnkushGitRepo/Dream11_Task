@@ -1,11 +1,11 @@
 // @vitest-environment node
 import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
-import { cricketAdapter } from '../sports/cricket/adapter.ts';
-import { askContextWithRule, getRule } from '../sports/rules.ts';
-import type { Lang, MatchTimeline } from '../sports/types.ts';
-import { callModel, GUARD_REASONS, runAsk, runRecap, type PipelineDeps } from './pipeline.ts';
-import type { TextProvider, TextRequest } from './provider.ts';
+import { cricketAdapter } from '../sports/cricket/adapter.js';
+import { askContextWithRule, getRule } from '../sports/rules.js';
+import type { Lang, MatchTimeline } from '../sports/types.js';
+import { callModel, GUARD_REASONS, runAsk, runRecap, type PipelineDeps } from './pipeline.js';
+import type { TextProvider, TextRequest } from './provider.js';
 
 const tl = JSON.parse(
   readFileSync(new URL('../../data/matches/pak-ind-2022-t20wc-mcg.json', import.meta.url), 'utf8'),

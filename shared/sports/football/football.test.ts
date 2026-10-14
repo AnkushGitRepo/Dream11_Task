@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { adapters, getAdapter } from '../registry';
-import { footballAdapter, type FootballFeed } from './adapter';
+import { adapters, getAdapter } from '../registry.js';
+import { footballAdapter, type FootballFeed } from './adapter.js';
 
 const feed: FootballFeed = {
   match: {

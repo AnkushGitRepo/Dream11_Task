@@ -1,6 +1,6 @@
-import type { Fact, Facts, Lang } from '../sports/types.ts';
-import { findBanned } from './guard.ts';
-import { spokenLang } from './lang.ts';
+import type { Fact, Facts, Lang } from '../sports/types.js';
+import { findBanned } from './guard.js';
+import { spokenLang } from './lang.js';
 
 // Deterministic Ask fallback (re-exported from templates.ts). A rule question is answered with the
 // rulebook text verbatim; a match question maps to an intent whose facts are read out; anything

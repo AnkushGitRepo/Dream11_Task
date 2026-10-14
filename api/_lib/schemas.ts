@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { isMatchId } from './matchStore';
+import { isMatchId } from './matchStore.js';
 
 // Request schemas for every POST endpoint (docs/SECURITY.md §2). Shape and bounds live here;
 // "does this match exist / is the seq inside its timeline" is answered by the handler once it

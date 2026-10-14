@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 async function fresh() {
   vi.resetModules();
-  return import('./shared');
+  return import('./shared.js');
 }
 
 describe('sharedLimiter', () => {

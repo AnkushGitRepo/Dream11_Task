@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createTextProvider, DEFAULT_LLM_MODEL, GeminiText, resolveModel, TextError } from './provider.ts';
+import { createTextProvider, DEFAULT_LLM_MODEL, GeminiText, resolveModel, TextError } from './provider.js';
 
 interface GenArgs {
   model: string;

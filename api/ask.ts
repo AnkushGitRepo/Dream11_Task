@@ -1,18 +1,18 @@
 import { createHash } from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { GUARD_REASONS, runAsk } from '../shared/ai/pipeline';
-import { createTextProvider, type TextProvider } from '../shared/ai/provider';
-import { askContextWithRule, lookupRule } from '../shared/sports/rules';
-import type { MatchTimeline } from '../shared/sports/types';
-import { LruCache } from './_lib/cache';
-import { guardRequest } from './_lib/handlerKit';
-import { sendError, sendJson } from './_lib/http';
-import { inTimeline, resolveMatch } from './_lib/matchSeq';
-import { loadTimeline } from './_lib/matchStore';
-import type { RateLimiter } from './_lib/rateLimit';
-import { askBodySchema } from './_lib/schemas';
-import { sharedLimiter } from './_lib/shared';
-import { registerSpeakable } from './_lib/speakRegistry';
+import { GUARD_REASONS, runAsk } from '../shared/ai/pipeline.js';
+import { createTextProvider, type TextProvider } from '../shared/ai/provider.js';
+import { askContextWithRule, lookupRule } from '../shared/sports/rules.js';
+import type { MatchTimeline } from '../shared/sports/types.js';
+import { LruCache } from './_lib/cache.js';
+import { guardRequest } from './_lib/handlerKit.js';
+import { sendError, sendJson } from './_lib/http.js';
+import { inTimeline, resolveMatch } from './_lib/matchSeq.js';
+import { loadTimeline } from './_lib/matchStore.js';
+import type { RateLimiter } from './_lib/rateLimit.js';
+import { askBodySchema } from './_lib/schemas.js';
+import { sharedLimiter } from './_lib/shared.js';
+import { registerSpeakable } from './_lib/speakRegistry.js';
 
 // POST /api/ask { matchId, seq, seqBase?, question, lang } -> { id, answer, source }
 // The question is untrusted: it goes into the prompt only inside <question> tags, is never logged,

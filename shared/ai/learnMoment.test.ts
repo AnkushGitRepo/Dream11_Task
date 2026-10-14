@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import type { RuleEntry, TimelineEvent } from '../sports/types.ts';
-import { checkNumbers } from './guard.ts';
+import type { RuleEntry, TimelineEvent } from '../sports/types.js';
+import { checkNumbers } from './guard.js';
 import {
   allowedNumbers,
   buildMomentPrompt,
   composeSpeak,
   parseMomentReply,
   templateMoment,
-} from './learnMoment.ts';
+} from './learnMoment.js';
 
 const rule: RuleEntry = {
   id: 'free-hit',

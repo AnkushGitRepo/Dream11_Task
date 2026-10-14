@@ -1,6 +1,6 @@
-import { cricketAdapter } from './cricket/adapter.ts';
-import { footballAdapter } from './football/adapter.ts';
-import type { SportAdapter, SportId } from './types.ts';
+import { cricketAdapter } from './cricket/adapter.js';
+import { footballAdapter } from './football/adapter.js';
+import type { SportAdapter, SportId } from './types.js';
 
 // reason: adapters carry different state types; callers narrow by sport id.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

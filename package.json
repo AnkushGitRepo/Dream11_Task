@@ -15,8 +15,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "data:build": "node --experimental-strip-types scripts/preprocess-cricsheet.ts",
-    "eval:prompts": "node --env-file-if-exists=.env.local --experimental-strip-types scripts/eval-prompts.ts"
+    "data:build": "tsx scripts/preprocess-cricsheet.ts",
+    "eval:prompts": "tsx --env-file-if-exists=.env.local scripts/eval-prompts.ts",
+    "voice:samples": "tsx --env-file-if-exists=.env.local scripts/voice-samples.mjs",
+    "smoke:prod": "node scripts/smoke-prod.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.29.0",
@@ -41,6 +43,7 @@
     "sass": "^1.105.1",
     "stylelint": "^17.16.0",
     "stylelint-config-standard-scss": "^17.0.0",
+    "tsx": "^4.23.15",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.71.1",
     "vite": "^8.3.4",

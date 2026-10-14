@@ -1,8 +1,8 @@
-import type { MatchTimeline, TimelineEvent } from '../types.ts';
-import type { CricketBallData, ExtrasDetail, WicketData } from './ballData.ts';
-import { describe, extraTypeOf, kindAndTone, type Delivery } from './describeBall.ts';
-import { asArr, asNum, asObj, asStr, fail, optNum, teamCode, type Obj } from './rawParse.ts';
-import { buildMeta } from './rawMeta.ts';
+import type { MatchTimeline, TimelineEvent } from '../types.js';
+import type { CricketBallData, ExtrasDetail, WicketData } from './ballData.js';
+import { describe, extraTypeOf, kindAndTone, type Delivery } from './describeBall.js';
+import { asArr, asNum, asObj, asStr, fail, optNum, teamCode, type Obj } from './rawParse.js';
+import { buildMeta } from './rawMeta.js';
 
 // Cricsheet JSON (v1.x) -> MatchTimeline. ONE implementation, used by scripts/preprocess-cricsheet.ts.
 //

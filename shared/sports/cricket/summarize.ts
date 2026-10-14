@@ -1,12 +1,12 @@
-import type { Fact, Facts, Lang, MatchTimeline } from '../types.ts';
-import { ballData } from './ballData.ts';
-import { countWindow, windowItems } from './facts.ts';
-import { bowlingOvers, shortName } from './format.ts';
-import { NumberBag } from './numbers.ts';
-import { getCricketStateAt, type DetailedCricketState } from './position.ts';
-import { factsFromState } from './snapshot.ts';
-import { addBatter, addBowler, addStateNumbers } from './stateNumbers.ts';
-import { EMPTY_BASELINE, tallyEvents } from './tally.ts';
+import type { Fact, Facts, Lang, MatchTimeline } from '../types.js';
+import { ballData } from './ballData.js';
+import { countWindow, windowItems } from './facts.js';
+import { bowlingOvers, shortName } from './format.js';
+import { NumberBag } from './numbers.js';
+import { getCricketStateAt, type DetailedCricketState } from './position.js';
+import { factsFromState } from './snapshot.js';
+import { addBatter, addBowler, addStateNumbers } from './stateNumbers.js';
+import { EMPTY_BASELINE, tallyEvents } from './tally.js';
 
 const MAX_PLAYERS = 4;
 const all = (s: string): Record<Lang, string> => ({ en: s, hinglish: s, hi: s, gu: s });

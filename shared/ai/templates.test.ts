@@ -1,12 +1,12 @@
 // @vitest-environment node
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { cricketAdapter } from '../sports/cricket/adapter.ts';
-import { askContextWithRule, getRule } from '../sports/rules.ts';
-import type { Facts, Lang, MatchTimeline } from '../sports/types.ts';
-import { checkNumbers, findBanned } from './guard.ts';
-import { allowedFromFacts } from './prompts.ts';
-import { askTemplate, detectIntent, recapTemplate } from './templates.ts';
+import { cricketAdapter } from '../sports/cricket/adapter.js';
+import { askContextWithRule, getRule } from '../sports/rules.js';
+import type { Facts, Lang, MatchTimeline } from '../sports/types.js';
+import { checkNumbers, findBanned } from './guard.js';
+import { allowedFromFacts } from './prompts.js';
+import { askTemplate, detectIntent, recapTemplate } from './templates.js';
 
 const load = (id: string) =>
   JSON.parse(

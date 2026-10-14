@@ -1,4 +1,4 @@
-import type { EventTone } from '../types';
+import type { EventTone } from '../types.js';
 
 export interface BatterLine {
   readonly name: string;

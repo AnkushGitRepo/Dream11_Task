@@ -1,15 +1,15 @@
-import type { Fact, Facts, Lang, MatchTimeline } from '../types.ts';
-import { bowlingOvers, shortName } from './format.ts';
-import { NumberBag } from './numbers.ts';
+import type { Fact, Facts, Lang, MatchTimeline } from '../types.js';
+import { bowlingOvers, shortName } from './format.js';
+import { NumberBag } from './numbers.js';
 import {
   getCricketStateAt,
   getInningsStateAfter,
   inningsStartPosition,
   type DetailedCricketState,
-} from './position.ts';
-import { factsFromState } from './snapshot.ts';
-import { addBatter, addBowler, addStateNumbers } from './stateNumbers.ts';
-import { emptyFacts } from './summarize.ts';
+} from './position.js';
+import { factsFromState } from './snapshot.js';
+import { addBatter, addBowler, addStateNumbers } from './stateNumbers.js';
+import { emptyFacts } from './summarize.js';
 
 const all = (s: string): Record<Lang, string> => ({ en: s, hinglish: s, hi: s, gu: s });
 const fact = (key: string, value: number | string, label = String(value)): Fact => ({

@@ -1,6 +1,6 @@
-import { getAdapter } from '../../shared/sports/registry';
-import type { MatchTimeline } from '../../shared/sports/types';
-import { loadTimeline } from './matchStore';
+import { getAdapter } from '../../shared/sports/registry.js';
+import type { MatchTimeline } from '../../shared/sports/types.js';
+import { loadTimeline } from './matchStore.js';
 
 // Resolves a request's match + seq range into the real timeline. The Match Room replays a
 // mid-match window of the match, so it sends `seqBase` (the real seq of its own seq 0).

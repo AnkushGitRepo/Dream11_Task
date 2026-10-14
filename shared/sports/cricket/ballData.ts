@@ -1,4 +1,4 @@
-import type { TimelineEvent } from '../types';
+import type { TimelineEvent } from '../types.js';
 
 // Cricket-specific payload of TimelineEvent.data. Typed here so the sport-agnostic core never sees it.
 

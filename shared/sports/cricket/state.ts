@@ -1,5 +1,5 @@
-import type { MatchTimeline, TimelineEvent } from '../types.ts';
-import { ballData } from './ballData.ts';
+import type { MatchTimeline, TimelineEvent } from '../types.js';
+import { ballData } from './ballData.js';
 import {
   BALLS_PER_OVER,
   WICKETS_IN_INNINGS,
@@ -8,7 +8,7 @@ import {
   round2,
   runRate,
   shortName,
-} from './format.ts';
+} from './format.js';
 import type {
   BallView,
   BatterLine,
@@ -16,8 +16,8 @@ import type {
   CricketBaseline,
   CricketState,
   Scorecard,
-} from './stateTypes.ts';
-import { tallyEvents, type Tally } from './tally.ts';
+} from './stateTypes.js';
+import { tallyEvents, type Tally } from './tally.js';
 
 // Pure scoreboard maths. Every number the UI shows comes from here.
 // `position` = number of events played (0..n), see src/features/replay/replayStore.ts.
@@ -32,7 +32,7 @@ export type {
   ExtrasLine,
   FallOfWicket,
   Scorecard,
-} from './stateTypes.ts';
+} from './stateTypes.js';
 
 const EXTRA_LABEL: Record<string, string> = { wide: 'wd', noball: 'nb', bye: 'b', legbye: 'lb' };
 

@@ -1,4 +1,4 @@
-import type { Lang } from '../sports/types';
+import type { Lang } from '../sports/types.js';
 
 // Area strings. Add keys to `en`, then give EVERY key a value in hinglish, hi and gu.
 // `satisfies` makes a missing translation a type error. Hinglish = Hindi in Latin script.

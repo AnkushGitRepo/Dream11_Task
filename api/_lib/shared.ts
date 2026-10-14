@@ -1,4 +1,4 @@
-import { createRateLimiter, type RateLimiter } from './rateLimit';
+import { createRateLimiter, type RateLimiter } from './rateLimit.js';
 
 // One token bucket for every AI endpoint (speak, learn, recap, ask) so a client cannot multiply its
 // budget by spreading calls across routes. Per-instance on serverless (documented limitation,

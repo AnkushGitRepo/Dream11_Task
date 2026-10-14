@@ -1,4 +1,4 @@
-import type { Facts, Lang } from '../sports/types.ts';
+import type { Facts, Lang } from '../sports/types.js';
 
 // Few-shot examples for the recap and ask prompts: two per language. Every number in an example's
 // output appears in its own facts, and prompts.test.ts runs each one through the number guard, the

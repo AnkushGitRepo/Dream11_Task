@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { MOCK_BASELINE, mockTimeline } from '../../../src/mocks/match.mock';
-import { snapshotFacts } from './snapshot';
+import { MOCK_BASELINE, mockTimeline } from '../../../src/mocks/match.mock.js';
+import { snapshotFacts } from './snapshot.js';
 
 const get = (position: number) =>
   Object.fromEntries(snapshotFacts(mockTimeline, position, MOCK_BASELINE).map((f) => [f.key, f]));

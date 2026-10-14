@@ -1,4 +1,4 @@
-import type { Lang } from '../sports/types';
+import type { Lang } from '../sports/types.js';
 
 // Generic app chrome: app bar, tabs, banners, badges, replay control, error pages.
 // Add keys to `en`, then give EVERY key a value in hinglish, hi and gu (`satisfies` enforces it).

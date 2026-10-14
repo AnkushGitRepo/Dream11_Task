@@ -1,6 +1,6 @@
-import type { EventTone } from '../types.ts';
-import type { ExtraType, ExtrasDetail, WicketData } from './ballData.ts';
-import { dismissalText, shortName } from './format.ts';
+import type { EventTone } from '../types.js';
+import type { ExtraType, ExtrasDetail, WicketData } from './ballData.js';
+import { dismissalText, shortName } from './format.js';
 
 /** One parsed Cricsheet delivery (already validated). */
 export interface Delivery {

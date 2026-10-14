@@ -1,5 +1,5 @@
-import type { MatchTimeline, TimelineEvent } from '../types.ts';
-import { ballData, type CricketBallData } from './ballData.ts';
+import type { MatchTimeline, TimelineEvent } from '../types.js';
+import { ballData, type CricketBallData } from './ballData.js';
 
 // Which rules are worth explaining at a delivery. Pure: depends only on the timeline up to `seq`.
 // Ids match shared/sports/cricket/rules.ts. Most specific rule first, so a one-card-at-a-time UI

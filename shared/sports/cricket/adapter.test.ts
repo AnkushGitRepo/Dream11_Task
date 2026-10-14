@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import type { Facts, Lang, MatchTimeline } from '../types';
-import { cricketAdapter } from './adapter';
-import { clockToLegalBalls, shortName } from './format';
-import { numbersInText } from './numbers';
-import { getCricketStateAt, inningsStartPosition, matchMarkers, positionAtClock } from './position';
-import { windowFactsAt } from './facts';
+import type { Facts, Lang, MatchTimeline } from '../types.js';
+import { cricketAdapter } from './adapter.js';
+import { clockToLegalBalls, shortName } from './format.js';
+import { numbersInText } from './numbers.js';
+import { getCricketStateAt, inningsStartPosition, matchMarkers, positionAtClock } from './position.js';
+import { windowFactsAt } from './facts.js';
 
 const files = import.meta.glob(
   ['../../../data/matches/pak-ind-2022-t20wc-mcg.json', '../../../data/matches/ind-sa-2024-t20wc-final.json'],

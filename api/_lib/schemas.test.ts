@@ -7,7 +7,7 @@ import {
   parseBody,
   recapBodySchema,
   speakBodySchema,
-} from './schemas';
+} from './schemas.js';
 
 const MATCH = 'pak-ind-2022-t20wc-mcg';
 const j = (v: unknown) => JSON.stringify(v);

@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { checkNumbers, findBanned } from '../shared/ai/guard';
-import { callModel, type PipelineDeps } from '../shared/ai/pipeline';
+import { checkNumbers, findBanned } from '../shared/ai/guard.js';
+import { callModel, type PipelineDeps } from '../shared/ai/pipeline.js';
 import {
   allowedNumbers,
   buildMomentPrompt,
@@ -9,19 +9,19 @@ import {
   parseMomentReply,
   templateMoment,
   type MomentText,
-} from '../shared/ai/learnMoment';
-import { createTextProvider, type TextProvider } from '../shared/ai/provider';
-import { getRule } from '../shared/sports/rules';
-import { getAdapter } from '../shared/sports/registry';
-import type { MatchTimeline } from '../shared/sports/types';
-import { LruCache } from './_lib/cache';
-import { guardRequest } from './_lib/handlerKit';
-import { sendError, sendJson } from './_lib/http';
-import { loadTimeline } from './_lib/matchStore';
-import type { RateLimiter } from './_lib/rateLimit';
-import { learnBodySchema, type LearnBody } from './_lib/schemas';
-import { sharedLimiter } from './_lib/shared';
-import { registerSpeakable } from './_lib/speakRegistry';
+} from '../shared/ai/learnMoment.js';
+import { createTextProvider, type TextProvider } from '../shared/ai/provider.js';
+import { getRule } from '../shared/sports/rules.js';
+import { getAdapter } from '../shared/sports/registry.js';
+import type { MatchTimeline } from '../shared/sports/types.js';
+import { LruCache } from './_lib/cache.js';
+import { guardRequest } from './_lib/handlerKit.js';
+import { sendError, sendJson } from './_lib/http.js';
+import { loadTimeline } from './_lib/matchStore.js';
+import type { RateLimiter } from './_lib/rateLimit.js';
+import { learnBodySchema, type LearnBody } from './_lib/schemas.js';
+import { sharedLimiter } from './_lib/shared.js';
+import { registerSpeakable } from './_lib/speakRegistry.js';
 
 // POST /api/learn { matchId, seq, ruleId, lang } -> { id, title, short, moment, speak, source }
 // `title` and `short` are copied from the curated rulebook, never generated. `moment` is ONE model

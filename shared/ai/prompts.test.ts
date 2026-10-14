@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import type { Facts, Lang } from '../sports/types.ts';
-import { askContextWithRule, getRule } from '../sports/rules.ts';
-import { checkNumbers, findBanned } from './guard.ts';
-import { ASK_EXAMPLES, RECAP_EXAMPLES } from './promptExamples.ts';
+import type { Facts, Lang } from '../sports/types.js';
+import { askContextWithRule, getRule } from '../sports/rules.js';
+import { checkNumbers, findBanned } from './guard.js';
+import { ASK_EXAMPLES, RECAP_EXAMPLES } from './promptExamples.js';
 import {
   allowedFromFacts,
   buildAskPrompt,
@@ -11,7 +11,7 @@ import {
   parseAskReply,
   parseRecapReply,
   ruleFromFacts,
-} from './prompts.ts';
+} from './prompts.js';
 
 const LANGS: readonly Lang[] = ['en', 'hinglish', 'hi', 'gu'];
 const DEVANAGARI = /[ऀ-ॿ]/;

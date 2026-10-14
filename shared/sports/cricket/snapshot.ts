@@ -1,6 +1,6 @@
-import type { Fact, Lang, MatchTimeline } from '../types.ts';
-import { bowlerFigures, getCricketState, shortName } from './state.ts';
-import type { CricketBaseline, CricketState } from './stateTypes.ts';
+import type { Fact, Lang, MatchTimeline } from '../types.js';
+import { bowlerFigures, getCricketState, shortName } from './state.js';
+import type { CricketBaseline, CricketState } from './stateTypes.js';
 
 const all = (s: string): Record<Lang, string> => ({ en: s, hinglish: s, hi: s, gu: s });
 

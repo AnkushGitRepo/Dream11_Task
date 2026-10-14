@@ -1,6 +1,6 @@
-import type { Facts, Lang } from '../sports/types.ts';
-import { extractJsonObject, readText } from './json.ts';
-import { ASK_EXAMPLES, RECAP_EXAMPLES } from './promptExamples.ts';
+import type { Facts, Lang } from '../sports/types.js';
+import { extractJsonObject, readText } from './json.js';
+import { ASK_EXAMPLES, RECAP_EXAMPLES } from './promptExamples.js';
 
 // SERVER-ONLY. Prompts for recap and ask. The model has no tools and no memory; it only turns
 // engine facts into words. Facts, rules and (for ask) the untrusted question are kept in separate

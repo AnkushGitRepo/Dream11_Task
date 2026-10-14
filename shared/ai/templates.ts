@@ -1,5 +1,5 @@
-import type { Fact, Facts, Lang } from '../sports/types.ts';
-import { spokenLang } from './lang.ts';
+import type { Fact, Facts, Lang } from '../sports/types.js';
+import { spokenLang } from './lang.js';
 
 // SERVER AND CLIENT SAFE. Deterministic fallbacks used whenever the model is unavailable or its
 // output fails the guard. Text is assembled from fact VALUES and localized fact labels only, so
@@ -140,5 +140,5 @@ export function recapTemplate(facts: Facts, lang: Lang): RecapText {
   return { lead, body, speak };
 }
 
-export { askTemplate, detectIntent } from './askTemplates.ts';
-export type { AnswerText, AskIntent } from './askTemplates.ts';
+export { askTemplate, detectIntent } from './askTemplates.js';
+export type { AnswerText, AskIntent } from './askTemplates.js';

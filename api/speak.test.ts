@@ -2,12 +2,12 @@
 import { EventEmitter } from 'node:events';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { describe, expect, it, vi } from 'vitest';
-import type { TtsProvider } from '../shared/ai/tts';
-import { TtsError } from '../shared/ai/tts';
-import { LruCache } from './_lib/cache';
-import { createRateLimiter } from './_lib/rateLimit';
-import { registerSpeakable } from './_lib/speakRegistry';
-import { handleSpeak, type SpeakDeps } from './speak';
+import type { TtsProvider } from '../shared/ai/tts.js';
+import { TtsError } from '../shared/ai/tts.js';
+import { LruCache } from './_lib/cache.js';
+import { createRateLimiter } from './_lib/rateLimit.js';
+import { registerSpeakable } from './_lib/speakRegistry.js';
+import { handleSpeak, type SpeakDeps } from './speak.js';
 
 interface Captured {
   status: number;

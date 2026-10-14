@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { checkNumbers, extractNumbers, findBanned } from './guard.ts';
+import { checkNumbers, extractNumbers, findBanned } from './guard.js';
 
 describe('extractNumbers', () => {
   it('reads ASCII, Devanagari and Gujarati digits', () => {

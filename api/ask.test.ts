@@ -1,13 +1,13 @@
 // @vitest-environment node
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { TextProvider, TextRequest } from '../shared/ai/provider';
-import { getRule } from '../shared/sports/rules';
-import { LruCache } from './_lib/cache';
-import { loadTimeline } from './_lib/matchStore';
-import { createRateLimiter } from './_lib/rateLimit';
-import { lookupSpeakable } from './_lib/speakRegistry';
-import { callHandler } from './_lib/testHttp';
-import { askId, handleAsk, type AskDeps, type AskResponse } from './ask';
+import type { TextProvider, TextRequest } from '../shared/ai/provider.js';
+import { getRule } from '../shared/sports/rules.js';
+import { LruCache } from './_lib/cache.js';
+import { loadTimeline } from './_lib/matchStore.js';
+import { createRateLimiter } from './_lib/rateLimit.js';
+import { lookupSpeakable } from './_lib/speakRegistry.js';
+import { callHandler } from './_lib/testHttp.js';
+import { askId, handleAsk, type AskDeps, type AskResponse } from './ask.js';
 
 const MATCH = 'pak-ind-2022-t20wc-mcg';
 const BASE = 229;

@@ -1,4 +1,4 @@
-import type { Fact, Facts, MatchTimeline, SportAdapter, TimelineEvent } from '../types.ts';
+import type { Fact, Facts, MatchTimeline, SportAdapter, TimelineEvent } from '../types.js';
 
 // Stub football adapter: proves the SportAdapter contract is not cricket-shaped.
 // Input is a tiny hand-built feed of goals / shots / cards (not a real provider format).

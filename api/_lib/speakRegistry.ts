@@ -1,5 +1,5 @@
-import type { Lang } from '../../shared/sports/types';
-import { LruCache } from './cache';
+import type { Lang } from '../../shared/sports/types.js';
+import { LruCache } from './cache.js';
 
 // The seam between text generation and voicing. /api/recap and /api/ask (Phase 3) call
 // registerSpeakable() with the exact text THEY produced (the `speak` field: for Hinglish the

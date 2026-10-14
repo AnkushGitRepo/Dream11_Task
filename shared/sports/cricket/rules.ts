@@ -1,6 +1,6 @@
-import { rule } from '../ruleBuilder.ts';
-import type { RuleEntry } from '../types.ts';
-import { CRICKET_EXTRAS_RULES } from './rulesExtras.ts';
+import { rule } from '../ruleBuilder.js';
+import type { RuleEntry } from '../types.js';
+import { CRICKET_EXTRAS_RULES } from './rulesExtras.js';
 
 // Cricket rulebook: MCC Laws of Cricket and ICC men's T20I playing conditions, simplified for fans.
 // Order of every tuple: en, hinglish (Latin), hi (Devanagari), gu (Gujarati).

@@ -1,6 +1,6 @@
-import { bowlingOvers } from './format.ts';
-import { NumberBag } from './numbers.ts';
-import type { BatterLine, BowlerLine, CricketState } from './stateTypes.ts';
+import { bowlingOvers } from './format.js';
+import { NumberBag } from './numbers.js';
+import type { BatterLine, BowlerLine, CricketState } from './stateTypes.js';
 
 export function addBatter(bag: NumberBag, b: BatterLine): void {
   bag.add(b.runs, b.balls, b.fours, b.sixes);

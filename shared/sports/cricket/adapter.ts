@@ -1,11 +1,11 @@
-import type { Facts, MatchTimeline, SportAdapter } from '../types.ts';
-import { askContextCricket } from './askContext.ts';
-import { normalizeCricsheet } from './normalize.ts';
-import { getCricketStateAt } from './position.ts';
-import { suggestedCricketQuestions } from './questions.ts';
-import { summarizeCricket } from './summarize.ts';
-import type { CricketState } from './stateTypes.ts';
-import { cricketTeachables } from './teachables.ts';
+import type { Facts, MatchTimeline, SportAdapter } from '../types.js';
+import { askContextCricket } from './askContext.js';
+import { normalizeCricsheet } from './normalize.js';
+import { getCricketStateAt } from './position.js';
+import { suggestedCricketQuestions } from './questions.js';
+import { summarizeCricket } from './summarize.js';
+import type { CricketState } from './stateTypes.js';
+import { cricketTeachables } from './teachables.js';
 
 /** A catch-up is only worth a recap when at least this many legal balls were bowled. */
 export const MEANINGFUL_GAP_BALLS = 6;

@@ -1,6 +1,6 @@
 import { GoogleGenAI, Modality } from '@google/genai';
-import type { Lang } from '../sports/types';
-import { buildTtsPrompt, VOICES } from './voices.ts';
+import type { Lang } from '../sports/types.js';
+import { buildTtsPrompt, VOICES } from './voices.js';
 
 // SERVER-ONLY (never import from src/). Text-to-speech behind a provider interface so Gemini can be
 // swapped for Sarvam (TTS_PROVIDER=sarvam) without touching the endpoint.

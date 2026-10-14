@@ -1,4 +1,4 @@
-import type { Lang } from '../sports/types';
+import type { Lang } from '../sports/types.js';
 
 // Learn mode (rules coach) UI copy. Rule text itself lives in the sport rulebooks, not here.
 // Hinglish = Hindi in Latin script. `satisfies` makes a missing key in any language a compile error.

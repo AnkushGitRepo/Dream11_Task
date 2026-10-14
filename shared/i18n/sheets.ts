@@ -1,4 +1,4 @@
-import type { Lang } from '../sports/types';
+import type { Lang } from '../sports/types.js';
 
 // Language, settings, verified-info and scrubber sheets (and the LangChip).
 // Add keys to `en`, then give EVERY key a value in hinglish, hi and gu (`satisfies` enforces it).

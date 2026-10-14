@@ -1,12 +1,12 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { createTtsProvider, TtsError, type TtsProvider } from '../shared/ai/tts';
-import { LruCache } from './_lib/cache';
-import { guardRequest } from './_lib/handlerKit';
-import { sendError } from './_lib/http';
-import type { RateLimiter } from './_lib/rateLimit';
-import { speakBodySchema } from './_lib/schemas';
-import { sharedLimiter } from './_lib/shared';
-import { lookupSpeakable } from './_lib/speakRegistry';
+import { createTtsProvider, TtsError, type TtsProvider } from '../shared/ai/tts.js';
+import { LruCache } from './_lib/cache.js';
+import { guardRequest } from './_lib/handlerKit.js';
+import { sendError } from './_lib/http.js';
+import type { RateLimiter } from './_lib/rateLimit.js';
+import { speakBodySchema } from './_lib/schemas.js';
+import { sharedLimiter } from './_lib/shared.js';
+import { lookupSpeakable } from './_lib/speakRegistry.js';
 
 // POST /api/speak { kind: 'recap' | 'answer' | 'learn', id }  ->  audio/wav
 // Voices ONLY text the server generated (looked up by id in the speakable registry). Never accepts

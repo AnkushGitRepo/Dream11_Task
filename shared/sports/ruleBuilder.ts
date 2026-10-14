@@ -1,4 +1,4 @@
-import type { Lang, RuleEntry } from './types.ts';
+import type { Lang, RuleEntry } from './types.js';
 
 // Rulebook entries are written as [en, hinglish (Latin), hi (Devanagari), gu (Gujarati)] tuples
 // so each rule reads as one block and a missing language is a compile error.

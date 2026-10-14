@@ -1,5 +1,5 @@
-import type { Lang } from '../types.ts';
-import type { CricketState } from './stateTypes.ts';
+import type { Lang } from '../types.js';
+import type { CricketState } from './stateTypes.js';
 
 type QKey =
   | 'whoOut'

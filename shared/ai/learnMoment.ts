@@ -1,5 +1,5 @@
-import type { Lang, RuleEntry, TimelineEvent } from '../sports/types.ts';
-import { extractJsonObject, readText } from './json.ts';
+import type { Lang, RuleEntry, TimelineEvent } from '../sports/types.js';
+import { extractJsonObject, readText } from './json.js';
 
 // SERVER-ONLY. Pure helpers for /api/learn: the prompt, the template fallback and parsing. The
 // rule text itself always comes from the rulebook; the model only writes the one "in this match"

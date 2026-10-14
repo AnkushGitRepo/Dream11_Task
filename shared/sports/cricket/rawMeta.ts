@@ -1,5 +1,5 @@
-import type { MatchMeta } from '../types.ts';
-import { asArr, asObj, asStr, teamCode, type Obj } from './rawParse.ts';
+import type { MatchMeta } from '../types.js';
+import { asArr, asObj, asStr, teamCode, type Obj } from './rawParse.js';
 
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 

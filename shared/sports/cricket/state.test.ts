@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { MOCK_BASELINE, mockTimeline } from '../../../src/mocks/match.mock';
-import { bowlerFigures, countLegalBalls, getCricketState, shortName } from './state';
+import { MOCK_BASELINE, mockTimeline } from '../../../src/mocks/match.mock.js';
+import { bowlerFigures, countLegalBalls, getCricketState, shortName } from './state.js';
 
 const at = (position: number) => getCricketState(mockTimeline, position, MOCK_BASELINE);
 

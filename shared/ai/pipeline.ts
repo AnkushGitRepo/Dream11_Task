@@ -1,5 +1,5 @@
-import type { Facts, Lang } from '../sports/types.ts';
-import { checkNumbers, findBanned } from './guard.ts';
+import type { Facts, Lang } from '../sports/types.js';
+import { checkNumbers, findBanned } from './guard.js';
 import {
   allowedFromFacts,
   ASK_MAX_TOKENS,
@@ -10,9 +10,9 @@ import {
   RECAP_MAX_TOKENS,
   ruleFromFacts,
   type Prompt,
-} from './prompts.ts';
-import { askTemplate, recapTemplate, type RecapText } from './templates.ts';
-import type { TextProvider } from './provider.ts';
+} from './prompts.js';
+import { askTemplate, recapTemplate, type RecapText } from './templates.js';
+import type { TextProvider } from './provider.js';
 
 // SERVER-ONLY. The guarded generation pipeline shared by /api/recap, /api/ask and the eval script:
 //   prompt -> model (timeout) -> parse JSON -> guard -> text, else deterministic template.

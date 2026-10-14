@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type { MatchTimeline } from '../../shared/sports/types';
+import type { MatchTimeline } from '../../shared/sports/types.js';
 
 // Server-side match loader. Only ids listed in data/matches/index.json can be loaded, so a request
 // value never reaches the filesystem path unchecked.

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import type { MatchTimeline, TimelineEvent } from '../types';
-import { cricketAdapter } from './adapter';
-import { getCricketStateAt } from './position';
-import { ballData } from './ballData';
-import { cricketTeachables } from './teachables';
+import type { MatchTimeline, TimelineEvent } from '../types.js';
+import { cricketAdapter } from './adapter.js';
+import { getCricketStateAt } from './position.js';
+import { ballData } from './ballData.js';
+import { cricketTeachables } from './teachables.js';
 
 const files = import.meta.glob(
   ['../../../data/matches/pak-ind-2022-t20wc-mcg.json', '../../../data/matches/ind-sa-2024-t20wc-final.json'],

@@ -1,4 +1,4 @@
-import type { Lang } from '../sports/types';
+import type { Lang } from '../sports/types.js';
 
 // SERVER-ONLY. One voice + one style prompt per language for server TTS (docs/ARCHITECTURE.md §7b).
 // Voice chosen by ear (Ankush, 13 Oct): Puck for every language. Alternates kept for future A/B.

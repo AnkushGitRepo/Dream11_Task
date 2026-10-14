@@ -1,14 +1,14 @@
 // @vitest-environment node
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import type { TextProvider } from '../shared/ai/provider';
-import { recapTemplate } from '../shared/ai/templates';
-import { cricketAdapter } from '../shared/sports/cricket/adapter';
-import { LruCache } from './_lib/cache';
-import { loadTimeline } from './_lib/matchStore';
-import { createRateLimiter } from './_lib/rateLimit';
-import { lookupSpeakable } from './_lib/speakRegistry';
-import { callHandler } from './_lib/testHttp';
-import { handleRecap, recapId, type RecapDeps, type RecapResponse } from './recap';
+import type { TextProvider } from '../shared/ai/provider.js';
+import { recapTemplate } from '../shared/ai/templates.js';
+import { cricketAdapter } from '../shared/sports/cricket/adapter.js';
+import { LruCache } from './_lib/cache.js';
+import { loadTimeline } from './_lib/matchStore.js';
+import { createRateLimiter } from './_lib/rateLimit.js';
+import { lookupSpeakable } from './_lib/speakRegistry.js';
+import { callHandler } from './_lib/testHttp.js';
+import { handleRecap, recapId, type RecapDeps, type RecapResponse } from './recap.js';
 
 const MATCH = 'pak-ind-2022-t20wc-mcg';
 const BASE = 229; // real seq of the client's seq 0 (ball 17.1)

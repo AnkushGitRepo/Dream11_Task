@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import type { MatchTimeline } from '../types';
-import { getCricketStateAt, getInningsStateAfter, inningsStartPosition, positionAtClock } from './position';
-import { bowlerFigures, shortName } from './state';
+import type { MatchTimeline } from '../types.js';
+import { getCricketStateAt, getInningsStateAfter, inningsStartPosition, positionAtClock } from './position.js';
+import { bowlerFigures, shortName } from './state.js';
 
 // The fixture is produced by scripts/golden-checkpoints.mjs straight from the raw Cricsheet files
 // with an independent scorer (no shared/ imports). Here the ENGINE must reproduce every number.

@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import type { TimelineEvent } from '../types';
-import { ballData } from './ballData';
-import { cricketAdapter } from './adapter';
-import { normalizeCricsheet } from './normalize';
-import { getCricketStateAt, getInningsStateAfter } from './position';
-import { bowlerFigures } from './state';
-import { innings, match, type D, type Raw } from './testRaw';
+import type { TimelineEvent } from '../types.js';
+import { ballData } from './ballData.js';
+import { cricketAdapter } from './adapter.js';
+import { normalizeCricsheet } from './normalize.js';
+import { getCricketStateAt, getInningsStateAfter } from './position.js';
+import { bowlerFigures } from './state.js';
+import { innings, match, type D, type Raw } from './testRaw.js';
 
 // Hand-built Cricsheet-shaped input -> normalize -> engine. Each test pins one cricket rule.
 

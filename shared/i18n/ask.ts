@@ -1,4 +1,4 @@
-import type { Lang } from '../sports/types';
+import type { Lang } from '../sports/types.js';
 
 // Area strings (Ask tab, composer, voice). Hinglish = Hindi in Latin script.
 // `satisfies` makes a missing translation a type error.

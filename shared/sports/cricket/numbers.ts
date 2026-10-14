@@ -1,4 +1,4 @@
-import { clockToLegalBalls } from './format.ts';
+import { clockToLegalBalls } from './format.js';
 
 /**
  * Collects every number a writer may legitimately use. Add STRUCTURED values only (never scrape

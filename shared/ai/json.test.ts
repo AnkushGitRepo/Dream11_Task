@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { extractJsonObject, readText } from './json.ts';
+import { extractJsonObject, readText } from './json.js';
 
 describe('extractJsonObject', () => {
   it('reads plain, fenced and surrounded JSON', () => {

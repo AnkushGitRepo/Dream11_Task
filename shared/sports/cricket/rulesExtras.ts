@@ -1,5 +1,5 @@
-import { rule } from '../ruleBuilder.ts';
-import type { RuleEntry } from '../types.ts';
+import { rule } from '../ruleBuilder.js';
+import type { RuleEntry } from '../types.js';
 
 // Cricket rulebook, part 1: extras and the free hit.
 // Order of every tuple: en, hinglish (Latin), hi (Devanagari), gu (Gujarati).

@@ -1,7 +1,7 @@
-import type { TimelineEvent } from '../types.ts';
-import { ballData, type CricketBallData, type WicketData } from './ballData.ts';
-import { BALLS_PER_OVER, dismissalText } from './format.ts';
-import type { CricketBaseline, ExtrasLine, FallOfWicket } from './stateTypes.ts';
+import type { TimelineEvent } from '../types.js';
+import { ballData, type CricketBallData, type WicketData } from './ballData.js';
+import { BALLS_PER_OVER, dismissalText } from './format.js';
+import type { CricketBaseline, ExtrasLine, FallOfWicket } from './stateTypes.js';
 
 // The single place where deliveries are folded into scorecard numbers.
 // Everything (state, facts, askContext, golden tests) reads from this tally.

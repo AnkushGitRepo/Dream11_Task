@@ -1,8 +1,8 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { z } from 'zod';
-import { BodyTooLargeError, clientIp, isJsonRequest, readBody, sendError } from './http';
-import type { RateLimiter } from './rateLimit';
-import { parseBody } from './schemas';
+import { BodyTooLargeError, clientIp, isJsonRequest, readBody, sendError } from './http.js';
+import type { RateLimiter } from './rateLimit.js';
+import { parseBody } from './schemas.js';
 
 // The request prologue every POST endpoint shares (docs/SECURITY.md §2): method, content type,
 // rate limit, body size cap, zod validation, and one log line per request. On any failure it has

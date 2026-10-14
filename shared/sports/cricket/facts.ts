@@ -1,9 +1,9 @@
-import type { Fact, MatchTimeline, TimelineEvent } from '../types.ts';
-import { ballData } from './ballData.ts';
-import { cricketLabelAll } from './labels.ts';
-import { getCricketStateAt } from './position.ts';
-import { getCricketState } from './state.ts';
-import type { CricketBaseline } from './stateTypes.ts';
+import type { Fact, MatchTimeline, TimelineEvent } from '../types.js';
+import { ballData } from './ballData.js';
+import { cricketLabelAll } from './labels.js';
+import { getCricketStateAt } from './position.js';
+import { getCricketState } from './state.js';
+import type { CricketBaseline } from './stateTypes.js';
 
 interface NeedPoint {
   readonly need: number | null;

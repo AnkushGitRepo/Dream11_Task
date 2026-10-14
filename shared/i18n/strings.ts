@@ -1,11 +1,11 @@
-import type { Lang } from '../sports/types';
-import { askStrings } from './ask';
-import { catchupStrings } from './catchup';
-import { chromeStrings } from './chrome';
-import { learnStrings } from './learn';
-import { matchesStrings } from './matches';
-import { momentsStrings } from './moments';
-import { sheetsStrings } from './sheets';
+import type { Lang } from '../sports/types.js';
+import { askStrings } from './ask.js';
+import { catchupStrings } from './catchup.js';
+import { chromeStrings } from './chrome.js';
+import { learnStrings } from './learn.js';
+import { matchesStrings } from './matches.js';
+import { momentsStrings } from './moments.js';
+import { sheetsStrings } from './sheets.js';
 
 // UI strings for en, hinglish (Hindi in Latin script), hi, gu. One module per area so
 // features can add keys without editing each other's files. Cricket labels live in

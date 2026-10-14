@@ -1,7 +1,7 @@
-import { CRICKET_RULES } from './cricket/rules.ts';
-import { FOOTBALL_RULES } from './football/rules.ts';
-import { KABADDI_RULES } from './kabaddi/rules.ts';
-import type { Facts, Fact, Lang, RuleEntry, SportId } from './types.ts';
+import { CRICKET_RULES } from './cricket/rules.js';
+import { FOOTBALL_RULES } from './football/rules.js';
+import { KABADDI_RULES } from './kabaddi/rules.js';
+import type { Facts, Fact, Lang, RuleEntry, SportId } from './types.js';
 
 // Rulebooks are plain data, so they work for every sport (kabaddi has no adapter yet) and can be
 // imported by the client without pulling in any engine or AI code.
