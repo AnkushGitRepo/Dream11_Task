@@ -1,0 +1,54 @@
+@use '../../styles/mixins' as *;
+
+// Soft band so the feature reads as a headline, not a footnote.
+.section {
+  background: var(--c-surface-2);
+}
+
+.row {
+  display: grid;
+  gap: var(--s-8);
+  align-items: center;
+
+  @include up(md) {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-14);
+  }
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.overline {
+  margin: 0;
+  color: var(--c-accent-text);
+  font-family: var(--font-display);
+  font-size: var(--t-label-size);
+  font-variation-settings: 'wdth' 87;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: var(--lh-label);
+  text-transform: uppercase;
+}
+
+.text {
+  margin: 0;
+  color: var(--c-text-2);
+  font-size: var(--t-lead-size);
+  line-height: var(--lh-lead);
+}
+
+.chipsTitle {
+  margin: var(--s-10) 0 var(--s-4);
+  font-family: var(--font-display);
+  font-size: var(--t-h2-size);
+  font-weight: 800;
+  line-height: var(--lh-h2);
+}

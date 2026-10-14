@@ -14,8 +14,8 @@ export function Hero() {
             <span className={styles.accent}>Kya hua? Just ask.</span>
           </h1>
           <p className={styles.sub}>
-            An AI match buddy that catches you up in 10 seconds — in English, Hinglish,{' '}
-            <span lang="hi">हिंदी</span> or <span lang="gu">ગુજરાતી</span>. Every number verified.
+            Catch up in 10 seconds, ask anything, and learn the rules as they happen — in English,
+            Hinglish, <span lang="hi">हिंदी</span> or <span lang="gu">ગુજરાતી</span>.
           </p>
           <div className={styles.ctas}>
             <LinkButton to={DEMO_PATH}>Open live demo →</LinkButton>

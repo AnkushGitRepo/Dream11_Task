@@ -1,4 +1,4 @@
-import { SPORTS } from './content';
+import { LIVE_FEED_NOTE, SPORTS } from './content';
 import { Section, SectionTitle } from './Section';
 import styles from './SportsRow.module.scss';
 
@@ -10,11 +10,12 @@ export function SportsRow() {
         {SPORTS.map((sport) => (
           <li key={sport.name} className={`${styles.chip} ${sport.live ? styles.live : ''}`.trim()}>
             {sport.name}
-            <span className={styles.state}>{sport.live ? 'Live' : 'Soon'}</span>
+            <span className={styles.state}>{sport.state}</span>
           </li>
         ))}
       </ul>
       <p className={styles.note}>One engine, any sport: each sport is a plug-in.</p>
+      <p className={styles.note}>{LIVE_FEED_NOTE}</p>
     </Section>
   );
 }

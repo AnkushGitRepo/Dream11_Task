@@ -63,12 +63,43 @@ describe('LandingPage', () => {
     act(() => undefined);
   });
 
-  it('has the Learn feature row with a mock card read from the rulebook', () => {
+  it('hero sub line names the three things and the four languages', () => {
     renderPage();
-    expect(screen.getByRole('heading', { name: 'New to a sport? Turn on Learn.' })).toBeInTheDocument();
-    const card = screen.getByRole('img', { name: /Example Learn card: Free hit/ });
-    expect(card).toHaveTextContent('LEARN · Free hit');
-    expect(card).toHaveTextContent('The ball after a no-ball');
-    expect(card).toHaveTextContent('bowled on the free hit');
+    const sub = screen.getByText(/Catch up in 10 seconds, ask anything, and learn the rules as they happen/);
+    expect(sub).toHaveTextContent('English, Hinglish, हिंदी or ગુજરાતી.');
+  });
+
+  it('has the Learn showcase right after How it works, with the real free-hit moment', () => {
+    const { container } = renderPage();
+    const headings = [...container.querySelectorAll('main h2')].map((h) => h.textContent);
+    const how = headings.indexOf('How it works');
+    expect(how).toBeGreaterThan(-1);
+    expect(headings.indexOf('New to a sport? Turn on Learn.')).toBe(how + 1);
+    const card = screen.getByRole('article', { name: /Learn card: Bowled on a free hit/ });
+    expect(card).toHaveTextContent('LEARN · Bowled on a free hit');
+    expect(card).toHaveTextContent('Kohli bowled on a free hit — NOT out');
+    expect(screen.getByRole('button', { name: /Listen/ })).toBeInTheDocument();
+  });
+
+  it('sport chips show two example rules each and open that sport glossary', () => {
+    renderPage();
+    const football = screen.getByRole('button', { name: 'Open the Football rules glossary' });
+    expect(football).toHaveTextContent('Offside');
+    expect(football).toHaveTextContent('VAR');
+    const kabaddi = screen.getByRole('button', { name: 'Open the Kabaddi rules glossary' });
+    expect(kabaddi).toHaveTextContent('Raid');
+    expect(kabaddi).toHaveTextContent('Super tackle');
+    expect(screen.getByRole('button', { name: 'Open the Cricket rules glossary' })).toHaveTextContent('LBW');
+    fireEvent.click(kabaddi);
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  it('is honest about live: a note, no live button', () => {
+    renderPage();
+    expect(
+      screen.getByText('Live feed: next — same event engine, replay and live use one adapter interface.'),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /go live|watch live/i })).toBeNull();
+    expect(screen.getByText('Replay demo')).toBeInTheDocument();
   });
 });

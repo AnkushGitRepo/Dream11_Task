@@ -45,20 +45,42 @@ export const PIPELINE: readonly { readonly title: string; readonly tag: string; 
 export const GUARD_SENTENCE =
   'Every number in the AI’s sentence is checked against the stats engine; if one does not match, a plain template replaces it.';
 
-export const LEARN_MOCK = {
-  ruleId: 'free-hit',
-  copy: 'Rules show up the moment they matter, like a free hit, an offside or a super tackle, in your language and read aloud. Each one is explained once, from a hand-checked rulebook.',
-  // 19.4 of Pakistan v India, 2022: bowled on the free hit, 3 byes run (docs/PRD.md F12).
-  moment: 'Kohli was bowled on the free hit, so he was not out: the ball stayed live and 3 byes were run.',
-  aria: 'Example Learn card: Free hit. The ball after a no-ball; the batter cannot be out bowled.',
+export const LEARN_COPY = [
+  'Lots of fans skip football and kabaddi because the rules feel confusing.',
+  'Even cricket fans argue about free hits and LBW. Learn explains each rule the moment it happens, in your language, read aloud.',
+] as const;
+
+/**
+ * The real moment behind the demo card: 19.4 of Pakistan v India, 2022 (docs/PRD.md F12). The card
+ * asks /api/learn for it; `moment` is what shows if the server cannot be reached.
+ */
+export const LEARN_DEMO = {
+  matchId: 'pak-ind-2022-t20wc-mcg',
+  seq: 247,
+  ruleId: 'free-hit-bowled-not-out',
+  moment: 'Kohli bowled on a free hit — NOT out, and the ball was live so they ran 3 byes.',
 } as const;
 
-export const SPORTS: readonly { readonly name: string; readonly live: boolean }[] = [
-  { name: 'Cricket', live: true },
-  { name: 'Football', live: false },
-  { name: 'Kabaddi', live: false },
-  { name: 'Hockey', live: false },
+/** Sports whose rulebooks ship today; each chip opens that sport's glossary. */
+export const LEARN_SPORTS: readonly {
+  readonly sport: 'cricket' | 'football' | 'kabaddi';
+  readonly name: string;
+  readonly ruleIds: readonly [string, string];
+}[] = [
+  { sport: 'cricket', name: 'Cricket', ruleIds: ['free-hit', 'lbw'] },
+  { sport: 'football', name: 'Football', ruleIds: ['offside', 'var'] },
+  { sport: 'kabaddi', name: 'Kabaddi', ruleIds: ['raid', 'super-tackle'] },
 ];
+
+export const SPORTS: readonly { readonly name: string; readonly state: string; readonly live: boolean }[] = [
+  { name: 'Cricket', state: 'Replay demo', live: true },
+  { name: 'Football', state: 'Soon', live: false },
+  { name: 'Kabaddi', state: 'Soon', live: false },
+  { name: 'Hockey', state: 'Soon', live: false },
+];
+
+export const LIVE_FEED_NOTE =
+  'Live feed: next — same event engine, replay and live use one adapter interface.';
 
 // TODO: link each source to its exact article URL once the URLs are recorded (only domains are known).
 export const SOURCES: readonly string[] = [

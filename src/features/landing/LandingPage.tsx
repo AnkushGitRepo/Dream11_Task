@@ -5,7 +5,7 @@ import { Footer } from './Footer';
 import { Hero } from './Hero';
 import { HowItWorks } from './HowItWorks';
 import { LanguageShowcase } from './LanguageShowcase';
-import { LearnRow } from './LearnRow';
+import { LearnShowcase } from './LearnShowcase';
 import { Nav } from './Nav';
 import { ProblemStrip } from './ProblemStrip';
 import { SportsRow } from './SportsRow';
@@ -30,9 +30,9 @@ export function LandingPage() {
         <Hero />
         <ProblemStrip />
         <HowItWorks />
+        <LearnShowcase />
         <TrustBand />
         <LanguageShowcase />
-        <LearnRow />
         <SportsRow />
         <FinalCta />
       </main>
