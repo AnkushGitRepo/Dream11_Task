@@ -16,7 +16,8 @@ Next: Phase 4 (voice in, a11y, perf) and 5 (ship), plus the live-model checks be
 4. Real-JSON `matchService` (retire the `seqBase` bridge). 5. Phase 4 items in TODO.md.
 
 ## Open issues / blockers
-- LIVE LLM BLOCKED BY QUOTA: eval on 14 Oct got 429 "exceeded your current quota" for gemini-3.8-flash (503 demand spikes earlier) across 4 min of backoff;
+- FIXED 14 Oct 11:10: quota = AI Studio PREPAY balance was 0 (now topped up; key ...L68w, Tier 1, MarketMitra project). JSON parse failures = Gemini 3.x thinking tokens ate maxOutputTokens → provider now sends thinkingConfig {thinkingLevel: LOW} (MINIMAL rejected), caps raised (recap 900, ask 700, learn 400, default 1024). Live eval EVAL_LIMIT=2: 8/8 AI, 0 guard failures. Run `npm test` — provider.test may need the new thinkingConfig in its expected request.
+- (old) LIVE LLM BLOCKED BY QUOTA: eval on 14 Oct got 429 "exceeded your current quota" for gemini-3.8-flash (503 demand spikes earlier) across 4 min of backoff;
   the id itself is valid (Google's 404 for gemini-2.5-flash recommends it). Check plan/billing in AI Studio, then `npm run eval:prompts`.
 - (old note) LIVE LLM NEVER RUN: default model `gemini-3.8-flash` (newest non-preview Flash in SDK 2.29.0) is unverified; guard-failure rate unknown
   until `npm run eval:prompts` runs with a key. TTS model id likewise unverified.

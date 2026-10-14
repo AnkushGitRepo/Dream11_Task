@@ -29,7 +29,7 @@ import { registerSpeakable } from './_lib/speakRegistry';
 // `speak` is registered under kind 'learn' so /api/speak can voice it by id.
 
 const MAX_BODY_BYTES = 512;
-const LEARN_MAX_TOKENS = 160;
+const LEARN_MAX_TOKENS = 400;
 const LLM_TIMEOUT_MS = 6_000;
 const RESPONSE_CACHE_ENTRIES = 300;
 const STATE_FACT_KEYS = ['score', 'overs', 'need', 'rrr', 'crr', 'striker', 'bowler'] as const;

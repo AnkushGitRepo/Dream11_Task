@@ -53,3 +53,4 @@
 2026-10-13 — One shared token bucket for recap/ask/learn/speak (burst configurable) — a client cannot multiply its budget across routes.
 2026-10-13 — `shared/ai/templates.ts` is the only shared/ai module src/ may import (pure fallbacks, also used by the landing demo).
 
+2026-10-14 — Gemini thinkingLevel LOW + larger output caps — thinking tokens counted against maxOutputTokens and truncated JSON (100% parse failures); LOW gives 0 thought tokens and full JSON.

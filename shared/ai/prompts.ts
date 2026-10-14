@@ -10,8 +10,8 @@ export const MAX_LEAD_CHARS = 160;
 export const MAX_BODY_CHARS = 600;
 export const MAX_ANSWER_CHARS = 600;
 export const MAX_SPEAK_CHARS = 700;
-export const RECAP_MAX_TOKENS = 420;
-export const ASK_MAX_TOKENS = 360;
+export const RECAP_MAX_TOKENS = 900; // Gujarati/Devanagari JSON (lead+body+speak) is token-heavy
+export const ASK_MAX_TOKENS = 700;
 
 export interface Prompt {
   readonly system: string;

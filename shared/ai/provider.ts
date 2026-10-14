@@ -1,4 +1,4 @@
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, ThinkingLevel } from '@google/genai';
 
 // SERVER-ONLY (never import from src/). Text generation behind a small interface so the endpoint
 // and tests do not depend on the SDK. Phase 3 extends this with the recap/ask prompts; the
@@ -48,7 +48,13 @@ export interface GeminiTextOptions {
   readonly client?: GenerateClient;
 }
 
-const DEFAULT_MAX_TOKENS = 200;
+const DEFAULT_MAX_TOKENS = 1024;
+/**
+ * Gemini 3.x Flash 'thinks' by default and thinking tokens count against maxOutputTokens, which
+ * truncated our JSON (finishReason MAX_TOKENS → parse failure → template). LOW = no thinking on
+ * this model (verified live 14 Oct: 0 thought tokens). MINIMAL is rejected by gemini-3.8-flash.
+ */
+const THINKING = { thinkingLevel: ThinkingLevel.LOW } as const;
 const DEFAULT_TEMPERATURE = 0.3; // docs/ARCHITECTURE.md §7
 const RETRIES = 1; // one retry on a provider error (5xx / transient); never on abort
 
@@ -80,6 +86,7 @@ export class GeminiText implements TextProvider {
             systemInstruction: system,
             maxOutputTokens: maxTokens ?? DEFAULT_MAX_TOKENS,
             temperature: temperature ?? DEFAULT_TEMPERATURE,
+            thinkingConfig: THINKING,
             ...(json ? { responseMimeType: 'application/json' } : {}),
             ...(signal ? { abortSignal: signal } : {}),
           },
