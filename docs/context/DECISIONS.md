@@ -54,3 +54,5 @@
 2026-10-13 — `shared/ai/templates.ts` is the only shared/ai module src/ may import (pure fallbacks, also used by the landing demo).
 
 2026-10-14 — Gemini thinkingLevel LOW + larger output caps — thinking tokens counted against maxOutputTokens and truncated JSON (100% parse failures); LOW gives 0 thought tokens and full JSON.
+- 14 Oct: speak authorised by HMAC-signed token (stateless), not an in-memory registry: serverless instances do not share memory.
+- 14 Oct: voice input = SpeechRecognition fast path (non-Brave) with automatic fallback to MediaRecorder -> /api/transcribe; audio never stored.

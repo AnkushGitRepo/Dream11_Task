@@ -1,19 +1,18 @@
 # STATE — project memory (keep < 60 lines; rewrite via /checkpoint)
 
 ## Phase / focus
-Phases 1, 2, 3, 3.5 (infra) and 3.6 are built. 1, 2 and 3.6 are committed (35d2d4b); Phase 3 (real recap/ask) is UNCOMMITTED.
-Next: Phase 4 (voice in, a11y, perf) and 5 (ship), plus the live-model checks below.
+Phases 1, 2, 3, 3.5, 3.6 built and committed. Production hotfix (14 Oct) done: ESM specifiers, signed speak tokens, voice input.
+Next: set SPEAK_SIGNING_SECRET in Vercel, redeploy, `npm run smoke:prod -- <url>`; then Phase 4 (a11y, perf) and 5 (ship).
 
 ## Done recently
-- Phase 3: zod schemas, `/api/recap` + `/api/ask`, `shared/ai/{prompts,promptExamples,templates,askTemplates,pipeline,json,lang}.ts`,
-  `api/_lib/{handlerKit,schemas,shared,matchSeq}.ts`, `src/services/aiService.ts`, `npm run eval:prompts`.
-- speak/learn moved to zod + the handler kit; one shared rate limiter; provider default model + JSON mode + 1 retry.
-- Verified: tsc, eslint, stylelint, build, 548 tests; dev smoke of recap/ask/speak (template path). Mock chunk is absent from real-mode builds.
+- d28edd7 every relative import in api/ + shared/ ends in `.js` (guard test api/_lib/esmSpecifiers.test.ts); scripts run via `tsx`; `scripts/smoke-prod.mjs`.
+- cf189b1 `speakToken` (HMAC, 1h) on recap/ask/learn; `/api/speak` takes `{token}` only; speakRegistry removed.
+- 3b4b7e7 `/api/transcribe` (1.5 MB cap, <=15 s, shared limiter + TRANSCRIBE_DAILY_BUDGET) + `useListen` rewrite: SpeechRecognition fast path (not Brave) -> falls back to MediaRecorder; 12 s max, 6 s watchdog.
 
 ## Next
-1. Commit Phase 3. 2. Export GEMINI_API_KEY (+ TTS_MODEL) in your shell: `npm run eval:prompts`, then `node scripts/voice-samples.mjs`.
-3. Set `VITE_USE_MOCK_API=false` in your local env file (the example now says false) so `npm run dev` hits the real routes.
-4. Real-JSON `matchService` (retire the `seqBase` bridge). 5. Phase 4 items in TODO.md.
+1. Vercel env: SPEAK_SIGNING_SECRET (32+ random chars, Production+Preview), GEMINI_API_KEY, TTS_MODEL. Redeploy, run smoke:prod.
+2. Real-browser check of mic in Chrome, Safari, Brave, Firefox (unit tests use fakes only).
+3. Phase 4 items in TODO.md.
 
 ## Open issues / blockers
 - FIXED 14 Oct 11:10: quota = AI Studio PREPAY balance was 0 (now topped up; key ...L68w, Tier 1, MarketMitra project). JSON parse failures = Gemini 3.x thinking tokens ate maxOutputTokens → provider now sends thinkingConfig {thinkingLevel: LOW} (MINIMAL rejected), caps raised (recap 900, ask 700, learn 400, default 1024). Live eval EVAL_LIMIT=2: 8/8 AI, 0 guard failures. Run `npm test` — provider.test may need the new thinkingConfig in its expected request.
