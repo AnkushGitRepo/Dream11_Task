@@ -20,6 +20,11 @@
   }
 }
 
+// Recording is over, waiting for the words: same pill, not tappable.
+.busy {
+  cursor: default;
+}
+
 // Pulsing red ring (opacity + scale only, no shadow).
 .ring {
   position: absolute;

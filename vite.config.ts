@@ -11,6 +11,7 @@ const SERVER_ENV_KEYS = [
   'RATE_LIMIT_PER_MIN',
   'RATE_LIMIT_BURST',
   'SPEAK_SIGNING_SECRET',
+  'TRANSCRIBE_DAILY_BUDGET',
 ] as const;
 
 /** Mounts the /api/* handlers in `vite dev` (same code Vercel runs in production). Dev-only. */
@@ -24,7 +25,7 @@ function apiDevPlugin(): Plugin {
       for (const key of SERVER_ENV_KEYS) {
         if (env[key] && process.env[key] === undefined) process.env[key] = env[key];
       }
-      for (const route of ['speak', 'learn', 'recap', 'ask']) {
+      for (const route of ['speak', 'learn', 'recap', 'ask', 'transcribe']) {
         server.middlewares.use(`/api/${route}`, (req, res) => {
           server
             .ssrLoadModule(`/api/${route}.ts`)

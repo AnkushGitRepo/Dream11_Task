@@ -67,7 +67,7 @@ There are no accounts and no personal data — keep it that way.
 - [ ] Number guard covers ASCII, Devanagari and Gujarati digits; unit-tested with adversarial outputs
 - [ ] AI text rendered as text; no `dangerouslySetInnerHTML` anywhere
 - [ ] CSP and security headers present on the deployed URL (check with securityheaders.com)
-- [ ] Mic requested only on tap; our code never sends or stores audio; About sheet discloses browser speech processing
+- [ ] Mic requested only on tap and released on stop/timeout/unmount; recordings go only to `/api/transcribe` (held in memory for one call, never stored or logged); About sheet discloses browser speech processing AND server transcription
 - [ ] `npm audit --omit=dev` has no high/critical (dev-only stylelint→braces advisory is accepted: build-time tool, never shipped)
 - [ ] No betting/prediction language in prompts, templates or UI copy
 
@@ -75,3 +75,10 @@ There are no accounts and no personal data — keep it that way.
 - `/api/speak` accepts `{ token }` only and voices only text this server signed. `/api/recap`, `/api/ask` and `/api/learn` return `speakToken = base64url(JSON{lang,text,exp}) + "." + base64url(HMAC-SHA256(payload, SPEAK_SIGNING_SECRET))` with `exp = now + 1h`. The handler verifies the HMAC (`timingSafeEqual`), `exp`, the `lang` enum and `text <= 1200` chars before synthesizing; unsigned, tampered or expired tokens are 404. No server-side registry, so any serverless instance can verify a token another instance issued. Same rate limit + body caps. Audio responses `Cache-Control: private, max-age=3600`; the in-memory audio cache is keyed by `hash(text + lang)`.
 - `SPEAK_SIGNING_SECRET` (server env, >= 16 chars; use 32+ random) must be set in Vercel for Production AND Preview. Rotating it invalidates outstanding tokens (clients just fall back to the browser voice until the next answer). Outside production a per-process random secret is used so local dev works unconfigured.
 - CSP: audio is served same-origin as blob/media — add `media-src 'self' blob:` to the CSP.
+
+## 9. Voice input (`/api/transcribe`)
+- `POST { lang, mimeType, durationMs <= 15000, audio: base64 }`, validated with zod (mime allow-list `audio/webm|mp4|ogg|wav|mpeg`, base64 charset, `lang` enum). Body cap 1.5 MB, `Content-Type: application/json`, same-origin only.
+- Shared per-IP token bucket (same one as recap/ask/learn/speak) plus a hard daily budget (`TRANSCRIBE_DAILY_BUDGET`, default 300 calls per UTC day, per instance). Over budget: 429 with `Retry-After`.
+- The audio is held in memory for the single provider call; it is never written to disk, cached or logged (logs carry route, status, latency and `ai`/`empty` only).
+- The model prompt treats the audio as words to transcribe, never as instructions; the transcript is returned as plain text, capped at 200 chars, and only fills the question box for the fan to review. It still goes through the normal `/api/ask` validation and guards when sent.
+- Client: mic only on tap; `stop()` ends listening immediately; 12 s max recording; 6 s no-result watchdog on browser SpeechRecognition (then falls back to recording); SpeechRecognition is skipped in Brave. Permissions-Policy `microphone=(self)` and CSP `connect-src 'self'` are sufficient (getUserMedia is not CSP-controlled).

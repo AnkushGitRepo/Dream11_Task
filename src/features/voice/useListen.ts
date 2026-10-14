@@ -1,20 +1,33 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Lang } from '@shared/sports/types';
-import type { Recognition, RecognitionCtor } from './speech';
-import { LISTEN_LOCALE } from './voices';
+import {
+  startRecognition,
+  startServerListen,
+  type ListenCallbacks,
+  type ListenError,
+  type ListenSession,
+} from './listenEngines';
+import { recorderSupported } from './recorder';
+import type { RecognitionCtor } from './speech';
 
-export type ListenError = 'denied' | 'no-speech' | 'unavailable';
+export type { ListenError } from './listenEngines';
 
 export interface ListenApi {
-  /** SpeechRecognition (or webkit-prefixed) exists. Hide the mic when false. */
+  /** Some voice-input path exists. Hide the mic when false. */
   readonly supported: boolean;
+  /** Microphone is open and the fan is talking. */
   readonly listening: boolean;
-  /** Final + interim text so far for the current session. */
+  /** Recording stopped; the words are being worked out. */
+  readonly transcribing: boolean;
+  /** Live text while SpeechRecognition is the engine; '' on the recorder path. */
   readonly transcript: string;
   readonly error: ListenError | null;
   readonly start: () => void;
+  /** Ends listening NOW (listening is false before this returns). */
   readonly stop: () => void;
 }
+
+type Phase = 'idle' | 'listening' | 'transcribing';
 
 export function getRecognitionCtor(): RecognitionCtor | null {
   if (typeof window === 'undefined') return null;
@@ -23,82 +36,96 @@ export function getRecognitionCtor(): RecognitionCtor | null {
   return typeof ctor === 'function' ? (ctor as RecognitionCtor) : null;
 }
 
-function toError(code: string): ListenError | null {
-  if (code === 'not-allowed' || code === 'service-not-allowed') return 'denied';
-  if (code === 'no-speech') return 'no-speech';
-  if (code === 'aborted') return null; // we stopped it ourselves
-  return 'unavailable';
-}
+/** Brave exposes SpeechRecognition but its requests are blocked, so it never produces a result. */
+const isBrave = (): boolean => typeof navigator !== 'undefined' && 'brave' in navigator;
+
+/** Offline mock mode has no /api/transcribe, so the recorder path is not offered there. */
+const serverPathAvailable = (): boolean =>
+  import.meta.env.VITE_USE_MOCK_API !== 'true' && recorderSupported();
+
+const fastPathCtor = (): RecognitionCtor | null => (isBrave() ? null : getRecognitionCtor());
 
 /**
- * Speech-to-text wrapper. `onFinal` receives the transcript once when a session ends with text.
- * Always ends on unmount.
+ * Voice -> text. Prefers the browser's live SpeechRecognition where it can be trusted, and
+ * otherwise (or when it stalls / errors) records with MediaRecorder and transcribes on the server.
+ * `onFinal` receives the text once. Whatever happens, the hook ends in idle: timers are bounded,
+ * the microphone is released, and unmount cancels everything.
  */
 export function useListen(lang: Lang, onFinal?: (text: string) => void): ListenApi {
-  const [listening, setListening] = useState(false);
+  const [phase, setPhase] = useState<Phase>('idle');
   const [transcript, setTranscript] = useState('');
   const [error, setError] = useState<ListenError | null>(null);
-  const rec = useRef<Recognition | null>(null);
-  const text = useRef('');
+  const session = useRef<ListenSession | null>(null);
+  const run = useRef(0);
   const finalCb = useRef(onFinal);
   useEffect(() => {
     finalCb.current = onFinal;
   });
-  const Ctor = getRecognitionCtor();
-
-  const stop = useCallback(() => rec.current?.stop(), []);
 
   const start = useCallback(() => {
-    const C = getRecognitionCtor();
-    if (!C || rec.current) return;
-    const r = new C();
-    r.lang = LISTEN_LOCALE[lang];
-    r.interimResults = true;
-    r.continuous = false;
-    r.maxAlternatives = 1;
-    text.current = '';
-    let failure: ListenError | null = null;
-    r.onresult = (e) => {
-      let out = '';
-      for (let i = 0; i < e.results.length; i += 1) out += e.results[i]?.[0]?.transcript ?? '';
-      text.current = out.trim();
-      setTranscript(text.current);
+    if (session.current) return;
+    const runId = (run.current += 1);
+    const live = (fn: () => void) => () => {
+      if (run.current === runId) fn();
     };
-    r.onerror = (e) => {
-      failure = toError(e.error);
+    const idle = () => {
+      session.current = null;
+      setPhase('idle');
     };
-    r.onend = () => {
-      rec.current = null;
-      setListening(false);
-      if (failure) setError(failure);
-      else if (text.current === '') setError('no-speech');
-      else finalCb.current?.(text.current);
+    const callbacks: ListenCallbacks = {
+      onInterim: (text) => run.current === runId && setTranscript(text),
+      onTranscribing: live(() => setPhase('transcribing')),
+      onCancelled: live(idle),
+      onResult: (text) => {
+        if (run.current !== runId) return;
+        idle();
+        finalCb.current?.(text);
+      },
+      onError: (failure) => {
+        if (run.current !== runId) return;
+        idle();
+        setError(failure);
+      },
     };
-    rec.current = r;
+    const fallBackToServer = (): void => {
+      if (!serverPathAvailable()) return callbacks.onError('unavailable');
+      session.current = startServerListen(lang, callbacks);
+    };
+
     setError(null);
     setTranscript('');
-    setListening(true);
-    try {
-      r.start();
-    } catch {
-      rec.current = null;
-      setListening(false);
-      setError('unavailable');
-    }
+    setPhase('listening');
+    const Ctor = fastPathCtor();
+    session.current = Ctor
+      ? startRecognition(Ctor, lang, { ...callbacks, onUnavailable: live(fallBackToServer) })
+      : null;
+    if (!Ctor) fallBackToServer();
   }, [lang]);
+
+  const stop = useCallback(() => {
+    const active = session.current;
+    if (!active) return;
+    active.stop();
+    // Engines normally move the phase themselves; this guarantees "listening" is off immediately.
+    setPhase((p) => (p === 'listening' ? 'idle' : p));
+  }, []);
 
   useEffect(
     () => () => {
-      const r = rec.current;
-      if (!r) return;
-      r.onend = null;
-      r.onerror = null;
-      r.onresult = null;
-      r.abort();
-      rec.current = null;
+      run.current += 1;
+      session.current?.cancel();
+      session.current = null;
     },
     [],
   );
 
-  return { supported: Ctor !== null, listening, transcript, error, start, stop };
+  return {
+    supported: fastPathCtor() !== null || serverPathAvailable(),
+    listening: phase === 'listening',
+    transcribing: phase === 'transcribing',
+    transcript,
+    error,
+    start,
+    stop,
+  };
 }

@@ -21,6 +21,7 @@ const MIC_ERRORS: Readonly<Record<ListenError, StringKey>> = {
   denied: 'askMicDenied',
   'no-speech': 'askMicNoSpeech',
   unavailable: 'askMicUnavailable',
+  'rate-limited': 'askRateLimited',
 };
 
 export function Composer({ onSend, inputRef }: ComposerProps) {
@@ -48,8 +49,14 @@ export function Composer({ onSend, inputRef }: ComposerProps) {
             {t[MIC_ERRORS[listen.error]]}
           </p>
         ) : null}
-        {listen.listening ? <MicListening transcript={listen.transcript} onStop={listen.stop} /> : null}
-        <form className={styles.form} onSubmit={submit} hidden={listen.listening}>
+        {listen.listening || listen.transcribing ? (
+          <MicListening
+            transcript={listen.transcript}
+            transcribing={listen.transcribing}
+            onStop={listen.stop}
+          />
+        ) : null}
+        <form className={styles.form} onSubmit={submit} hidden={listen.listening || listen.transcribing}>
           <input
             ref={inputRef}
             className={styles.input}

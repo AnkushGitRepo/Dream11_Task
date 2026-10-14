@@ -54,10 +54,29 @@ export const speakBodySchema = z.object({
   token: z.string().min(10).max(7000),
 });
 
+export const MAX_AUDIO_BASE64_CHARS = 1_400_000;
+export const MAX_AUDIO_MS = 15_000;
+const AUDIO_TYPES = ['audio/webm', 'audio/mp4', 'audio/ogg', 'audio/wav', 'audio/mpeg'] as const;
+const BASE64 = /^[A-Za-z0-9+/]+={0,2}$/;
+
+/** Voice question: a short recording as base64 (the MediaRecorder blob the client captured). */
+export const transcribeBodySchema = z.object({
+  lang: langSchema,
+  /** 'audio/webm;codecs=opus' and friends: parameters are dropped before the allow-list check. */
+  mimeType: z
+    .string()
+    .max(80)
+    .transform((s) => (s.split(';')[0] ?? '').trim().toLowerCase())
+    .pipe(z.enum(AUDIO_TYPES)),
+  durationMs: z.number().int().min(1).max(MAX_AUDIO_MS),
+  audio: z.string().min(100).max(MAX_AUDIO_BASE64_CHARS).regex(BASE64),
+});
+
 export type RecapBody = z.infer<typeof recapBodySchema>;
 export type AskBody = z.infer<typeof askBodySchema>;
 export type LearnBody = z.infer<typeof learnBodySchema>;
 export type SpeakBody = z.infer<typeof speakBodySchema>;
+export type TranscribeBody = z.infer<typeof transcribeBodySchema>;
 
 export type ParseResult<T> = { readonly ok: true; readonly data: T } | { readonly ok: false };
 
