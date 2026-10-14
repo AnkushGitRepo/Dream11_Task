@@ -51,6 +51,9 @@ const COMMON_RULES = [
   'Output a single JSON object and nothing else.',
 ] as const;
 
+const BOWLER_RULE =
+  'Never mention a partial over for a bowler (like "0.4 over" or "3.2 overs") and never quote full bowling figures (like "2/24 in 3 overs") unless the bowler has just finished an over. For a wicket, say it plainly in the style of "Bumrah ne wicket liya" / "Bumrah took the wicket" in the target language.';
+
 const normaliseQuestion = (q: string): string => q.replace(/[<>]/g, ' ').replace(/\s+/g, ' ').trim();
 
 /** Facts as the model sees them: compact JSON with English labels (the model writes the target language). */
@@ -82,6 +85,7 @@ export function buildRecapPrompt(args: { readonly facts: Facts; readonly lang: L
     `${COMMON_RULES.length + 1}. Lead with the single biggest moment in the window (wicket, then six, then four, then a big shift in the chase), then the situation now.`,
     `${COMMON_RULES.length + 2}. "lead": one sentence, at most 18 words. "body": at most 3 short sentences, at most 60 words.`,
     `${COMMON_RULES.length + 3}. ${SPEAK_RULES(lang)}`,
+    `${COMMON_RULES.length + 4}. ${BOWLER_RULE}`,
     STYLE[lang],
     'OUTPUT SCHEMA: {"lead": string, "body": string, "speak": string}',
     'EXAMPLES:',
