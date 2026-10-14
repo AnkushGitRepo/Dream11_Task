@@ -20,12 +20,13 @@ const askReq = {
 };
 const RECAP_OK = {
   id: 'rcp_abcdefgh1234',
+  speakToken: 'payload.signature',
   lead: 'L',
   body: 'B',
   source: 'ai',
   window: { fromSeq: 9, toSeq: 9 },
 };
-const ASK_OK = { id: 'ans_abcdefgh1234', answer: 'A', source: 'template' };
+const ASK_OK = { id: 'ans_abcdefgh1234', speakToken: 'payload.signature', answer: 'A', source: 'template' };
 
 const reply = (status: number, json: unknown) => ({
   ok: status >= 200 && status < 300,
@@ -61,6 +62,7 @@ describe('getRecap (real API)', () => {
     expect(JSON.parse(String(init.body))).toEqual(recapReq); // no facts, no numbers from the client
     expect(out).toEqual({
       id: RECAP_OK.id,
+      speakToken: RECAP_OK.speakToken,
       lead: 'L',
       body: 'B',
       source: 'ai',
@@ -71,7 +73,11 @@ describe('getRecap (real API)', () => {
   it('pre-fetches the natural voice as soon as the recap arrives', async () => {
     stubFetch(async () => reply(200, RECAP_OK));
     await getRecap(recapReq);
-    expect(prefetch).toHaveBeenCalledWith({ kind: 'recap', id: RECAP_OK.id });
+    expect(prefetch).toHaveBeenCalledWith({
+      kind: 'recap',
+      id: RECAP_OK.id,
+      token: RECAP_OK.speakToken,
+    });
   });
 
   it.each([
@@ -115,7 +121,11 @@ describe('askMatch (real API)', () => {
     expect(url).toBe('/api/ask');
     expect(JSON.parse(String(init.body))).toEqual(askReq);
     expect(out).toEqual(ASK_OK);
-    expect(prefetch).toHaveBeenCalledWith({ kind: 'answer', id: ASK_OK.id });
+    expect(prefetch).toHaveBeenCalledWith({
+      kind: 'answer',
+      id: ASK_OK.id,
+      token: ASK_OK.speakToken,
+    });
   });
 
   it('keeps the rate-limit code the UI reads', async () => {

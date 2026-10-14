@@ -7,7 +7,7 @@ import { getRule } from '../shared/sports/rules.js';
 import { LruCache } from './_lib/cache.js';
 import { loadTimeline } from './_lib/matchStore.js';
 import { createRateLimiter } from './_lib/rateLimit.js';
-import { lookupSpeakable } from './_lib/speakRegistry.js';
+import { verifySpeakToken } from './_lib/speakToken.js';
 import { handleLearn, type LearnDeps, type LearnResponse } from './learn.js';
 
 const MATCH = 'pak-ind-2022-t20wc-mcg';
@@ -67,10 +67,12 @@ const provider = (reply: string | Error): TextProvider => ({
   }),
 });
 
+const SPEAK_SECRET = 'learn-test-secret-0123456789';
 const makeDeps = (over: Partial<LearnDeps> = {}): LearnDeps => ({
   getProvider: () => null,
   loadTimeline,
   cache: new LruCache<LearnResponse>(20),
+  speakSecret: SPEAK_SECRET,
   limiter: createRateLimiter({ perMinute: 600, burst: 100 }),
   timeoutMs: 500,
   ...over,
@@ -164,7 +166,7 @@ describe('POST /api/learn: success', () => {
     expect(out.moment).toMatch(/bowled on the free hit/i);
     expect(out.id).toMatch(/^[A-Za-z0-9_-]{8,64}$/);
     expect(r.headers['Cache-Control']).toBe('no-store');
-    expect(lookupSpeakable('learn', out.id)).toEqual({ text: out.speak, lang: 'en' });
+    expect(verifySpeakToken(out.speakToken, SPEAK_SECRET)).toEqual({ text: out.speak, lang: 'en' });
   });
 
   it('copies title and short from the rulebook in every language', async () => {
@@ -181,7 +183,7 @@ describe('POST /api/learn: success', () => {
       .json as unknown as LearnResponse;
     expect(/[ऀ-ॿ]/.test(out.moment)).toBe(false);
     expect(/[ऀ-ॿ]/.test(out.speak)).toBe(true);
-    expect(lookupSpeakable('learn', out.id)?.lang).toBe('hinglish');
+    expect(verifySpeakToken(out.speakToken, SPEAK_SECRET)?.lang).toBe('hinglish');
   });
 
   it('uses the model sentence when its numbers are all engine numbers', async () => {

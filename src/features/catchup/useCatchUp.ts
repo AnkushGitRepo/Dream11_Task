@@ -48,7 +48,7 @@ export function useCatchUp(
           patch(entry.id, {
             status: 'ready',
             speakOnArrival: getSettings().autoRead,
-            recap: { id: res.id, lead: res.lead, body: res.body, source: res.source },
+            recap: { id: res.id, speakToken: res.speakToken, lead: res.lead, body: res.body, source: res.source },
           }),
         () => patch(entry.id, { status: 'error' }),
       );

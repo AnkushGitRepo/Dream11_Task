@@ -10,6 +10,7 @@ const SERVER_ENV_KEYS = [
   'TTS_MODEL',
   'RATE_LIMIT_PER_MIN',
   'RATE_LIMIT_BURST',
+  'SPEAK_SIGNING_SECRET',
 ] as const;
 
 /** Mounts the /api/* handlers in `vite dev` (same code Vercel runs in production). Dev-only. */

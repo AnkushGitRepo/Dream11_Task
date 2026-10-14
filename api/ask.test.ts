@@ -5,9 +5,9 @@ import { getRule } from '../shared/sports/rules.js';
 import { LruCache } from './_lib/cache.js';
 import { loadTimeline } from './_lib/matchStore.js';
 import { createRateLimiter } from './_lib/rateLimit.js';
-import { lookupSpeakable } from './_lib/speakRegistry.js';
+import { verifySpeakToken } from './_lib/speakToken.js';
 import { callHandler } from './_lib/testHttp.js';
-import { askId, handleAsk, type AskDeps, type AskResponse } from './ask.js';
+import { askId, handleAsk, type AskDeps, type AskResponse, type CachedAsk } from './ask.js';
 
 const MATCH = 'pak-ind-2022-t20wc-mcg';
 const BASE = 229;
@@ -26,10 +26,12 @@ const provider = (reply: string | Error) => {
   return Object.assign(p, { calls });
 };
 
+const SPEAK_SECRET = 'ask-test-secret-0123456789ab';
 const deps = (over: Partial<AskDeps> = {}): AskDeps => ({
   getProvider: () => null,
   loadTimeline,
-  cache: new LruCache<AskResponse>(20),
+  cache: new LruCache<CachedAsk>(20),
+  speakSecret: SPEAK_SECRET,
   limiter: createRateLimiter({ perMinute: 600, burst: 100 }),
   timeoutMs: 300,
   ...over,
@@ -90,9 +92,9 @@ describe('POST /api/ask: success', () => {
     expect(out.source).toBe('template');
     expect(out.answer).toContain('22');
     expect(out.id).toBe(askId(MATCH, BASE + SEQ, 'en', 'how many runs are needed?'));
-    expect(Object.keys(out).sort()).toEqual(['answer', 'id', 'source']);
-    expect(lookupSpeakable('answer', out.id)?.lang).toBe('en');
-    expect(lookupSpeakable('answer', out.id)?.text).toMatch(/22 runs needed off 7 balls/);
+    expect(Object.keys(out).sort()).toEqual(['answer', 'id', 'source', 'speakToken']);
+    expect(verifySpeakToken(out.speakToken, SPEAK_SECRET)?.lang).toBe('en');
+    expect(verifySpeakToken(out.speakToken, SPEAK_SECRET)?.text).toMatch(/22 runs needed off 7 balls/);
   });
 
   it('seq -1 with a base asks about the state before the first replayed ball', async () => {
@@ -113,8 +115,12 @@ describe('POST /api/ask: success', () => {
     const d = deps({ getProvider: () => p });
     const a = (await call(d)).json as unknown as AskResponse;
     const b = (await call(d)).json as unknown as AskResponse;
-    expect(a).toEqual({ id: a.id, answer: 'They need 22 off 7 balls.', source: 'ai' });
-    expect(b).toEqual(a);
+    const { speakToken: tokenA, ...plainA } = a;
+    const { speakToken: tokenB, ...plainB } = b;
+    expect(plainA).toEqual({ id: a.id, answer: 'They need 22 off 7 balls.', source: 'ai' });
+    expect(plainB).toEqual(plainA);
+    expect(verifySpeakToken(tokenA, SPEAK_SECRET)).not.toBeNull();
+    expect(verifySpeakToken(tokenB, SPEAK_SECRET)).not.toBeNull();
     expect(p.generate).toHaveBeenCalledTimes(1);
   });
 
@@ -183,7 +189,7 @@ describe('POST /api/ask: success', () => {
         await call(deps(), { body: body({ question: 'free hit kya hota hai', lang: 'hinglish' }) })
       ).json as unknown as AskResponse;
       expect(hing.answer).toContain(rule.short.hinglish);
-      expect(/[ऀ-ॿ]/.test(lookupSpeakable('answer', hing.id)?.text ?? '')).toBe(true);
+      expect(/[ऀ-ॿ]/.test(verifySpeakToken(hing.speakToken, SPEAK_SECRET)?.text ?? '')).toBe(true);
     });
   });
 });

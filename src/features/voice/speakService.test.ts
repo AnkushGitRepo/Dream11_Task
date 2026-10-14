@@ -8,7 +8,10 @@ const audio = (status = 200, type = 'audio/wav') =>
   });
 
 let n = 0;
-const src = () => ({ kind: 'recap' as const, id: `id-test-${(n += 1)}` });
+const src = () => {
+  n += 1;
+  return { kind: 'recap' as const, id: `id-test-${n}`, token: `payload${n}.signature${n}` };
+};
 const fetchMock = vi.fn<typeof fetch>();
 
 beforeEach(() => {
@@ -24,7 +27,7 @@ afterEach(() => {
 });
 
 describe('fetchSpeech', () => {
-  it('posts exactly {kind,id} and caches the blob url', async () => {
+  it('posts exactly {token} and caches the blob url', async () => {
     fetchMock.mockResolvedValue(audio());
     const s = src();
     const url = await fetchSpeech(s);
@@ -32,7 +35,7 @@ describe('fetchSpeech', () => {
     const [path, init] = fetchMock.mock.calls[0] ?? [];
     expect(path).toBe('/api/speak');
     expect(init?.method).toBe('POST');
-    expect(JSON.parse(init?.body as string)).toEqual({ kind: s.kind, id: s.id });
+    expect(JSON.parse(init?.body as string)).toEqual({ token: s.token });
     expect(await fetchSpeech(s)).toBe(url);
     expect(peekSpeech(s)).toBe(url);
     expect(fetchMock).toHaveBeenCalledTimes(1);

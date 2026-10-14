@@ -48,7 +48,11 @@ export function RecapCard({ entry, onAsk, autoPlay = false }: RecapCardProps) {
         <SpeakButton
           text={spoken}
           lang={entry.lang}
-          source={recap.id ? { kind: 'recap', id: recap.id } : undefined}
+          source={
+            recap.id && recap.speakToken
+              ? { kind: 'recap', id: recap.id, token: recap.speakToken }
+              : undefined
+          }
           autoPlay={autoPlay}
         />
         <Button variant="ghost" size="sm" onClick={() => toast.show(t.catchupComingSoon)}>

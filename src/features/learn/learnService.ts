@@ -1,17 +1,20 @@
 import type { Lang, RuleEntry, SportId } from '@shared/sports/types';
 import { getRule } from '@shared/sports/rules';
+import { readSpeakToken } from '@/services/aiService';
 
 // Client side of POST /api/learn. The rule text is read from the bundled rulebook, so a card can
 // always show its title and rule instantly and offline; only the "in this match" sentence needs
 // the server, and when that fails the card simply has no moment line.
 
 export interface LearnMoment {
-  /** Id for natural voice (/api/speak kind 'learn'). */
+  /** Id of this moment (cache key for its audio). */
   readonly id: string;
   readonly moment: string;
   /** Text voiced by the server; also the basic-voice fallback text. */
   readonly speak: string;
   readonly source: 'ai' | 'template';
+  /** Signed token for /api/speak; absent when the server cannot voice. */
+  readonly speakToken?: string;
 }
 
 export interface MomentRequest {
@@ -38,7 +41,8 @@ function parse(value: unknown): LearnMoment | null {
   if (typeof moment !== 'string' || moment.trim() === '') return null;
   if (typeof speak !== 'string') return null;
   if (source !== 'ai' && source !== 'template') return null;
-  return { id, moment, speak, source };
+  const speakToken = readSpeakToken(v);
+  return speakToken ? { id, moment, speak, source, speakToken } : { id, moment, speak, source };
 }
 
 /** The moment sentence for a rule at an event, or null when the server cannot give one. */

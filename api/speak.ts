@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { createTtsProvider, TtsError, type TtsProvider } from '../shared/ai/tts.js';
 import { LruCache } from './_lib/cache.js';
@@ -6,13 +7,14 @@ import { sendError } from './_lib/http.js';
 import type { RateLimiter } from './_lib/rateLimit.js';
 import { speakBodySchema } from './_lib/schemas.js';
 import { sharedLimiter } from './_lib/shared.js';
-import { lookupSpeakable } from './_lib/speakRegistry.js';
+import { speakSecret, verifySpeakToken } from './_lib/speakToken.js';
 
-// POST /api/speak { kind: 'recap' | 'answer' | 'learn', id }  ->  audio/wav
-// Voices ONLY text the server generated (looked up by id in the speakable registry). Never accepts
-// free text, so it cannot be used as a TTS proxy (docs/SECURITY.md §8).
+// POST /api/speak { token }  ->  audio/wav
+// `token` is the signed speakToken a recap / ask / learn answer carries (api/_lib/speakToken.ts).
+// Only text this server signed is voiced, so there is no free-text TTS proxy and no per-instance
+// state to lose (docs/SECURITY.md §8). Unsigned, tampered or expired tokens are refused.
 
-const MAX_BODY_BYTES = 1024;
+const MAX_BODY_BYTES = 8 * 1024;
 const TTS_TIMEOUT_MS = 12_000;
 const AUDIO_CACHE_ENTRIES = 60;
 
@@ -21,6 +23,7 @@ export interface SpeakDeps {
   readonly audioCache: LruCache<Uint8Array>;
   readonly limiter: RateLimiter;
   readonly timeoutMs: number;
+  readonly speakSecret?: string;
 }
 
 export function createDefaultDeps(env: NodeJS.ProcessEnv = process.env): SpeakDeps {
@@ -34,6 +37,7 @@ export function createDefaultDeps(env: NodeJS.ProcessEnv = process.env): SpeakDe
     audioCache: new LruCache<Uint8Array>(AUDIO_CACHE_ENTRIES),
     limiter: sharedLimiter(env),
     timeoutMs: TTS_TIMEOUT_MS,
+    speakSecret: speakSecret(env),
   };
 }
 
@@ -68,18 +72,18 @@ export async function handleSpeak(req: IncomingMessage, res: ServerResponse, dep
     maxBytes: MAX_BODY_BYTES,
     limiter: deps.limiter,
     schema: speakBodySchema,
-    expects: 'Expected { kind: "recap" | "answer" | "learn", id }.',
+    expects: 'Expected { token }.',
   });
   if (!guarded) return;
   const { data: body, log } = guarded;
 
-  const speakable = lookupSpeakable(body.kind, body.id);
+  const speakable = verifySpeakToken(body.token, deps.speakSecret);
   if (!speakable) {
-    sendError(res, 'NOT_FOUND', 'Nothing to voice for that id.');
-    return log(404, 'unknown-id');
+    sendError(res, 'NOT_FOUND', 'Nothing to voice for that token.');
+    return log(404, 'bad-token');
   }
 
-  const cacheKey = `${body.id}:${speakable.lang}`;
+  const cacheKey = createHash('sha256').update(`${speakable.lang}|${speakable.text}`).digest('base64url');
   const cached = deps.audioCache.get(cacheKey);
   if (cached) {
     sendAudio(res, cached);

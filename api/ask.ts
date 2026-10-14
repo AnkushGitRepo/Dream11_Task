@@ -3,7 +3,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { GUARD_REASONS, runAsk } from '../shared/ai/pipeline.js';
 import { createTextProvider, type TextProvider } from '../shared/ai/provider.js';
 import { askContextWithRule, lookupRule } from '../shared/sports/rules.js';
-import type { MatchTimeline } from '../shared/sports/types.js';
+import type { Lang, MatchTimeline } from '../shared/sports/types.js';
 import { LruCache } from './_lib/cache.js';
 import { guardRequest } from './_lib/handlerKit.js';
 import { sendError, sendJson } from './_lib/http.js';
@@ -12,7 +12,7 @@ import { loadTimeline } from './_lib/matchStore.js';
 import type { RateLimiter } from './_lib/rateLimit.js';
 import { askBodySchema } from './_lib/schemas.js';
 import { sharedLimiter } from './_lib/shared.js';
-import { registerSpeakable } from './_lib/speakRegistry.js';
+import { mintSpeakToken, speakSecret } from './_lib/speakToken.js';
 
 // POST /api/ask { matchId, seq, seqBase?, question, lang } -> { id, answer, source }
 // The question is untrusted: it goes into the prompt only inside <question> tags, is never logged,
@@ -27,12 +27,21 @@ export interface AskResponse {
   readonly id: string;
   readonly answer: string;
   readonly source: 'ai' | 'template' | 'unknown';
+  /** Signed token for POST /api/speak; absent when voicing is not configured. */
+  readonly speakToken?: string;
+}
+
+/** What the response cache holds: the answer plus the text to voice (tokens are minted per send). */
+export interface CachedAsk {
+  readonly out: AskResponse;
+  readonly speak: string;
 }
 
 export interface AskDeps {
   readonly getProvider: () => TextProvider | null;
   readonly loadTimeline: (matchId: string) => MatchTimeline | null;
-  readonly cache: LruCache<AskResponse>;
+  readonly cache: LruCache<CachedAsk>;
+  readonly speakSecret?: string;
   readonly limiter: RateLimiter;
   readonly timeoutMs: number;
 }
@@ -41,7 +50,8 @@ export function createDefaultDeps(env: NodeJS.ProcessEnv = process.env): AskDeps
   return {
     getProvider: () => createTextProvider({ GEMINI_API_KEY: env.GEMINI_API_KEY, LLM_MODEL: env.LLM_MODEL }),
     loadTimeline,
-    cache: new LruCache<AskResponse>(RESPONSE_CACHE_ENTRIES),
+    cache: new LruCache<CachedAsk>(RESPONSE_CACHE_ENTRIES),
+    speakSecret: speakSecret(env),
     limiter: sharedLimiter(env),
     timeoutMs: LLM_TIMEOUT_MS,
   };
@@ -51,6 +61,11 @@ export function createDefaultDeps(env: NodeJS.ProcessEnv = process.env): AskDeps
 export function askId(matchId: string, seq: number, lang: string, question: string): string {
   const q = question.toLowerCase().replace(/\s+/g, ' ').trim();
   return createHash('sha256').update(`ask|${matchId}|${seq}|${lang}|${q}`).digest('base64url').slice(0, 24);
+}
+
+function withToken(entry: CachedAsk, lang: Lang, secret: string | undefined): AskResponse {
+  const speakToken = mintSpeakToken(entry.speak, lang, secret);
+  return speakToken ? { ...entry.out, speakToken } : entry.out;
 }
 
 export async function handleAsk(req: IncomingMessage, res: ServerResponse, deps: AskDeps): Promise<void> {
@@ -79,7 +94,7 @@ export async function handleAsk(req: IncomingMessage, res: ServerResponse, deps:
   const id = askId(body.matchId, seq, body.lang, body.question);
   const cached = deps.cache.get(id);
   if (cached) {
-    sendJson(res, 200, cached);
+    sendJson(res, 200, withToken(cached, body.lang, deps.speakSecret));
     return log(200, 'cache');
   }
 
@@ -91,9 +106,9 @@ export async function handleAsk(req: IncomingMessage, res: ServerResponse, deps:
   );
   const out: AskResponse = { id, answer: result.answer, source: result.source };
   const cacheable = result.source === 'ai' || (result.reason && GUARD_REASONS.includes(result.reason));
-  if (cacheable) deps.cache.set(id, out);
-  registerSpeakable('answer', id, { text: result.speak, lang: body.lang });
-  sendJson(res, 200, out);
+  const entry: CachedAsk = { out, speak: result.speak };
+  if (cacheable) deps.cache.set(id, entry);
+  sendJson(res, 200, withToken(entry, body.lang, deps.speakSecret));
   log(200, result.reason ? `${result.source}:${result.reason}` : result.source);
 }
 

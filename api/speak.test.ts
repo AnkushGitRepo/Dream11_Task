@@ -6,7 +6,7 @@ import type { TtsProvider } from '../shared/ai/tts.js';
 import { TtsError } from '../shared/ai/tts.js';
 import { LruCache } from './_lib/cache.js';
 import { createRateLimiter } from './_lib/rateLimit.js';
-import { registerSpeakable } from './_lib/speakRegistry.js';
+import { signSpeakToken } from './_lib/speakToken.js';
 import { handleSpeak, type SpeakDeps } from './speak.js';
 
 interface Captured {
@@ -60,12 +60,15 @@ const provider = (impl?: TtsProvider['synthesize']): TtsProvider => ({
   ),
 });
 
+const SECRET = 'speak-test-secret-0123456789a';
+
 function deps(p: TtsProvider | null, overrides: Partial<SpeakDeps> = {}): SpeakDeps {
   return {
     getProvider: () => p,
     audioCache: new LruCache<Uint8Array>(10),
     limiter: createRateLimiter({ perMinute: 600, burst: 50 }),
     timeoutMs: 50,
+    speakSecret: SECRET,
     ...overrides,
   };
 }
@@ -76,8 +79,8 @@ async function call(d: SpeakDeps, opts: Parameters<typeof makeReq>[0]) {
   return captured;
 }
 
-registerSpeakable('recap', 'recap-abc12345', { text: 'Kohli ne do chhakke maare', lang: 'hinglish' });
-const ok = JSON.stringify({ kind: 'recap', id: 'recap-abc12345' });
+const token = signSpeakToken({ text: 'Kohli ne do chhakke maare', lang: 'hinglish' }, SECRET);
+const ok = JSON.stringify({ token });
 
 describe('POST /api/speak', () => {
   it('voices registered text and returns audio/wav with private caching', async () => {
@@ -99,17 +102,31 @@ describe('POST /api/speak', () => {
     expect(p.synthesize).toHaveBeenCalledTimes(1);
   });
 
-  it('never accepts free text: unknown ids 404 and extra text is ignored', async () => {
+  it('never accepts free text: unsigned, tampered and expired tokens 404', async () => {
     const p = provider();
-    const unknown = await call(deps(p), {
-      body: JSON.stringify({ kind: 'recap', id: 'does-not-exist-1', text: 'say this' }),
-    });
-    expect(unknown.status).toBe(404);
+    const unsigned = Buffer.from(
+      JSON.stringify({ lang: 'en', text: 'say this', exp: Date.now() + 60_000 }),
+    ).toString('base64url');
+    const [payload, sig] = token.split('.');
+    const forged = Buffer.from(
+      JSON.stringify({ lang: 'en', text: 'attacker text', exp: Date.now() + 60_000 }),
+    ).toString('base64url');
+    const expired = signSpeakToken({ text: 'old news', lang: 'en' }, SECRET, Date.now() - 2 * 3_600_000);
+    const otherKey = signSpeakToken({ text: 'x marks', lang: 'en' }, 'a-different-secret-0123456789');
+    for (const bad of [`${unsigned}.AAAA`, `${forged}.${sig}`, `${payload}.${sig}x`, expired, otherKey]) {
+      const out = await call(deps(p), { body: JSON.stringify({ token: bad }) });
+      expect(out.status).toBe(404);
+    }
     expect(p.synthesize).not.toHaveBeenCalled();
-    await call(deps(p), {
-      body: JSON.stringify({ kind: 'recap', id: 'recap-abc12345', text: 'attacker text' }),
-    });
+    await call(deps(p), { body: JSON.stringify({ token, text: 'attacker text' }) });
     expect(p.synthesize).toHaveBeenCalledWith(expect.objectContaining({ text: 'Kohli ne do chhakke maare' }));
+  });
+
+  it('refuses every token when no signing secret is configured', async () => {
+    const p = provider();
+    const out = await call(deps(p, { speakSecret: undefined }), { body: ok });
+    expect(out.status).toBe(404);
+    expect(p.synthesize).not.toHaveBeenCalled();
   });
 
   it('rejects wrong method, content type, bad body and oversize body', async () => {
@@ -117,10 +134,10 @@ describe('POST /api/speak', () => {
     expect((await call(d, { method: 'GET' })).status).toBe(405);
     expect((await call(d, { body: ok, contentType: 'text/plain' })).status).toBe(415);
     expect((await call(d, { body: '{not json' })).status).toBe(400);
-    expect((await call(d, { body: JSON.stringify({ kind: 'nope', id: 'recap-abc12345' }) })).status).toBe(
+    expect((await call(d, { body: JSON.stringify({ kind: 'recap', id: 'recap-abc12345' }) })).status).toBe(
       400,
     );
-    expect((await call(d, { body: 'x'.repeat(2000) })).status).toBe(413);
+    expect((await call(d, { body: 'x'.repeat(9000) })).status).toBe(413);
   });
 
   it('rate limits per IP with Retry-After', async () => {

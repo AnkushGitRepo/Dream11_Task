@@ -4,6 +4,8 @@ export interface RecapText {
   /** Server/mock id used to fetch the natural voice (POST /api/speak). */
   /** Absent for demo/static recaps the server never generated. */
   readonly id?: string;
+  /** Signed token the server attached for natural voice; absent in mock mode. */
+  readonly speakToken?: string;
   readonly lead: string;
   readonly body: string;
   readonly source: 'ai' | 'template';

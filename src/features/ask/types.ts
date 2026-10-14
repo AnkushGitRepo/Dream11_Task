@@ -13,6 +13,8 @@ export interface AskTurn {
   readonly answer?: string;
   /** Id used to fetch the natural voice (POST /api/speak). */
   readonly answerId?: string;
+  /** Signed token for natural voice; absent in mock mode. */
+  readonly answerToken?: string;
   /** 'unknown' = honest "I don't know". */
   readonly source?: 'ai' | 'template' | 'unknown';
   readonly failure?: 'failed' | 'rateLimited';

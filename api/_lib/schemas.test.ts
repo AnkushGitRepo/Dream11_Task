@@ -95,10 +95,11 @@ describe('learnBodySchema / speakBodySchema', () => {
   });
 
   it('validates the speak body', () => {
-    const ok = { kind: 'learn', id: 'abcdefgh12345678' };
+    const ok = { token: 'eyJsYW5nIjoiZW4ifQ.c2ln' };
     expect(parseBody(j(ok), speakBodySchema).ok).toBe(true);
-    expect(parseBody(j({ ...ok, kind: 'text' }), speakBodySchema).ok).toBe(false);
-    expect(parseBody(j({ ...ok, id: 'short' }), speakBodySchema).ok).toBe(false);
-    expect(parseBody(j({ ...ok, id: 'has spaces and !' }), speakBodySchema).ok).toBe(false);
+    expect(parseBody(j({}), speakBodySchema).ok).toBe(false);
+    expect(parseBody(j({ token: 'short' }), speakBodySchema).ok).toBe(false);
+    expect(parseBody(j({ token: 'x'.repeat(7001) }), speakBodySchema).ok).toBe(false);
+    expect(parseBody(j({ kind: 'learn', id: 'abcdefgh12345678' }), speakBodySchema).ok).toBe(false);
   });
 });

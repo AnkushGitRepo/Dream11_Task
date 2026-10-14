@@ -13,7 +13,7 @@ import {
 import { createTextProvider, type TextProvider } from '../shared/ai/provider.js';
 import { getRule } from '../shared/sports/rules.js';
 import { getAdapter } from '../shared/sports/registry.js';
-import type { MatchTimeline } from '../shared/sports/types.js';
+import type { Lang, MatchTimeline } from '../shared/sports/types.js';
 import { LruCache } from './_lib/cache.js';
 import { guardRequest } from './_lib/handlerKit.js';
 import { sendError, sendJson } from './_lib/http.js';
@@ -21,12 +21,12 @@ import { loadTimeline } from './_lib/matchStore.js';
 import type { RateLimiter } from './_lib/rateLimit.js';
 import { learnBodySchema, type LearnBody } from './_lib/schemas.js';
 import { sharedLimiter } from './_lib/shared.js';
-import { registerSpeakable } from './_lib/speakRegistry.js';
+import { mintSpeakToken, speakSecret } from './_lib/speakToken.js';
 
 // POST /api/learn { matchId, seq, ruleId, lang } -> { id, title, short, moment, speak, source }
 // `title` and `short` are copied from the curated rulebook, never generated. `moment` is ONE model
 // sentence built from engine facts, number-guarded; any failure falls back to a template.
-// `speak` is registered under kind 'learn' so /api/speak can voice it by id.
+// `speakToken` is a signed token for /api/speak (api/_lib/speakToken.ts).
 
 const MAX_BODY_BYTES = 512;
 const LEARN_MAX_TOKENS = 400;
@@ -41,12 +41,15 @@ export interface LearnResponse {
   readonly moment: string;
   readonly speak: string;
   readonly source: 'ai' | 'template';
+  /** Signed token for POST /api/speak; absent when voicing is not configured. */
+  readonly speakToken?: string;
 }
 
 export interface LearnDeps {
   readonly getProvider: () => TextProvider | null;
   readonly loadTimeline: (matchId: string) => MatchTimeline | null;
   readonly cache: LruCache<LearnResponse>;
+  readonly speakSecret?: string;
   readonly limiter: RateLimiter;
   readonly timeoutMs: number;
 }
@@ -56,6 +59,7 @@ export function createDefaultDeps(env: NodeJS.ProcessEnv = process.env): LearnDe
     getProvider: () => createTextProvider({ GEMINI_API_KEY: env.GEMINI_API_KEY, LLM_MODEL: env.LLM_MODEL }),
     loadTimeline,
     cache: new LruCache<LearnResponse>(RESPONSE_CACHE_ENTRIES),
+    speakSecret: speakSecret(env),
     limiter: sharedLimiter(env),
     timeoutMs: LLM_TIMEOUT_MS,
   };
@@ -83,6 +87,11 @@ async function generateMoment(
   return clean ? parsed : null;
 }
 
+function withToken(out: LearnResponse, lang: Lang, secret: string | undefined): LearnResponse {
+  const speakToken = mintSpeakToken(out.speak, lang, secret);
+  return speakToken ? { ...out, speakToken } : out;
+}
+
 export async function handleLearn(req: IncomingMessage, res: ServerResponse, deps: LearnDeps): Promise<void> {
   const guarded = await guardRequest(req, res, {
     route: 'api/learn',
@@ -97,7 +106,7 @@ export async function handleLearn(req: IncomingMessage, res: ServerResponse, dep
   const id = learnId(body);
   const cached = deps.cache.get(id);
   if (cached) {
-    sendJson(res, 200, cached);
+    sendJson(res, 200, withToken(cached, body.lang, deps.speakSecret));
     return log(200, 'cache');
   }
 
@@ -134,8 +143,7 @@ export async function handleLearn(req: IncomingMessage, res: ServerResponse, dep
     source: generated ? 'ai' : 'template',
   };
   deps.cache.set(id, out);
-  registerSpeakable('learn', id, { text: spoken, lang: body.lang });
-  sendJson(res, 200, out);
+  sendJson(res, 200, withToken(out, body.lang, deps.speakSecret));
   log(200, out.source);
 }
 

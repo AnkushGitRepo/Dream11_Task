@@ -40,6 +40,7 @@ export function useSpeak(lang: Lang, source?: SpeechSource | null, fallbackText?
   const voice = pickVoice(lang, useVoices());
   const kind = source?.kind;
   const id = source?.id;
+  const token = source?.token;
   const key = `${lang}|${kind ?? ''}:${id ?? ''}`;
   const [outcome, setOutcome] = useState<Outcome | null>(null);
   const [loading, setLoading] = useState(false);
@@ -76,11 +77,11 @@ export function useSpeak(lang: Lang, source?: SpeechSource | null, fallbackText?
 
   // Warm the cache the moment a source exists so Listen is instant.
   useEffect(() => {
-    if (!kind || !id) return;
-    fetchSpeech({ kind, id }).catch((e: unknown) => {
+    if (!kind || !id || !token) return;
+    fetchSpeech({ kind, id, token }).catch((e: unknown) => {
       if (e instanceof SpeechError && e.code === 'NOT_FOUND') setOutcome({ key, kind: 'missing' });
     });
-  }, [kind, id, key]);
+  }, [kind, id, token, key]);
 
   const stop = useCallback(() => {
     run.current += 1;
@@ -95,11 +96,11 @@ export function useSpeak(lang: Lang, source?: SpeechSource | null, fallbackText?
       const silent = opts?.silent === true;
       stop(); // bumps run.current, invalidating any older attempt
       const runId = run.current;
-      if (!kind || !id || status === 'missing' || status === 'fellback') {
+      if (!kind || !id || !token || status === 'missing' || status === 'fellback') {
         if (voice && fallbackText) browserSpeak(fallbackText);
         return;
       }
-      const src = { kind, id };
+      const src = { kind, id, token };
       const controller = new AbortController();
       ctrl.current = controller;
       setLoading(peekSpeech(src) === undefined);
@@ -115,7 +116,7 @@ export function useSpeak(lang: Lang, source?: SpeechSource | null, fallbackText?
           else fail(runId, silent);
         });
     },
-    [kind, id, status, voice, fallbackText, browserSpeak, play, stop, fail],
+    [kind, id, token, status, voice, fallbackText, browserSpeak, play, stop, fail],
   );
 
   // Stop when the language/source changes or the component unmounts.

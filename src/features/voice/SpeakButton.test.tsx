@@ -46,7 +46,10 @@ let seq = 0;
 const ok = () =>
   new Response(new Blob(['RIFF'], { type: 'audio/wav' }), { headers: { 'Content-Type': 'audio/wav' } });
 const notFound = () => new Response('{"code":"NOT_FOUND","message":"x"}', { status: 404 });
-const source = () => ({ kind: 'recap' as const, id: `rec-button-${(seq += 1)}` });
+const source = () => {
+  seq += 1;
+  return { kind: 'recap' as const, id: `rec-button-${seq}`, token: `tok${seq}.sig${seq}` };
+};
 
 function ui(props: Partial<React.ComponentProps<typeof SpeakButton>> = {}) {
   return (
@@ -90,7 +93,7 @@ describe('SpeakButton natural voice', () => {
     render(ui());
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
     const body = JSON.parse(fetchMock.mock.calls[0]?.[1]?.body as string) as Record<string, string>;
-    expect(Object.keys(body).sort()).toEqual(['id', 'kind']);
+    expect(Object.keys(body).sort()).toEqual(['token']);
 
     updateSettings({ voiceRate: 1.2 });
     fireEvent.click(screen.getByRole('button', { name: /listen/i }));

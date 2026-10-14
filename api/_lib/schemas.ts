@@ -49,9 +49,9 @@ export const learnBodySchema = z.object({
   lang: langSchema,
 });
 
+/** The signed token from a recap / ask / learn answer (see speakToken.ts); verified by the handler. */
 export const speakBodySchema = z.object({
-  kind: z.enum(['recap', 'answer', 'learn']),
-  id: z.string().regex(/^[A-Za-z0-9_-]{8,64}$/),
+  token: z.string().min(10).max(7000),
 });
 
 export type RecapBody = z.infer<typeof recapBodySchema>;

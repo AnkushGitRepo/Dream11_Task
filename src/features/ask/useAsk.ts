@@ -64,6 +64,7 @@ export function useAsk(
             status: 'done',
             answer: res.answer,
             answerId: res.id,
+            answerToken: res.speakToken,
             source: res.source,
           }),
         (err: unknown) =>

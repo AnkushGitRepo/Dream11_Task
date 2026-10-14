@@ -81,7 +81,9 @@ export function LearnCard(props: LearnCardProps) {
           <SpeakButton
             text={moment?.speak || fallbackText}
             lang={lang}
-            source={moment ? { kind: 'learn', id: moment.id } : undefined}
+            source={
+              moment?.speakToken ? { kind: 'learn', id: moment.id, token: moment.speakToken } : undefined
+            }
             autoPlay={autoRead}
             compact
           />

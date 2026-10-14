@@ -72,5 +72,6 @@ There are no accounts and no personal data — keep it that way.
 - [ ] No betting/prediction language in prompts, templates or UI copy
 
 ## 8. TTS endpoint
-- `/api/speak` voices only server-generated text referenced by id; no client-supplied text. Same rate limit + body caps. Audio responses `Cache-Control: private, max-age=3600`.
+- `/api/speak` accepts `{ token }` only and voices only text this server signed. `/api/recap`, `/api/ask` and `/api/learn` return `speakToken = base64url(JSON{lang,text,exp}) + "." + base64url(HMAC-SHA256(payload, SPEAK_SIGNING_SECRET))` with `exp = now + 1h`. The handler verifies the HMAC (`timingSafeEqual`), `exp`, the `lang` enum and `text <= 1200` chars before synthesizing; unsigned, tampered or expired tokens are 404. No server-side registry, so any serverless instance can verify a token another instance issued. Same rate limit + body caps. Audio responses `Cache-Control: private, max-age=3600`; the in-memory audio cache is keyed by `hash(text + lang)`.
+- `SPEAK_SIGNING_SECRET` (server env, >= 16 chars; use 32+ random) must be set in Vercel for Production AND Preview. Rotating it invalidates outstanding tokens (clients just fall back to the browser voice until the next answer). Outside production a per-process random secret is used so local dev works unconfigured.
 - CSP: audio is served same-origin as blob/media — add `media-src 'self' blob:` to the CSP.

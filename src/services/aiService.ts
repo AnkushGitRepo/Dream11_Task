@@ -37,6 +37,8 @@ export interface RecapResponse {
   readonly body: string;
   readonly source: 'ai' | 'template';
   readonly window: { readonly fromSeq: number; readonly toSeq: number };
+  /** Signed token for POST /api/speak; absent when the server cannot voice (or in mock mode). */
+  readonly speakToken?: string;
 }
 
 export interface AskRequest {
@@ -55,6 +57,8 @@ export interface AskResponse {
   readonly id: string;
   readonly answer: string;
   readonly source: 'ai' | 'template' | 'unknown';
+  /** Signed token for POST /api/speak (see RecapResponse.speakToken). */
+  readonly speakToken?: string;
 }
 
 export const AI_TIMEOUT_MS = 12_000;
@@ -81,6 +85,13 @@ async function post(path: string, payload: unknown): Promise<unknown> {
 
 const isObj = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null;
 const ID = /^[A-Za-z0-9_-]{8,64}$/;
+const MAX_TOKEN_CHARS = 7000;
+
+/** The speak token when the server sent a plausible one; anything else means "browser voice". */
+export function readSpeakToken(v: Record<string, unknown>): string | undefined {
+  const t = v.speakToken;
+  return typeof t === 'string' && t.length > 0 && t.length <= MAX_TOKEN_CHARS ? t : undefined;
+}
 
 function readRecap(v: unknown, req: RecapRequest): RecapResponse {
   if (!isObj(v)) throw new AiError('FAILED');
@@ -88,7 +99,9 @@ function readRecap(v: unknown, req: RecapRequest): RecapResponse {
   if (typeof id !== 'string' || !ID.test(id)) throw new AiError('FAILED');
   if (typeof lead !== 'string' || typeof body !== 'string') throw new AiError('FAILED');
   if (source !== 'ai' && source !== 'template') throw new AiError('FAILED');
-  return { id, lead, body, source, window: { fromSeq: req.fromSeq, toSeq: req.toSeq } };
+  const speakToken = readSpeakToken(v);
+  const window = { fromSeq: req.fromSeq, toSeq: req.toSeq };
+  return speakToken ? { id, lead, body, source, window, speakToken } : { id, lead, body, source, window };
 }
 
 function readAsk(v: unknown): AskResponse {
@@ -97,7 +110,8 @@ function readAsk(v: unknown): AskResponse {
   if (typeof id !== 'string' || !ID.test(id)) throw new AiError('FAILED');
   if (typeof answer !== 'string' || answer.trim() === '') throw new AiError('FAILED');
   if (source !== 'ai' && source !== 'template' && source !== 'unknown') throw new AiError('FAILED');
-  return { id, answer, source };
+  const speakToken = readSpeakToken(v);
+  return speakToken ? { id, answer, source, speakToken } : { id, answer, source };
 }
 
 export async function getRecap(req: RecapRequest): Promise<RecapResponse> {
@@ -124,7 +138,8 @@ export async function getRecap(req: RecapRequest): Promise<RecapResponse> {
     }),
     req,
   );
-  prefetchSpeech({ kind: 'recap', id: out.id }); // audio is ready by the time Listen is tapped
+  // audio is ready by the time Listen is tapped
+  if (out.speakToken) prefetchSpeech({ kind: 'recap', id: out.id, token: out.speakToken });
   return out;
 }
 
@@ -145,6 +160,6 @@ export async function askMatch(req: AskRequest): Promise<AskResponse> {
       lang: req.lang,
     }),
   );
-  prefetchSpeech({ kind: 'answer', id: out.id });
+  if (out.speakToken) prefetchSpeech({ kind: 'answer', id: out.id, token: out.speakToken });
   return out;
 }

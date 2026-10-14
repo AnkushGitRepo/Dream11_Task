@@ -1,9 +1,13 @@
 export type SpeechKind = 'recap' | 'answer' | 'learn';
 
-/** Identifies server-generated text. The client never sends text to /api/speak. */
+/**
+ * Identifies server-generated text. The client never sends text to /api/speak: it sends the signed
+ * `token` the server attached to the answer, which only that server can mint (and which expires).
+ */
 export interface SpeechSource {
   readonly kind: SpeechKind;
   readonly id: string;
+  readonly token: string;
 }
 
 export type SpeechErrorCode = 'NOT_FOUND' | 'RATE_LIMITED' | 'UNAVAILABLE' | 'NETWORK';
@@ -45,7 +49,7 @@ async function request(source: SpeechSource): Promise<string> {
     const res = await fetch(ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ kind: source.kind, id: source.id }),
+      body: JSON.stringify({ token: source.token }),
       signal: ctrl.signal,
     });
     if (!res.ok) throw statusToError(res.status);

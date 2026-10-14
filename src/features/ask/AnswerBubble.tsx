@@ -29,7 +29,11 @@ export function AnswerBubble({ turn }: { readonly turn: AskTurn }) {
         <SpeakButton
           text={turn.answer}
           lang={turn.lang}
-          source={turn.answerId ? { kind: 'answer', id: turn.answerId } : undefined}
+          source={
+            turn.answerId && turn.answerToken
+              ? { kind: 'answer', id: turn.answerId, token: turn.answerToken }
+              : undefined
+          }
           compact
         />
       </div>

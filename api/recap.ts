@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { GUARD_REASONS, runRecap } from '../shared/ai/pipeline.js';
 import { createTextProvider, type TextProvider } from '../shared/ai/provider.js';
-import type { MatchTimeline } from '../shared/sports/types.js';
+import type { Lang, MatchTimeline } from '../shared/sports/types.js';
 import { LruCache } from './_lib/cache.js';
 import { guardRequest } from './_lib/handlerKit.js';
 import { sendError, sendJson } from './_lib/http.js';
@@ -11,12 +11,12 @@ import { loadTimeline } from './_lib/matchStore.js';
 import type { RateLimiter } from './_lib/rateLimit.js';
 import { recapBodySchema, type RecapBody } from './_lib/schemas.js';
 import { sharedLimiter } from './_lib/shared.js';
-import { registerSpeakable } from './_lib/speakRegistry.js';
+import { mintSpeakToken, speakSecret } from './_lib/speakToken.js';
 
 // POST /api/recap { matchId, fromSeq, toSeq, seqBase?, lang } -> { id, lead, body, source, window }
 // Facts come from the sport engine on the server (the client never sends numbers). One guarded
 // model call; any failure serves the deterministic template with source "template". The spoken
-// version is registered under kind "recap" so /api/speak can voice it by `id`.
+// version travels as a signed `speakToken` that /api/speak verifies (api/_lib/speakToken.ts).
 
 const MAX_BODY_BYTES = 1024;
 const LLM_TIMEOUT_MS = 6_000;
@@ -28,12 +28,21 @@ export interface RecapResponse {
   readonly body: string;
   readonly source: 'ai' | 'template';
   readonly window: { readonly fromSeq: number; readonly toSeq: number };
+  /** Signed token for POST /api/speak; absent when voicing is not configured. */
+  readonly speakToken?: string;
+}
+
+/** What the response cache holds: the answer plus the text to voice (tokens are minted per send). */
+export interface CachedRecap {
+  readonly out: RecapResponse;
+  readonly speak: string;
 }
 
 export interface RecapDeps {
   readonly getProvider: () => TextProvider | null;
   readonly loadTimeline: (matchId: string) => MatchTimeline | null;
-  readonly cache: LruCache<RecapResponse>;
+  readonly cache: LruCache<CachedRecap>;
+  readonly speakSecret?: string;
   readonly limiter: RateLimiter;
   readonly timeoutMs: number;
 }
@@ -42,7 +51,8 @@ export function createDefaultDeps(env: NodeJS.ProcessEnv = process.env): RecapDe
   return {
     getProvider: () => createTextProvider({ GEMINI_API_KEY: env.GEMINI_API_KEY, LLM_MODEL: env.LLM_MODEL }),
     loadTimeline,
-    cache: new LruCache<RecapResponse>(RESPONSE_CACHE_ENTRIES),
+    cache: new LruCache<CachedRecap>(RESPONSE_CACHE_ENTRIES),
+    speakSecret: speakSecret(env),
     limiter: sharedLimiter(env),
     timeoutMs: LLM_TIMEOUT_MS,
   };
@@ -54,6 +64,11 @@ export function recapId(matchId: string, from: number, to: number, lang: string)
     .update(`recap|${matchId}|${from}|${to}|${lang}`)
     .digest('base64url')
     .slice(0, 24);
+}
+
+function withToken(entry: CachedRecap, lang: Lang, secret: string | undefined): RecapResponse {
+  const speakToken = mintSpeakToken(entry.speak, lang, secret);
+  return speakToken ? { ...entry.out, speakToken } : entry.out;
 }
 
 export async function handleRecap(req: IncomingMessage, res: ServerResponse, deps: RecapDeps): Promise<void> {
@@ -84,7 +99,7 @@ export async function handleRecap(req: IncomingMessage, res: ServerResponse, dep
   const id = recapId(body.matchId, from, to, body.lang);
   const cached = deps.cache.get(id);
   if (cached) {
-    sendJson(res, 200, cached);
+    sendJson(res, 200, withToken(cached, body.lang, deps.speakSecret));
     return log(200, 'cache');
   }
 
@@ -102,9 +117,9 @@ export async function handleRecap(req: IncomingMessage, res: ServerResponse, dep
   };
   // A refused model answer is cached (do not pay for the same refusal twice); an outage is not.
   const cacheable = result.source === 'ai' || (result.reason && GUARD_REASONS.includes(result.reason));
-  if (cacheable) deps.cache.set(id, out);
-  registerSpeakable('recap', id, { text: result.speak, lang: body.lang });
-  sendJson(res, 200, out);
+  const entry: CachedRecap = { out, speak: result.speak };
+  if (cacheable) deps.cache.set(id, entry);
+  sendJson(res, 200, withToken(entry, body.lang, deps.speakSecret));
   log(200, result.reason ? `${result.source}:${result.reason}` : result.source);
 }
 

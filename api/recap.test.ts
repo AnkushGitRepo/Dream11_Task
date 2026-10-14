@@ -6,9 +6,9 @@ import { cricketAdapter } from '../shared/sports/cricket/adapter.js';
 import { LruCache } from './_lib/cache.js';
 import { loadTimeline } from './_lib/matchStore.js';
 import { createRateLimiter } from './_lib/rateLimit.js';
-import { lookupSpeakable } from './_lib/speakRegistry.js';
+import { verifySpeakToken } from './_lib/speakToken.js';
 import { callHandler } from './_lib/testHttp.js';
-import { handleRecap, recapId, type RecapDeps, type RecapResponse } from './recap.js';
+import { handleRecap, recapId, type CachedRecap, type RecapDeps, type RecapResponse } from './recap.js';
 
 const MATCH = 'pak-ind-2022-t20wc-mcg';
 const BASE = 229; // real seq of the client's seq 0 (ball 17.1)
@@ -21,10 +21,12 @@ const provider = (reply: string | Error): TextProvider & { generate: ReturnType<
   }),
 });
 
+const SPEAK_SECRET = 'recap-test-secret-0123456789';
 const deps = (over: Partial<RecapDeps> = {}): RecapDeps => ({
   getProvider: () => null,
   loadTimeline,
-  cache: new LruCache<RecapResponse>(20),
+  cache: new LruCache<CachedRecap>(20),
+  speakSecret: SPEAK_SECRET,
   limiter: createRateLimiter({ perMinute: 600, burst: 100 }),
   timeoutMs: 300,
   ...over,
@@ -103,19 +105,33 @@ describe('POST /api/recap: success', () => {
     expect(out.window).toEqual({ fromSeq: 0, toSeq: 11 }); // client coordinates, not real seqs
     expect(out.id).toBe(recapId(MATCH, BASE, BASE + 11, 'en'));
     expect(r.headers['Cache-Control']).toBe('no-store');
-    expect(Object.keys(out).sort()).toEqual(['body', 'id', 'lead', 'source', 'window']);
+    expect(Object.keys(out).sort()).toEqual(['body', 'id', 'lead', 'source', 'speakToken', 'window']);
   });
 
-  it('registers the spoken text under kind "recap" for /api/speak', async () => {
+  it('signs the spoken text into a speakToken for /api/speak', async () => {
     const out = (await call(deps())).json as unknown as RecapResponse;
-    expect(lookupSpeakable('recap', out.id)).toEqual({ text: expected?.speak, lang: 'en' });
+    expect(verifySpeakToken(out.speakToken, SPEAK_SECRET)).toEqual({ text: expected?.speak, lang: 'en' });
+  });
+
+  it('omits speakToken when no signing secret is configured', async () => {
+    const out = (await call(deps({ speakSecret: undefined }))).json as unknown as RecapResponse;
+    expect(out.speakToken).toBeUndefined();
+  });
+
+  it('a cache hit still carries a fresh, valid speakToken', async () => {
+    const p = provider(aiReply);
+    const d = deps({ getProvider: () => p });
+    await call(d);
+    const second = (await call(d)).json as unknown as RecapResponse;
+    expect(p.generate).toHaveBeenCalledTimes(1);
+    expect(verifySpeakToken(second.speakToken, SPEAK_SECRET)?.lang).toBe('en');
   });
 
   it('Hinglish: Latin on screen, Devanagari registered for the voice', async () => {
     const r = await call(deps(), { body: body({ lang: 'hinglish' }) });
     const out = r.json as unknown as RecapResponse;
     expect(/[ऀ-ॿ]/.test(out.lead + out.body)).toBe(false);
-    const spoken = lookupSpeakable('recap', out.id);
+    const spoken = verifySpeakToken(out.speakToken, SPEAK_SECRET);
     expect(/[ऀ-ॿ]/.test(spoken?.text ?? '')).toBe(true);
     expect(spoken?.lang).toBe('hinglish');
   });
@@ -127,7 +143,7 @@ describe('POST /api/recap: success', () => {
     const again = (await call(d)).json as unknown as RecapResponse;
     expect(first.source).toBe('ai');
     expect(first.lead).toContain('26 runs');
-    expect(again).toEqual(first);
+    expect({ ...again, speakToken: undefined }).toEqual({ ...first, speakToken: undefined });
     expect(p.generate).toHaveBeenCalledTimes(1);
   });
 
