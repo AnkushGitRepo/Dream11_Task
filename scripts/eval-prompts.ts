@@ -9,6 +9,7 @@
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SPEAK_MAX_NUMBERS, SPEAK_MAX_WORDS } from '../shared/ai/prompts.ts';
 import { GUARD_REASONS, runRecap, type FallbackReason, type RecapResult } from '../shared/ai/pipeline.ts';
 import { createTextProvider, resolveModel } from '../shared/ai/provider.ts';
 import { cricketAdapter } from '../shared/sports/cricket/adapter.ts';
@@ -147,6 +148,27 @@ async function main(): Promise<void> {
     console.log(`  ${lang.padEnd(9)} ${bad.length} / ${provider ? own.length : 0}`);
   }
 
+  // Spoken-line limits: an accepted model answer whose speak is too long or reads out too many
+  // numbers fails the eval. Template fallbacks are counted for information only.
+  const speakIssues = (text: string): string[] => {
+    const words = text.trim().split(/\s+/).filter(Boolean).length;
+    const numbers = (text.match(/\d+(?:\.\d+)?/g) ?? []).length;
+    return [
+      ...(words > SPEAK_MAX_WORDS ? [`${words} words`] : []),
+      ...(numbers > SPEAK_MAX_NUMBERS ? [`${numbers} numbers`] : []),
+    ];
+  };
+  const speakFailures = ai.filter((r) => speakIssues(r.result.speak).length > 0);
+  const templateLong = fallbacks.filter((r) => speakIssues(r.result.speak).length > 0).length;
+  console.log(
+    `SPEAK LIMIT FAILURES (> ${SPEAK_MAX_WORDS} words or > ${SPEAK_MAX_NUMBERS} numbers): ${speakFailures.length} of ${ai.length} accepted` +
+      (templateLong > 0 ? `  (+${templateLong} template fallbacks over the limit, info only)` : ''),
+  );
+  for (const r of speakFailures) {
+    console.log(`  - [${r.lang}] ${speakIssues(r.result.speak).join(', ')}: ${r.result.speak}`);
+  }
+  if (speakFailures.length > 0) process.exitCode = 1;
+
   console.log('\n== Samples (display + speak) ==');
   for (const lang of LANGS) {
     const own = rows.filter((r) => r.lang === lang);
@@ -157,7 +179,7 @@ async function main(): Promise<void> {
       console.log(`\n[${lang}] ${w.match} seq ${w.from}-${w.to} (${w.kind}) source=${r.result.source}${why}`);
       console.log(`  lead : ${r.result.lead}`);
       console.log(`  body : ${r.result.body}`);
-      console.log(`  speak: ${r.result.speak}`);
+      console.log(`  speak: ${r.result.speak}  [${speakIssues(r.result.speak).join(', ') || 'ok'}]`);
     }
   }
 }

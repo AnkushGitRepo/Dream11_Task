@@ -54,6 +54,17 @@ describe('few-shot examples', () => {
       }
     });
 
+    it('speak lines are short stories: <= 35 words and <= 2 numbers', () => {
+      const speaks = [
+        ...RECAP_EXAMPLES[lang].map((e) => e.output.speak),
+        ...ASK_EXAMPLES[lang].map((e) => e.output.speak),
+      ];
+      for (const speak of speaks) {
+        expect(speak.trim().split(/\s+/).length, speak).toBeLessThanOrEqual(35);
+        expect((speak.match(/\d+(?:\.\d+)?/g) ?? []).length, speak).toBeLessThanOrEqual(2);
+      }
+    });
+
     it('uses the right script for display and speech', () => {
       const outs = [
         ...RECAP_EXAMPLES[lang].map((e) => e.output),

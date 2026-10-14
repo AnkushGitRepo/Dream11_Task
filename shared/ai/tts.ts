@@ -1,6 +1,6 @@
 import { GoogleGenAI, Modality } from '@google/genai';
 import type { Lang } from '../sports/types.js';
-import { buildTtsPrompt, VOICES } from './voices.js';
+import { VOICES } from './voices.js';
 
 // SERVER-ONLY (never import from src/). Text-to-speech behind a provider interface so Gemini can be
 // swapped for Sarvam (TTS_PROVIDER=sarvam) without touching the endpoint.
@@ -73,16 +73,27 @@ export interface GeminiTtsOptions {
   readonly apiKey: string;
   /** From TTS_MODEL. Candidates in the installed SDK's model list: gemini-3.8-flash-tts, gemini-3.8-flash-lite-tts. */
   readonly model: string;
+  /** Tests inject a fake; production builds the SDK client from apiKey. */
+  readonly client?: TtsGenerateClient;
+}
+
+/** The slice of the SDK client we use. */
+export interface TtsGenerateClient {
+  models: { generateContent(args: Record<string, unknown>): Promise<TtsGenerateResponse> };
+}
+
+interface TtsGenerateResponse {
+  candidates?: { content?: { parts?: { inlineData?: { data?: string; mimeType?: string } }[] } }[];
 }
 
 export class GeminiTts implements TtsProvider {
   readonly id = 'gemini' as const;
-  private readonly client: GoogleGenAI;
+  private readonly client: TtsGenerateClient;
   private readonly options: GeminiTtsOptions;
 
   constructor(options: GeminiTtsOptions) {
     this.options = options;
-    this.client = new GoogleGenAI({ apiKey: options.apiKey });
+    this.client = options.client ?? (new GoogleGenAI({ apiKey: options.apiKey }) as unknown as TtsGenerateClient);
   }
 
   async synthesize({ text, lang, voiceName, signal }: TtsRequest): Promise<TtsResult> {
@@ -91,7 +102,9 @@ export class GeminiTts implements TtsProvider {
     try {
       response = await this.client.models.generateContent({
         model: this.options.model,
-        contents: [{ role: 'user', parts: [{ text: buildTtsPrompt(lang, text) }] }],
+        // The part text is EXACTLY the speak text. The delivery style travels in speechMetadata:
+        // prefixing it into the text made the model read the instruction aloud.
+        contents: [{ role: 'user', parts: [{ text, speechMetadata: { style: profile.style } }] }],
         config: {
           responseModalities: [Modality.AUDIO],
           speechConfig: {

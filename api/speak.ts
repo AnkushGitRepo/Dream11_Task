@@ -17,6 +17,8 @@ import { speakSecret, verifySpeakToken } from './_lib/speakToken.js';
 const MAX_BODY_BYTES = 8 * 1024;
 const TTS_TIMEOUT_MS = 12_000;
 const AUDIO_CACHE_ENTRIES = 60;
+/** Bump when how audio is produced changes (v2: style moved out of the spoken text). */
+const AUDIO_CACHE_VERSION = 'v2';
 
 export interface SpeakDeps {
   readonly getProvider: () => TtsProvider | null;
@@ -83,7 +85,7 @@ export async function handleSpeak(req: IncomingMessage, res: ServerResponse, dep
     return log(404, 'bad-token');
   }
 
-  const cacheKey = createHash('sha256').update(`${speakable.lang}|${speakable.text}`).digest('base64url');
+  const cacheKey = createHash('sha256').update(`${AUDIO_CACHE_VERSION}|${speakable.lang}|${speakable.text}`).digest('base64url');
   const cached = deps.audioCache.get(cacheKey);
   if (cached) {
     sendAudio(res, cached);

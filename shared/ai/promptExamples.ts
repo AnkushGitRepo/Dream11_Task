@@ -71,7 +71,7 @@ export const RECAP_EXAMPLES: Readonly<Record<Lang, readonly [RecapExample, Recap
         lead: '14 runs came off the over, with a six and a four.',
         body: 'Kohli scored 12 off 4 balls. India need 40 off 18 balls at 120/4.',
         speak:
-          'Okay, 14 runs came off that over, with a six and a four. Kohli got 12 off just 4 balls. India need 40 runs from 18 balls, with the score at 120 for 4.',
+          'What an over! A six, a four, 14 runs, and Kohli is flying. India still need 40.',
       },
     },
     {
@@ -80,7 +80,7 @@ export const RECAP_EXAMPLES: Readonly<Record<Lang, readonly [RecapExample, Recap
         lead: 'Big blow: Pandya is out for 40 off 37.',
         body: 'He was caught by Iftikhar off Nawaz at 19.1, and India are 144/5. They need 16 off 6 balls.',
         speak:
-          "Oh, that's a big wicket! Pandya is out, caught by Iftikhar off Nawaz, for 40 off 37 balls. India are 144 for 5, and they need 16 runs from 6 balls.",
+          'Oh no, Pandya is gone! Caught off Nawaz for 40, and India still need 16.',
       },
     },
   ],
@@ -91,7 +91,7 @@ export const RECAP_EXAMPLES: Readonly<Record<Lang, readonly [RecapExample, Recap
         lead: 'Over mein 14 run aaye, ek chhakka aur ek chauka.',
         body: 'Kohli ne 4 gend mein 12 run banaye. India ko 18 gend mein 40 run chahiye, score 120/4.',
         speak:
-          'अरे यार, उस ओवर में 14 रन आए, एक छक्का और एक चौका। कोहली ने सिर्फ़ 4 गेंद में 12 रन बनाए। इंडिया को 18 गेंद में 40 रन चाहिए, स्कोर 120 पर 4 विकेट।',
+          'अरे यार, क्या ओवर था! एक छक्का, एक चौका, पूरे 14 रन। इंडिया को अब भी 40 रन चाहिए।',
       },
     },
     {
@@ -100,7 +100,7 @@ export const RECAP_EXAMPLES: Readonly<Record<Lang, readonly [RecapExample, Recap
         lead: 'Bada jhatka: Pandya 37 gend mein 40 run banake out.',
         body: 'Iftikhar ne Nawaz ki gend par catch pakda, 19.1 par India 144/5. Ab 6 gend mein 16 run chahiye.',
         speak:
-          'अरे, बड़ा झटका! पंड्या 37 गेंद में 40 रन बनाकर आउट। इफ़्तिख़ार ने नवाज़ की गेंद पर कैच पकड़ा। इंडिया 144 पर 5 विकेट, और 6 गेंद में 16 रन चाहिए।',
+          'अरे, बड़ा झटका! पंड्या 40 रन बनाकर आउट, नवाज़ की गेंद पर कैच। इंडिया को अब भी 16 रन चाहिए।',
       },
     },
   ],
@@ -111,7 +111,7 @@ export const RECAP_EXAMPLES: Readonly<Record<Lang, readonly [RecapExample, Recap
         lead: 'ओवर में 14 रन आए, एक छक्का और एक चौका।',
         body: 'कोहली ने 4 गेंद में 12 रन बनाए। भारत को 18 गेंद में 40 रन चाहिए, स्कोर 120/4।',
         speak:
-          'अरे वाह, उस ओवर में 14 रन आए, एक छक्का और एक चौका। कोहली ने सिर्फ़ 4 गेंद में 12 रन बनाए। भारत को 18 गेंद में 40 रन चाहिए, स्कोर 120 पर 4 विकेट।',
+          'अरे वाह, क्या ओवर था! एक छक्का, एक चौका, पूरे 14 रन। भारत को अब भी 40 रन चाहिए।',
       },
     },
     {
@@ -120,7 +120,7 @@ export const RECAP_EXAMPLES: Readonly<Record<Lang, readonly [RecapExample, Recap
         lead: 'बड़ा झटका: पंड्या 37 गेंद में 40 रन बनाकर आउट।',
         body: 'इफ़्तिख़ार ने नवाज़ की गेंद पर कैच लिया, स्कोर 144/5। अब 6 गेंद में 16 रन चाहिए।',
         speak:
-          'अरे, बड़ा झटका! पंड्या 37 गेंद में 40 रन बनाकर आउट। इफ़्तिख़ार ने नवाज़ की गेंद पर कैच लिया। भारत 144 पर 5 विकेट, और 6 गेंद में 16 रन चाहिए।',
+          'अरे, बड़ा झटका! पंड्या 40 रन बनाकर आउट, नवाज़ की गेंद पर कैच। भारत को अब भी 16 रन चाहिए।',
       },
     },
   ],
@@ -131,7 +131,7 @@ export const RECAP_EXAMPLES: Readonly<Record<Lang, readonly [RecapExample, Recap
         lead: 'ઓવરમાં 14 રન આવ્યા, એક છગ્ગો અને એક ચોગ્ગો.',
         body: 'કોહલીએ 4 બોલમાં 12 રન બનાવ્યા. ભારતને 18 બોલમાં 40 રન જોઈએ, સ્કોર 120/4.',
         speak:
-          'અરે વાહ, એ ઓવરમાં 14 રન આવ્યા, એક છગ્ગો અને એક ચોગ્ગો. કોહલીએ ફક્ત 4 બોલમાં 12 રન બનાવ્યા. ભારતને 18 બોલમાં 40 રન જોઈએ, સ્કોર 120 પર 4 વિકેટ.',
+          'અરે વાહ, શું ઓવર હતો! એક છગ્ગો, એક ચોગ્ગો, પૂરા 14 રન. ભારતને હજી 40 રન જોઈએ.',
       },
     },
     {
@@ -140,7 +140,7 @@ export const RECAP_EXAMPLES: Readonly<Record<Lang, readonly [RecapExample, Recap
         lead: 'મોટો ઝટકો: પંડ્યા 37 બોલમાં 40 રન બનાવી આઉટ.',
         body: 'ઇફ્તિખારે નવાઝના બોલ પર કેચ લીધો, સ્કોર 144/5. હવે 6 બોલમાં 16 રન જોઈએ.',
         speak:
-          'અરે, મોટો ઝટકો! પંડ્યા 37 બોલમાં 40 રન બનાવી આઉટ. ઇફ્તિખારે નવાઝના બોલ પર કેચ લીધો. ભારત 144 પર 5 વિકેટ, અને 6 બોલમાં 16 રન જોઈએ.',
+          'અરે, મોટો ઝટકો! પંડ્યા 40 રન બનાવી આઉટ, નવાઝના બોલ પર કેચ. ભારતને હજી 16 રન જોઈએ.',
       },
     },
   ],
@@ -161,7 +161,7 @@ export const ASK_EXAMPLES: Readonly<Record<Lang, readonly [AskExample, AskExampl
       facts: ASK_FACTS,
       output: {
         answer: 'Kohli is on 68 off 49 and Pandya is on 40 off 36.',
-        speak: 'Kohli is on 68 off 49 balls, and Pandya is on 40 off 36 balls.',
+        speak: 'Kohli is on 68 and Pandya is on 40.',
       },
     },
   ],
@@ -179,7 +179,7 @@ export const ASK_EXAMPLES: Readonly<Record<Lang, readonly [AskExample, AskExampl
       facts: ASK_FACTS,
       output: {
         answer: 'Kohli 49 gend mein 68 par hain aur Pandya 36 gend mein 40 par.',
-        speak: 'कोहली 49 गेंद में 68 रन पर हैं, और पंड्या 36 गेंद में 40 रन पर।',
+        speak: 'कोहली 68 रन पर हैं और पंड्या 40 रन पर।',
       },
     },
   ],
@@ -197,7 +197,7 @@ export const ASK_EXAMPLES: Readonly<Record<Lang, readonly [AskExample, AskExampl
       facts: ASK_FACTS,
       output: {
         answer: 'कोहली 49 गेंद में 68 पर हैं और पंड्या 36 गेंद में 40 पर।',
-        speak: 'कोहली 49 गेंद में 68 रन पर हैं, और पंड्या 36 गेंद में 40 रन पर।',
+        speak: 'कोहली 68 रन पर हैं और पंड्या 40 रन पर।',
       },
     },
   ],
@@ -215,7 +215,7 @@ export const ASK_EXAMPLES: Readonly<Record<Lang, readonly [AskExample, AskExampl
       facts: ASK_FACTS,
       output: {
         answer: 'કોહલી 49 બોલમાં 68 પર છે અને પંડ્યા 36 બોલમાં 40 પર.',
-        speak: 'કોહલી 49 બોલમાં 68 રન પર છે, અને પંડ્યા 36 બોલમાં 40 રન પર.',
+        speak: 'કોહલી 68 રન પર છે અને પંડ્યા 40 રન પર.',
       },
     },
   ],
