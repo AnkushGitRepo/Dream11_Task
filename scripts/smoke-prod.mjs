@@ -48,7 +48,7 @@ const ask = await post('ask', '/api/ask', {
 });
 const learn = await post('learn', '/api/learn', {
   matchId,
-  seq: 11,
+  seq: 247, // real timeline seq of the free-hit bowled moment (learn takes real seqs)
   ruleId: 'free-hit-bowled-not-out',
   lang,
 });
